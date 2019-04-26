@@ -12,4 +12,9 @@ class Category extends Model
     {
     	return $this->belongsTo(Module::class, 'module_id');
     }
+
+    public function issues()
+    {
+    	return $this->hasMany(Issue::class);
+    }
 }

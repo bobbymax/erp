@@ -15,6 +15,7 @@ Route::prefix('dashboard')->group(function() {
 	Route::get('/helpdesk', 'HomeController@helpdesk')->name('helpdesk.index');
 	
 	// Structure Management
+	Route::resource('issues', 'IssueController');
 	Route::resource('categories', 'CategoryController');
 	Route::resource('menus', 'MenuController');
 	Route::resource('modules', 'ModuleController');
