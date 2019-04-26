@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'room_no', 'location_id', 'avatar', 'staff_no', 
     ];
 
     /**
@@ -36,4 +36,34 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'user_group')->withTimestamps();
+    }
+
+    public function actAs(Group $group)
+    {
+        return $this->groups()->save($group);
+    }
+
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
+    }
+
+    public function hasRole($group)
+    {
+        if (is_string($group)) {
+            return $this->groups->contains('label', $group);
+        }
+
+        foreach ($group as $r) {
+            if ($this->hasRole($r->label)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

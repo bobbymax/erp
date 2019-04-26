@@ -23,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->composer('partials.sidebar', function($view) {
+            $view->with('modules', \App\Module::latest()->get());
+        });
     }
 }
