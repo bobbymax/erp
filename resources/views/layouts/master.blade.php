@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="/assets/css/default-css.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="/assets/css/responsive.css">
+    <link rel="stylesheet" type="text/css" href="/css/jquery-ui.min.css">
     <!-- modernizr css -->
     <script src="/assets/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
@@ -93,6 +94,7 @@
     <script src="/assets/js/plugins.js"></script>
     <script src="/assets/js/scripts.js"></script>
     <script src="/js/sweetalert.min.js"></script>
+    <script src="/js/jquery-ui.min.js"></script>
 
     @include('flash')
     @yield('scripts')

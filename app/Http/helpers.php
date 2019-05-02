@@ -92,6 +92,7 @@ function excerpt($string, $count) {
 function generateString($length) 
 {
     $characters = '123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+   //  $characters = '1234567890';
 
     $charactersLength = strlen($characters);
     $randomString = '';
@@ -152,8 +153,9 @@ function crypto_rand_secure($min, $max)
 function getToken($length)
 {
     $token = "";
-    $codeAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    $codeAlphabet.= "abcdefghijklmnopqrstuvwxyz";
+    $codeAlphabet = "";
+    //$codeAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    //$codeAlphabet.= "abcdefghijklmnopqrstuvwxyz";
     $codeAlphabet.= "0123456789";
     $max = strlen($codeAlphabet); // edited
 

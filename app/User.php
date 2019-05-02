@@ -47,9 +47,29 @@ class User extends Authenticatable
         return $this->groups()->save($group);
     }
 
+    public function resolvables()
+    {
+        return $this->belongsToMany(Ticket::class, 'assigned_tickets')->withTimestamps();
+    }
+
     public function location()
     {
         return $this->belongsTo(Location::class);
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(TicketReport::class);
+    }
+
+    public function trainings()
+    {
+        return $this->hasMany(Training::class);
+    }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
     }
 
     public function hasRole($group)

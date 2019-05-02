@@ -34,6 +34,11 @@ class HomeController extends Controller
         //
     }
 
+    public function staffservices()
+    {
+        //
+    }
+
     public function assignGroup(Request $request, User $user)
     {
         if ($request->has('groups')) {

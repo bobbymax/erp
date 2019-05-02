@@ -75,7 +75,7 @@
 
 	    <div class="col-12 mt-2">
 	    	<button class="btn btn-flat btn-xs btn-primary">
-	    		<i class="ti-save"></i>&nbsp;&nbsp; Create Menu
+	    		<i class="ti-save"></i>&nbsp;&nbsp; Update Menu
 	    	</button>
 	    	<a href="{{ route('menus.index') }}" class="btn btn-flat btn-xs btn-danger"><i class="ti-close"></i>&nbsp;&nbsp; Cancel</a>
 	    </div>
