@@ -32,5 +32,10 @@ class Ticket extends Model
     {
         return $this->hasOne(TicketReport::class);
     }
+
+    public function assigner()
+    {
+        return $this->belongsTo(User::class, 'assigned_by');
+    }
 }
 

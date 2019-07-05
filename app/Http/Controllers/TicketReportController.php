@@ -58,7 +58,7 @@ class TicketReportController extends Controller
                     $ticket->save();
 
                 } else {
-                    $ticket->status = "resolved";
+                    $ticket->status = $request->type;
                     $ticket->report_generated = true;
                     $ticket->save();
                 }
@@ -77,7 +77,7 @@ class TicketReportController extends Controller
                     $ticket->status = "escalated";
                     $ticket->save();
                 } else {
-                    $ticket->status = "resolved";
+                    $ticket->status = $request->type;
                     $ticket->report_generated = true;
                     $ticket->save();
                 }

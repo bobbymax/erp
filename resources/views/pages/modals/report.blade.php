@@ -9,8 +9,12 @@
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                    <select name="type" class="form-group form-control">
+                        <option value="">Select Ticket Status</option>
+                        <option value="unresolved">Unresolved</option>
+                        <option value="resolved">Resolved</option>
+                    </select>
                     <textarea name="report" class="form-control" rows="7"></textarea>
-                    <input type="hidden" name="type" value="resolved">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="ti-na"></i>&nbsp;&nbsp;Close</button>

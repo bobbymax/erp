@@ -56,9 +56,11 @@
                                             </td>
                                             <td>
                                                 @if ($ticket->status !== 'resolved')
-                                                    @can('transfer-tickets')
-                                                        <button type="button" title="Make Transfer Request" class="btn btn-info btn-flat btn-xs" data-toggle="modal" data-target="#transferRequest{{ $ticket->id }}"><i class="ti-write"></i>&nbsp;&nbsp; Escalate Ticket</button>
-                                                    @endcan
+                                                    @if ($ticket->transferred < 3)
+                                                        @can('transfer-tickets')
+                                                            <button type="button" title="Make Transfer Request" class="btn btn-info btn-flat btn-xs" data-toggle="modal" data-target="#transferRequest{{ $ticket->id }}"><i class="ti-write"></i>&nbsp;&nbsp; Escalate Ticket</button>
+                                                        @endcan
+                                                    @endif
                                                     @can('generate-ticket-report')
                                                         <button type="button" class="btn btn-primary btn-flat btn-xs" data-toggle="modal" data-target="#generateReport{{ $ticket->id }}"><i class="ti-notepad"></i>&nbsp;&nbsp; Generate Report</button>
                                                     @endcan

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Ticket;
+use App\TicketReport;
 use App\Category;
 use App\Issue;
 use App\User;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 use DB;
 use Mail;
@@ -104,10 +106,26 @@ class TicketController extends Controller
         $user = User::find($id);
 
         if ($user) {
-            $ticket->assigns()->sync($user->id);
-            $ticket->assigned = true;
-            $ticket->status = "inprogress";
-            $ticket->save();
+
+            $report = "This ticket has been assigned";
+            
+            $message = [
+                [auth()->user()->id, $user->id, "assigned", $report, Carbon::now()],
+            ];
+
+            $report = TicketReport::create([
+                'ticket_id' => $ticket->id,
+                'details' => json_encode($message),
+            ]);
+
+            if ($report) {
+                $ticket->assigns()->sync($user->id);
+                $ticket->assigned = true;
+                $ticket->assigned_by = auth()->user()->id;
+                $ticket->status = "inprogress";
+                $ticket->save();
+            }
+            
 
             flash()->success('All Done!!', 'You have assigned this ticket to this user successfully.');
             Mail::to($ticket->owner->email)->cc('IT@ncdmb.gov.ng')->queue(new TicketAssigned($ticket));

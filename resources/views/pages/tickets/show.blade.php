@@ -23,6 +23,8 @@
                                 <h5>
                                 	@if ($ticket->assigned === 0)
                                 		<span class="badge badge-pill badge-warning">unassigned</span>
+                                    @else
+                                        <span class="badge badge-pill badge-success">{{ $ticket->assigns->last()->name }}</span>
                                 	@endif
                                 </h5>
                                 <p>{{ $ticket->owner->name }}</p>

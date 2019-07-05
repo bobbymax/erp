@@ -86,7 +86,7 @@
                                                         <select name="assigns" id="assigns" class="form-control form-control-sm">
                                                             <option>Select Staff</option>
                                                             @foreach ($users as $user)
-                                                                @if ($user->groups->contains('label', 'administrators') && auth()->user()->id !== $user->id)
+                                                                @if ($user->groups->contains('label', 'administrators') && auth()->user()->id !== $user->id && ! $user->groups->contains('label', 'manager'))
                                                                     <option value="{{ $user->id }}">{{ $user->name }}</option>
                                                                 @endif
                                                             @endforeach
