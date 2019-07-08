@@ -26,6 +26,11 @@ Route::prefix('dashboard')->group(function() {
 		Route::resource('issues', 'IssueController');
 		Route::resource('categories', 'CategoryController');
 		Route::resource('tickets', 'TicketController');
+		Route::post('adhoc/support/store', 'TicketController@adhocStore')->name('tickets.adhoc.store');
+
+		Route::get('adhoc/support', 'TicketController@createHelpdesk')->name('adhoc.support');
+		// Route::get('autocomplete', 'TicketController@autocomplete')->name('autocomplete');
+
 		Route::get('tasks', 'TicketController@tasks')->name('tasks.index');
 		Route::get('approve/tickets', 'TicketController@approve')->name('approve.tickets');
 		Route::get('unresolved/tickets', 'TicketController@unresolved')->name('unresolved.tickets');
@@ -44,8 +49,10 @@ Route::prefix('dashboard')->group(function() {
 	Route::resource('modules', 'ModuleController');
 	Route::resource('users', 'UserController');
 	Route::post('users/{user}/groups', 'HomeController@assignGroup')->name('users.add.group');
+	Route::get('users/{user}/groups/{group}/block', 'HomeController@blockGroup')->name('block.group');
 	Route::resource('groups', 'GroupController');
 	Route::post('groups/{group}/permissions', 'GroupController@addPermissions')->name('groups.add.permissions');
+	Route::get('groups/{group}/permissions/{permission}/deny', 'GroupController@denyPermission')->name('deny.permission');
 	Route::resource('permissions', 'PermissionController');
 	Route::get('/', 'HomeController@index')->name('user.dashboard');
 

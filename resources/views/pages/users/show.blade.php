@@ -33,6 +33,10 @@
 								<input type="checkbox" class="custom-control-input" name="groups[]" value="{{ $group->id }}" id="groups{{ $group->id }}" {{ in_array($group->id, $group_id) ? ' checked' : '' }}>
 								<label class="custom-control-label" for="groups{{ $group->id }}">
 									{{ $group->name }}
+
+									@if (in_array($group->id, $group_id))
+										<a href="{{ route('block.group', [$user->id, $group->id]) }}"><small><i class="ti-na"></i> remove</small></a>
+									@endif
 								</label>
 							</div>
 						</div>

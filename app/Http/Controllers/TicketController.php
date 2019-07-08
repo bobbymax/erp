@@ -53,6 +53,13 @@ class TicketController extends Controller
         return view('pages.tickets.approve', compact('tickets'));
     }
 
+    public function createHelpdesk()
+    {
+        $categories = Category::latest()->get();
+        $users = User::orderBy('name', 'ASC')->get();
+        return view('pages.tickets.helpdesk', compact('categories', 'users'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -62,6 +69,50 @@ class TicketController extends Controller
     {
         $categories = Category::latest()->get();
         return view('pages.tickets.create', compact('categories'));
+    }
+
+    // public function autocomplete(Request $request)
+    // {
+
+    //     if ($request->ajax()) {
+    //         $data = User::select("name")->where("name","LIKE","%{$request->input('query')}%")->get();
+    //         return response()->json($data);
+    //     }
+    // }
+    // 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function adhocStore(Request $request)
+    {
+        $this->validate($request, [
+            'users' => 'required|integer',
+            'categories' => 'required|integer',
+            'issues' => 'required|integer',
+            'specification' => 'required|string',
+            'priority' => 'required|string'
+        ]);
+
+        $ticket = new Ticket;
+
+        $ticket->code = getToken(4) . substr(time(), -4);
+        $ticket->category_id = $request->categories;
+        $ticket->issue_id = $request->issues;
+        $ticket->details = $request->specification;
+        $ticket->priority = $request->priority;
+        $ticket->additional_info = $request->additional_info;
+        $ticket->user_id = $request->users;
+        $ticket->save();
+
+        //auth()->user()->tickets()->save($ticket);
+
+        Mail::to("icthelpdesk@ncdmb.gov.ng")->cc($ticket->owner->email)->queue(new TicketCreated($ticket));
+        flash()->success('Success!!', 'You have successfully opened a support ticket, an ICT staff would be with you shortly.');
+
+        return redirect()->route('tickets.index');
     }
 
     /**

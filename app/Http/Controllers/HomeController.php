@@ -57,4 +57,18 @@ class HomeController extends Controller
         flash()->success('All Done!!', 'You have successfully added this user to the selected groups.');
         return redirect()->route('users.index');
     }
+
+    public function blockGroup(User $user, Group $group)
+    {
+        $blocked = DB::table('user_group')->where('user_id', $user->id)->where('group_id', $group->id)->get();
+
+        if ($blocked) {
+            DB::table('user_group')->where('user_id', $user->id)->where('group_id', $group->id)->delete();
+            flash()->success('Success!!', 'You have denied the user this group successfully.');
+        } else {
+            flash()->error('Success!!', 'Oops!! something went wrong.');
+        }
+
+        return back();
+    }
 }

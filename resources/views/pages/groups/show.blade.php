@@ -33,6 +33,9 @@
 								<input type="checkbox" class="custom-control-input" name="permissions[]" value="{{ $permission->id }}" id="permissions{{ $permission->id }}" {{ in_array($permission->id, $permission_id) ? ' checked' : '' }}>
 								<label class="custom-control-label" for="permissions{{ $permission->id }}">
 									{{ $permission->name }}
+									@if (in_array($permission->id, $permission_id))
+										<a href="{{ route('deny.permission', [$group->id, $permission->id]) }}"><small><i class="ti-trash"></i> deny</small></a>
+									@endif
 								</label>
 							</div>
 						</div>

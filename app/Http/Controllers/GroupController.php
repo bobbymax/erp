@@ -137,6 +137,20 @@ class GroupController extends Controller
         return redirect()->route('groups.index');
     }
 
+    public function denyPermission(Group $group, Permission $permission)
+    {
+        $permit = DB::table('group_permission')->where('group_id', $group->id)->where('permission_id', $permission->id)->get();
+
+        if ($permit) {
+            DB::table('group_permission')->where('group_id', $group->id)->where('permission_id', $permission->id)->delete();
+            flash()->success('Success!!', 'You have removed this permission successfully.');
+        } else {
+            flash()->error('Success!!', 'Oops!! something went wrong.');
+        }
+
+        return back();
+    }
+
     /**
      * Remove the specified resource from storage.
      *
