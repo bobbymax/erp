@@ -8,7 +8,7 @@ class Training extends Model
 {
     protected $fillable = [
 
-        'user_id', 'category_id', 'title', 'label', 'provider', 'provider_slug', 'location', 'approved', 'review', 'start_date', 'end_date', 'certificate', 'location_during_training', 'archived',
+        'user_id', 'category_id', 'title', 'label', 'provider', 'provider_slug', 'location', 'start_date', 'end_date', 'certificate', 'amount', 'location_during_training', 'completed', 'archived',
         
     ];
 
@@ -17,6 +17,11 @@ class Training extends Model
         'start_date', 'end_date',
 
     ];
+
+    public function proposed()
+    {
+        return $this->hasOne(Proposed::class);
+    }
 
     public function category()
     {
@@ -27,4 +32,5 @@ class Training extends Model
     {
     	return $this->belongsTo(User::class, 'user_id');
     }
+
 }

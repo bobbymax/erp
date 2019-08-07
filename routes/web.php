@@ -10,12 +10,21 @@ Route::prefix('dashboard')->group(function() {
 
 	Route::prefix('staff-services')->group(function() {
 		Route::resource('trainings', 'TrainingController');
+
 		Route::get('manage/{user}/trainings', 'TrainingController@userTrainings')->name('manage.user.trainings');
-		Route::get('update/{training}/{category}', 'TrainingController@updateCategory')->name('update.training.category');
+		Route::post('manage/show/trainings', 'TrainingController@getUserTrainings')->name('get.staff.trainings');
+
+		Route::post('update/training/category', 'TrainingController@updateCategory')->name('update.training.category');
+
 		Route::get('manage/trainings', 'TrainingController@manage')->name('manage.trainings');
-		Route::get('archived/trainings', 'TrainingController@archived')->name('archived.trainings');
+
+		Route::get('approve/trainings/manager', 'TrainingController@approveTrainingsByManager')->name('manager.approval');
+		// Route::get('archived/trainings', 'TrainingController@archived')->name('archived.trainings');
 		Route::get('propose/trainings', 'TrainingController@proposed')->name('propose.trainings');
 		Route::get('propose/trainings/create', 'TrainingController@createProposed')->name('create.proposed');
+		Route::get('hr/{staff}/trainings/create', 'TrainingController@hrPropose')->name('hr.propose.training');
+		Route::post('manager/{training}/trainings', 'TrainingController@approveOrDeclineTrainingRequest')->name('approve.training.submit');
+		Route::post('proposal/hr', 'TrainingController@findStaff')->name('find.staff');
 		Route::get('/', 'HomeController@staffservices')->name('staff.services');
 	});
 

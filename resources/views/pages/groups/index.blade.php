@@ -33,8 +33,8 @@
                             		<tr>
 	                                    <th scope="row">{{ $count++ }}</th>
 	                                    <td>{{ $group->name }}</td>
-	                                    <td>{{ $group->relative === 0 ? 'None' : $group->division->name }}</td>
-	                                    <td>{{ $group->parent === 0 ? 'None' : $group->directorate->name }}</td>
+	                                    <td>{{ $group->relative === 0 ? 'None' : $group->getDivision->name }}</td>
+	                                    <td>{{ $group->parent === 0 ? 'None' : $group->getDirectorate->name }}</td>
 	                                    <td>
 	                                    	<form action="{{ route('groups.destroy', $group->id) }}" method="POST">
 	                                    		@csrf

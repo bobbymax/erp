@@ -6,7 +6,7 @@
 	@csrf
 	<div class="row">
 		<!-- Input Sizes start -->
-	    <div class="col-4 mt-2">
+	    <div class="col-3 mt-2">
 	        <div class="form-group">
                 <label for="title">Course Title</label>
                 <input class="form-control form-control-sm{{ $errors->has('title') ? ' is-invalid' : '' }}" type="text" name="title" placeholder="Enter Course Title" value="{{ old('title') }}">
@@ -18,7 +18,8 @@
                 @endif
 	        </div>
 	    </div>
-        <div class="col-4 mt-2">
+
+        <div class="col-3 mt-2">
             <div class="form-group">
                 <label for="provider">Training Provider</label>
                 <input class="form-control form-control-sm{{ $errors->has('provider') ? ' is-invalid' : '' }}" type="text" name="provider" placeholder="Enter Course Provider" value="{{ old('provider') }}">
@@ -30,7 +31,7 @@
                 @endif
             </div>
         </div>
-        <div class="col-4 mt-2">
+        <div class="col-3 mt-2">
             <div class="form-group">
                 <label for="location">Training Location</label>
                 <input class="form-control form-control-sm{{ $errors->has('location') ? ' is-invalid' : '' }}" type="text" name="location" placeholder="Enter Training Location" value="{{ old('location') }}">
@@ -38,6 +39,19 @@
                 @if ($errors->has('location'))
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $errors->first('location') }}</strong>
+                    </span>
+                @endif
+            </div>
+        </div>
+
+        <div class="col-3 mt-2">
+            <div class="form-group">
+                <label for="amount">Training Cost (optional)</label>
+                <input class="form-control form-control-sm{{ $errors->has('amount') ? ' is-invalid' : '' }}" type="number" name="amount" placeholder="Amount of Course" value="{{ old('amount') }}">
+
+                @if ($errors->has('amount'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('amount') }}</strong>
                     </span>
                 @endif
             </div>
@@ -95,8 +109,7 @@
             </div>
         </div>
 
-        <input type="hidden" name="completed" value="1">
-        <input type="hidden" name="approved" value="1">
+        <input type="hidden" name="formType" value="archived">
 
 
 

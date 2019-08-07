@@ -5,7 +5,7 @@
 <div class="row">
 
 	@foreach ($user->trainings as $training)
-		@if ($training->archived !== 1)
+		@if ($training->category_id === 0)
 			<!-- Links And Buttons start -->
 		    <div class="col-md-6 mt-5">
 		        <div class="card">

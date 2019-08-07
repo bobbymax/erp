@@ -101,7 +101,7 @@ class GroupController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string|max:255',
-            'code' => 'required|string|max:5|unique:groups',
+            'code' => 'required|string|max:5',
             'parent' => 'required',
             'relative' => 'required'
         ]);

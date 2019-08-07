@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TrainingRequest;
+
 use App\Training;
+use App\Proposed;
 use App\Category;
+use App\Group;
 use Carbon\Carbon;
 use App\User;
 use Illuminate\Http\Request;
@@ -28,9 +32,9 @@ class TrainingController extends Controller
 
     public function manage()
     {
-        $trainings = Training::where('completed', 1)->where('archived', 0)->latest()->get();
+        $users = User::latest()->get();
         $categories = Category::latest()->get();
-        return view('pages.trainings.trainings', compact('categories', 'trainings'));
+        return view('pages.trainings.trainings', compact('categories', 'users'));
     }
 
     public function userTrainings($user)
@@ -40,10 +44,47 @@ class TrainingController extends Controller
         return view('pages.trainings.bulk-edit', compact('user', 'categories'));
     }
 
+    public function getUserTrainings(Request $request)
+    {
+        if ($request->ajax()) {
+            $staff = $request->user;
+
+            $user = User::where('staff_no', $staff)->firstOrFail();
+            $categories = Category::latest()->get();
+
+            if ($user) {
+                $data = view('pages.ajax.user-trainings', compact('user', 'categories'))->render();
+            }
+
+            return response()->json($data);
+        }
+    }
+
     public function proposed()
     {
         $trainings = Training::where('completed', 0)->latest()->get();
         return view('pages.trainings.proposed', compact('trainings'));
+    }
+
+    public function hrPropose($staff)
+    {
+        $user = User::where('staff_no', $staff)->firstOrFail();
+        $categories = Category::latest()->get();
+        return view('pages.trainings.hr-proposed', compact('user', 'categories'));
+    }
+
+    /**
+     * Returns all trainings for the department
+     * awaiting approval
+     * 
+     * @return [trainings] [a collection of staff trainings]
+     */
+    public function approveTrainingsByManager()
+    {
+        $group = auth()->user()->groups()->where('division', 1)->first();
+        // $groups = Group::where('division', true)->get();
+        $trainings = Training::where('status', 'pending')->get();
+        return view('pages.trainings.manager-approval', compact('trainings', 'group'));
     }
 
     /**
@@ -67,17 +108,8 @@ class TrainingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TrainingRequest $request)
     {
-        $this->validate($request, [
-            'title' => 'required|string|max:255',
-            'provider' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'location_during_training' => 'string|max:255',
-            //'certificate' => 'mimes:jpeg,bmp,png,gif,svg,pdf',
-        ]);
 
         $training = new Training;
 
@@ -88,9 +120,11 @@ class TrainingController extends Controller
         $training->location = $request->location;
         $training->start_date = Carbon::parse($request->start_date);
         $training->end_date = Carbon::parse($request->end_date);
+        $training->amount = $request->amount === null ? 0 : $request->amount;
         $training->location_during_training = $request->location_during_training;
-        $training->completed = $request->completed;
-        $training->approved = $request->approved;
+        $training->completed = $request->formType === "archived" ? 1 : 0;
+        $training->archived = $request->formType === "archived" ? 1 : 0;
+        $training->status = $request->formType === "archived" ? "approved" : "pending";
         // Save File or Image Here
         if ($request->hasFile('certificate')) {
             $file = $request->file('certificate');
@@ -103,10 +137,61 @@ class TrainingController extends Controller
             $training->certificate = $name;
         }
 
-        auth()->user()->trainings()->save($training);
+        if ($request->formType === "hr_proposal") {
+            $training->user_id = $request->user_id;
+            $training->category_id = $request->category_id;
+            $training->save();
+        } else {
+            auth()->user()->trainings()->save($training);
+        }
+
+
+        if ($request->formType !== "archived") {
+            $proposed = new Proposed;
+
+            $proposed->training_id = $training->id;
+            if ($request->formType === "hr_proposal") {
+                $proposed->author = auth()->user()->id;
+            }
+            $proposed->save();
+        }
 
         flash()->success('All Done!!', 'You have added this training successfully.');
-        return redirect()->route('trainings.index');
+        return redirect()->route($request->formType === "archived" ? 'trainings.index' : 'propose.trainings');
+    }
+
+    /**
+     * This is a function to find staff for HR
+     * to propose a training
+     * 
+     * @param  Request $request [description]
+     * @return [user]           [get user data]
+     */
+    public function findStaff(Request $request)
+    {
+        $this->validate($request, [
+            'staff' => 'required',
+        ]);
+
+        $staff = $request->staff;
+
+        if (is_numeric($staff)) {
+            $user = User::where('staff_no', $staff)->firstOrFail();
+        } else {
+            $user = User::where('email', $staff)->firstOrFail();
+        }
+
+        if ($user) {
+            flash()->success('Done!!', 'Propose training for staff.');
+            return redirect()->route('hr.propose.training', [$user->staff_no]);
+        } else {
+            flash()->error('Oops!!!', 'User not found in our system.');
+            return redirect()->back();
+        }
+
+        
+
+
     }
 
     /**
@@ -150,15 +235,59 @@ class TrainingController extends Controller
         //
     }
 
-    public function updateCategory(Training $training, Category $category)
+    public function approveOrDeclineTrainingRequest(Request $request, Training $training)
     {
-        $training->category_id = $category->id;
-        $training->archived = true;
-        $training->save();
+        $this->validate($request, [
+            'status' => 'required',
+            'comment' => 'required',
+        ]);
 
-        flash()->success('All Good!!', 'You have updated this training successfully.');
+        //dd($training->proposed);
+
+        $training->proposed->approved = $request->status;
+        $training->proposed->comment = $request->comment;
+
+        if ($training->proposed->save()) {
+            $training->status = $request->status === 1 ? 'approved' : 'denied';
+            $training->save();
+        }
+
+        flash()->success('All Done!!', 'You have acted on this request.');
         return back();
     }
+
+    public function updateCategory(Request $request)
+    {
+
+
+        if ($request->ajax()) {
+            $training_id = $request->training;
+            $category_id = $request->category;
+
+            $training = Training::find($training_id);
+            $category = Category::find($category_id);
+
+            if ($training) {
+                $training->category_id = $category->id;
+                $training->archived = true;
+                $training->save();
+            }
+
+            return response()->json(['data' => 'You have updated this recorded successfully.', 'status' => 'success']);
+        }
+
+        //flash()->success('All Good!!', 'You have updated this training successfully.');
+    }
+
+    // public function updateCategory(Training $training, Category $category)
+    // {
+    //     $training->category_id = $category->id;
+    //     $training->archived = true;
+    //     $training->save();
+
+    //     flash()->success('All Good!!', 'You have updated this training successfully.');
+    //     return back();
+    // }
 
     /**
      * Remove the specified resource from storage.

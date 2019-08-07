@@ -8,12 +8,12 @@ class Group extends Model
 {
     protected $fillable = ['name', 'label', 'code', 'parent', 'relative', 'archived'];
 
-    public function directorate()
+    public function getDirectorate()
     {
     	return $this->belongsTo(Group::class, 'parent');
     }
 
-    public function division()
+    public function getDivision()
     {
     	return $this->belongsTo(Group::class, 'relative');
     }

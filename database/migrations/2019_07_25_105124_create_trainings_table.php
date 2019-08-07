@@ -16,7 +16,7 @@ class CreateTrainingsTable extends Migration
         Schema::create('trainings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('trainings')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->bigInteger('category_id')->default(0);
             $table->string('title');
             $table->string('label');
@@ -27,6 +27,7 @@ class CreateTrainingsTable extends Migration
             $table->dateTime('end_date')->nullable();
             $table->string('certificate')->nullable();
             $table->string('location_during_training')->nullable();
+            $table->bigInteger('amount')->default(0);
             $table->boolean('completed')->default(false);
             $table->boolean('archived')->default(false);
             $table->timestamps();
