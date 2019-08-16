@@ -26,7 +26,7 @@
                                     <th scope="col">Provider</th>
                                     <th scope="col">Start Date</th>
                                     <th scope="col">End Date</th>
-                                    <th scope="col">Category</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -44,14 +44,14 @@
                                             <td>{{ $training->start_date->format('d M, Y') }}</td>
                                             <td>{{ $training->end_date->format('d M, Y') }}</td>
     	                                    <td>
-                                                {{ $training->category_id === 0 ? ' Not Categorized' : $training->category->name }}
+                                                {{ $training->status }}
                                             </td>
     	                                    <td>
     	                                    	<form action="{{ route('trainings.destroy', $training->id) }}" method="POST">
     	                                    		@csrf
     	                                    		@method('DELETE')
                                                     @can('edit-trainings')
-    	                                    		<a href="{{ route('trainings.edit', $training->id) }}" class="btn btn-xs btn-flat btn-warning"><i class="ti-pencil"></i></a>
+    	                                    		<button type="button" class="btn btn-xs btn-flat btn-primary" data-toggle="modal" data-target="#viewTraining{{ $training->id }}"><i class="ti-eye"></i></button>
                                                     @endcan
                                                     @can('delete-trainings')
     	                                    		<button type="submit" class="btn btn-xs btn-flat btn-danger">
@@ -61,6 +61,8 @@
     	                                    	</form>
     	                                    </td>
     	                                </tr>
+
+                                        @include('pages.modals.view-proposed')
                                     @endif
                             	@endforeach
                             </tbody>

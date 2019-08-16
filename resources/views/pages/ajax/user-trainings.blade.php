@@ -1,5 +1,5 @@
 @foreach ($user->trainings as $training)
-    @if ($training->completed === true)
+    @if ($training->completed === 1 && $training->category_id === 0)
         <div class="col-md-4">
             <div class="card">
                 <img class="card-img-top img-fluid" src="http://dummyimage.com/900x320/4d494d/686a82.gif&text={{ $user->name }}+Training" alt="image">

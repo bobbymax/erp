@@ -19,6 +19,8 @@ Route::prefix('dashboard')->group(function() {
 		Route::get('manage/trainings', 'TrainingController@manage')->name('manage.trainings');
 
 		Route::get('approve/trainings/manager', 'TrainingController@approveTrainingsByManager')->name('manager.approval');
+		Route::get('approve/trainings/hr', 'TrainingController@approveTrainingsByHr')->name('hr.approval');
+		
 		// Route::get('archived/trainings', 'TrainingController@archived')->name('archived.trainings');
 		Route::get('propose/trainings', 'TrainingController@proposed')->name('propose.trainings');
 		Route::get('propose/trainings/create', 'TrainingController@createProposed')->name('create.proposed');

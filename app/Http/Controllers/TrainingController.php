@@ -87,6 +87,12 @@ class TrainingController extends Controller
         return view('pages.trainings.manager-approval', compact('trainings', 'group'));
     }
 
+    public function approveTrainingsByHr()
+    {
+        $trainings = Training::where('status', '!=', 'pending')->where('completed', 0)->get();
+        return view('pages.trainings.hr-approval', compact('trainings'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -235,6 +241,13 @@ class TrainingController extends Controller
         //
     }
 
+    /**
+     * Approve or decline proposed training for staff
+     * 
+     * @param  Request  $request
+     * @param  Training $training [description]
+     * @return an instance of training $training
+     */
     public function approveOrDeclineTrainingRequest(Request $request, Training $training)
     {
         $this->validate($request, [
@@ -242,13 +255,11 @@ class TrainingController extends Controller
             'comment' => 'required',
         ]);
 
-        //dd($training->proposed);
-
         $training->proposed->approved = $request->status;
         $training->proposed->comment = $request->comment;
 
         if ($training->proposed->save()) {
-            $training->status = $request->status === 1 ? 'approved' : 'denied';
+            $training->status = $training->proposed->approved == 1 ? 'manager approved' : 'denied';
             $training->save();
         }
 
@@ -278,16 +289,6 @@ class TrainingController extends Controller
 
         //flash()->success('All Good!!', 'You have updated this training successfully.');
     }
-
-    // public function updateCategory(Training $training, Category $category)
-    // {
-    //     $training->category_id = $category->id;
-    //     $training->archived = true;
-    //     $training->save();
-
-    //     flash()->success('All Good!!', 'You have updated this training successfully.');
-    //     return back();
-    // }
 
     /**
      * Remove the specified resource from storage.
