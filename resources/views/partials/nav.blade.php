@@ -14,7 +14,7 @@
                 <img class="avatar user-thumb" src="{{ auth()->user()->avatar !== null ? asset('images/avatars/'.auth()->user()->avatar) : '/assets/images/author/avatar.png' }}" alt="avatar">
                 <h4 class="user-name dropdown-toggle" data-toggle="dropdown">{{ auth()->user()->name }} <i class="fa fa-angle-down"></i></h4>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Message</a>
+                    <a class="dropdown-item" href="{{ route('user.account', auth()->user()->staff_no) }}">My Account</a>
                     <a class="dropdown-item" href="#">Settings</a>
                     <a class="dropdown-item" href="{{ route('logout') }}" 
                         onclick="event.preventDefault();

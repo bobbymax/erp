@@ -12,4 +12,9 @@ class Proposed extends Model
     {
     	return $this->belongsTo(Training::class);
     }
+
+    public function signatory()
+    {
+    	return $this->belongsTo(User::class, 'author');
+    }
 }

@@ -86,4 +86,14 @@ class User extends Authenticatable
 
         return false;
     }
+
+    public function proposed()
+    {
+        return $this->hasOne(Proposed::class);
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
 }

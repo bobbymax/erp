@@ -259,12 +259,35 @@ class TrainingController extends Controller
         $training->proposed->comment = $request->comment;
 
         if ($training->proposed->save()) {
-            $training->status = $training->proposed->approved == 1 ? 'manager approved' : 'denied';
+            $training->status = $training->proposed->approved == 1 ? 'manager approved' : 'manager denied';
             $training->save();
         }
 
         flash()->success('All Done!!', 'You have acted on this request.');
         return back();
+    }
+
+    public function decision(Training $training, $value) 
+    {
+        $training->status = $value;
+        $training->save();
+
+        if ($value == "approved") {
+            $training->proposed->hr_approved = 1;
+            $training->proposed->author = auth()->user()->id;
+            $training->proposed->save();
+
+            flash()->success('Approved!!', 'You have approved this training successfully.');
+        } else {
+            $training->proposed->author = auth()->user()->id;
+            $training->proposed->save();
+
+            flash()->info('Declined!!', 'The proposed training has been declined.');
+        }
+
+        return back();
+
+
     }
 
     public function updateCategory(Request $request)

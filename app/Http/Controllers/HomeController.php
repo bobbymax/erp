@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Group;
+use App\Profile;
+use Carbon\Carbon;
 use DB;
 
 class HomeController extends Controller
@@ -39,6 +41,35 @@ class HomeController extends Controller
         //
     }
 
+    public function placements(Request $request)
+    {
+        if ($request->ajax()) {
+            $select = $request->select;
+            $value = $request->value;
+            $dependent = $request->dependent;
+
+            if ($value !== null) {
+                $query = DB::table('groups')->where('id', $value)->first();
+
+                if ($select === "directorate") {
+                    $results = Group::where('parent', $query->id)->get();
+                } else {
+                    $results = Group::where('relative', $query->id)->where('department', 1)->get();
+                }
+
+                $data = view('pages.ajax.placement', compact('results', 'select', 'dependent'))->render();
+                return response()->json(['options' => $data]);
+            }
+        }
+    }
+
+    public function account($user)
+    {
+        $user = User::where('staff_no', $user)->firstOrFail();
+        $groups = Group::latest()->get();
+        return view('pages.users.profile', compact('user', 'groups'));
+    }
+
     public function assignGroup(Request $request, User $user)
     {
         if ($request->has('groups')) {
@@ -70,5 +101,53 @@ class HomeController extends Controller
         }
 
         return back();
+    }
+
+    public function updateAccount(Request $request, $user)
+    {
+
+        $this->validate($request, [
+            'grade_level' => 'required|string|max:6',
+            'directorate' => 'required|integer',
+            'division' => 'required|integer',
+            'date_joined' => 'required',
+        ]);
+
+        $user = User::where('staff_no', $user)->firstOrFail();
+
+        if(! $user && $user->id !== auth()->user()->id) {
+            flash()->error('Oops!!', 'User was not found, or Wrong session provided.');
+            return back();
+        }
+
+        $profile = new Profile;
+
+        $profile->user_id = $user->id;
+        $profile->grade_level = $request->grade_level;
+        $profile->directorate = $request->directorate;
+        $profile->division = $request->division;
+        $profile->department = $request->department;
+        $profile->date_joined = Carbon::parse($request->date_joined);
+
+
+        if($profile->save()) {
+            $groups = [$profile->directorate, $profile->division, $profile->department !== 0 ? $profile->department : ''];
+
+            foreach ($groups as $value) {
+                $group = Group::with('permissions')->findOrFail($value);
+                if ($value !== null) {
+                    $exist = DB::select(DB::raw("SELECT * FROM user_group WHERE user_id = '{$user->id}' AND group_id = '{$group->id}'"));
+
+                    if (! $exist) {
+                        $user->actAs($group);
+                    }
+                }
+            }
+
+            flash()->success('Success!!', 'Your records have been updated successfully.');
+        }
+        
+        return redirect()->route('user.dashboard');
+
     }
 }

@@ -5,7 +5,7 @@
 	@csrf
 	<div class="row">
 		<!-- Input Sizes start -->
-	    <div class="col-6 mt-2">
+	    <div class="col-3 mt-2">
 	        <div class="form-group">
                 <label for="name">Group Name</label>
                 <input class="form-control form-control-sm{{ $errors->has('name') ? ' is-invalid' : '' }}" type="text" name="name" placeholder="Enter group name">
@@ -17,7 +17,7 @@
                 @endif
 	        </div>
 	    </div>
-	    <div class="col-6 mt-2">
+	    <div class="col-3 mt-2">
 	        <div class="form-group">
                 <label for="code">Group Code</label>
                 <input class="form-control form-control-sm{{ $errors->has('code') ? ' is-invalid' : '' }}" type="text" name="code" placeholder="Enter group code">
@@ -29,7 +29,7 @@
                 @endif
 	        </div>
 	    </div>
-	    <div class="col-6 mt-2">
+	    <div class="col-3 mt-2">
 	        <div class="form-group">
                 <label for="parent">Group Parent</label>
                 <select name="parent" class="form-control form-control-sm{{ $errors->has('parent') ? ' is-invalid' : '' }}">
@@ -50,7 +50,7 @@
 	        </div>
 	    </div>
 
-	    <div class="col-6 mt-2">
+	    <div class="col-3 mt-2">
 	        <div class="form-group">
                 <label for="relative">Group Relative</label>
                 <select name="relative" class="form-control form-control-sm{{ $errors->has('relative') ? ' is-invalid' : '' }}">
@@ -70,6 +70,39 @@
                 @endif
 	        </div>
 	    </div>
+
+        <div class="col-4 mt-2">
+            <div class="form-group">
+                <label for="directorate">Directorate</label>
+                <select name="directorate" class="form-control form-control-sm">
+                    <option value="">Is this group a directorate?</option>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-4 mt-2">
+            <div class="form-group">
+                <label for="division">Division</label>
+                <select name="division" class="form-control form-control-sm">
+                    <option value="">Is this group a division?</option>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-4 mt-2">
+            <div class="form-group">
+                <label for="department">Department</label>
+                <select name="department" class="form-control form-control-sm">
+                    <option value="">Is this group a department?</option>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+        </div>
 
 	    <div class="col-12 mt-2">
 	    	<button class="btn btn-flat btn-xs btn-primary">

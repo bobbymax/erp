@@ -6,22 +6,21 @@
                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
             </div>
             <div class="modal-body">
-                @if ($training->proposed->approved === 1)
-                    <span class="badge badge-pill badge-info">manager approved</span>
-                @elseif($training->proposed->approved === 1 && $training->proposed->hr_proposed === 1)
-                    <span class="badge badge-pill badge-success">approved</span>
-                @else
-                    <span class="badge badge-pill badge-danger">denied</span>
+                @if ($training->owner->trainings->count() > 0)
+                    <div class="row">
+                        @foreach ($training->owner->trainings as $single)
+                            @if ($single->completed === 1 && $single->category_id !== 0)
+                                <div class="col-6">
+                                    <h5>{{ strtoupper($single->title) }}</h5>
+                                    <p>Provider: {{ $single->provider }}</p>
+                                    <p>Duration: {{ $single->start_date->format('d M, Y') . " - " . $single->end_date->format('d M, Y') }}</p>
+                                    <p>Category: <span class="badge badge-pill badge-success">{{ $single->category->name }}</span></p>
+                                </div>
+                            @endif
+                            
+                        @endforeach
+                    </div>
                 @endif
-
-                <div class="mt-3">
-                    <p><strong>Provider:</strong> {{ $training->provider }}</p>
-                    <p><strong>Duration:</strong> {{ $training->start_date->format('d M, Y') . " - " . $training->end_date->format('d M, Y') }}</p>
-                    <p><strong>Category:</strong> {{ $training->category_id !== 0 ? $training->category->name : 'Uncategorized' }}</p>
-                    <p><strong>Location:</strong> {{ $training->location }}</p>
-                    <h6 class="mt-3 mt-2">Comment</h6>
-                    <p>{!! $training->proposed->comment !!}</p>
-                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="ti-na"></i>&nbsp;&nbsp;Close</button>

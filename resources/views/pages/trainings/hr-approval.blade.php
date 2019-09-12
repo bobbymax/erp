@@ -47,7 +47,18 @@
                                             <span class="badge badge-pill {{ $training->status !== 'denied' ? 'badge-success' : 'badge-danger' }}">{{ $training->status }}</span>
                                         </td>
 	                                    <td>
-	                                    	<button type="button" title="Review Training" class="btn btn-info btn-flat btn-xs" data-toggle="modal" data-target="#reviewTraining{{ $training->id }}"><i class="ti-medall"></i>&nbsp;&nbsp; View Previous Trainings</button>
+	                                    	<button type="button" title="Review Training" class="btn btn-info btn-flat btn-xs" data-toggle="modal" data-target="#reviewTraining{{ $training->id }}"><i class="ti-medall"></i>&nbsp;&nbsp; View Previous Trainings</button><br><br>
+
+                                            @if ($training->status === "manager approved")
+                                                <a href="{{ route('final.decision.hr', [$training->id, 'approved']) }}" class="btn btn-xs btn-flat btn-success"><i class="ti-check"></i>&nbsp;&nbsp;Approve</a>
+                                                <a href="{{ route('final.decision.hr', [$training->id, 'decline']) }}" class="btn btn-xs btn-flat btn-danger"><i class="ti-na"></i>&nbsp;&nbsp;Decline</a>
+                                            @elseif($training->status === "approved")
+                                                <p>approved by <strong>{{ $training->proposed->signatory->name }}</strong></p>
+                                            @else
+                                                <a href="#" class="btn btn-xs btn-flat btn-success"><i class="ti-help"></i>&nbsp;&nbsp;Query</a>
+                                                <a href="#" class="btn btn-xs btn-flat btn-danger"><i class="ti-bag"></i>&nbsp;&nbsp;Archive</a>
+                                            @endif
+                                            
 	                                    </td>
 	                                </tr>
                                     @include('pages.modals.previous-trainings')

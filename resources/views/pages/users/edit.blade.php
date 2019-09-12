@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'ERP Protal | Create User')
+@section('title', 'ERP Protal | Edit User')
 @section('content')
 <form method="POST" action="{{ route('users.update', $user->id) }}" enctype="multipart/form-data">
 	@csrf
@@ -92,7 +92,7 @@
 
 	    <div class="col-12 mt-2">
 	    	<button class="btn btn-flat btn-xs btn-primary">
-	    		<i class="ti-save"></i>&nbsp;&nbsp; Create User
+	    		<i class="ti-save"></i>&nbsp;&nbsp; Update User Record
 	    	</button>
 	    	<a href="{{ route('users.index') }}" class="btn btn-flat btn-xs btn-danger"><i class="ti-close"></i>&nbsp;&nbsp; Cancel</a>
 	    </div>

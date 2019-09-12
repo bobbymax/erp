@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model
 {
-    protected $fillable = ['name', 'label', 'code', 'parent', 'relative', 'archived'];
+    protected $fillable = ['name', 'label', 'code', 'parent', 'relative', 'directorate', 'division', 'department', 'archived'];
 
     public function getDirectorate()
     {

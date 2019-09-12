@@ -10,6 +10,12 @@ Route::prefix('dashboard')->group(function() {
 
 	Route::prefix('staff-services')->group(function() {
 		Route::resource('trainings', 'TrainingController');
+		Route::get('pdf', function() {
+			return view('pages.pdf-templates.trainings');
+			
+			// $pdf = PDF::loadView('pages.pdf-templates.trainings');
+			// return $pdf->download('trainings.pdf');
+		});
 
 		Route::get('manage/{user}/trainings', 'TrainingController@userTrainings')->name('manage.user.trainings');
 		Route::post('manage/show/trainings', 'TrainingController@getUserTrainings')->name('get.staff.trainings');
@@ -20,6 +26,7 @@ Route::prefix('dashboard')->group(function() {
 
 		Route::get('approve/trainings/manager', 'TrainingController@approveTrainingsByManager')->name('manager.approval');
 		Route::get('approve/trainings/hr', 'TrainingController@approveTrainingsByHr')->name('hr.approval');
+		Route::get('hr/trainings/{training}/{value}/decision', 'TrainingController@decision')->name('final.decision.hr');
 		
 		// Route::get('archived/trainings', 'TrainingController@archived')->name('archived.trainings');
 		Route::get('propose/trainings', 'TrainingController@proposed')->name('propose.trainings');
@@ -57,6 +64,9 @@ Route::prefix('dashboard')->group(function() {
 	Route::resource('menus', 'MenuController');
 	Route::resource('modules', 'ModuleController');
 	Route::resource('users', 'UserController');
+	Route::get('users/{user}/account', 'HomeController@account')->name('user.account');
+	Route::post('fetch/placement', 'HomeController@placements')->name('fetch.placement');
+	Route::post('update/{user}/account', 'HomeController@updateAccount')->name('update.user.account');
 	Route::post('users/{user}/groups', 'HomeController@assignGroup')->name('users.add.group');
 	Route::get('users/{user}/groups/{group}/block', 'HomeController@blockGroup')->name('block.group');
 	Route::resource('groups', 'GroupController');

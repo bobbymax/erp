@@ -60,6 +60,9 @@ class GroupController extends Controller
             'code' => $request->code,
             'parent' => $request->parent,
             'relative' => $request->relative,
+            'directorate'  => $request->directorate,
+            'division'  => $request->division,
+            'department'  => $request->department,
         ]);
 
         flash()->success('All Done!!', 'You have created a group successfully.');
