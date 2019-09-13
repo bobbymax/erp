@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Image;
 use Storage;
+use Mail;
+
+use App\Mail\NewUser;
 
 class UserController extends Controller
 {
@@ -73,12 +76,14 @@ class UserController extends Controller
         }
 
         if ($user->save()) {
-            $group = Group::where('label', 'users')->first();
+            $group = Group::where('label', 'staff')->first();
 
             if ($group) {
                 $user->actAs($group);
             }
         }
+
+        Mail::to($user->email)->queue(new NewUser($user));
 
         flash()->success('All Done!!!', 'You created the user successfully.');
         return redirect()->route('users.index');
@@ -119,8 +124,8 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|max:255|unique:users',
-            'staff_no' => 'required|string|max:255|unique:users',
+            'email' => 'required|string|max:255',
+            'staff_no' => 'required|string|max:255',
             'location_id' => 'required|integer',
         ]);
 

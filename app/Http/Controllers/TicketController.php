@@ -71,15 +71,6 @@ class TicketController extends Controller
         return view('pages.tickets.create', compact('categories'));
     }
 
-    // public function autocomplete(Request $request)
-    // {
-
-    //     if ($request->ajax()) {
-    //         $data = User::select("name")->where("name","LIKE","%{$request->input('query')}%")->get();
-    //         return response()->json($data);
-    //     }
-    // }
-    // 
     /**
      * Store a newly created resource in storage.
      *
@@ -141,7 +132,7 @@ class TicketController extends Controller
 
         auth()->user()->tickets()->save($ticket);
 
-        Mail::to("icthelpdesk@ncdmb.gov.ng")->cc($ticket->owner->email)->queue(new TicketCreated($ticket));
+        Mail::to("icthelpdesk@ncdmb.gov.ng")->queue(new TicketCreated($ticket));
         flash()->success('Success!!', 'You have successfully opened a support ticket, an ICT staff would be with you shortly.');
 
         return redirect()->route('tickets.index');
@@ -179,7 +170,7 @@ class TicketController extends Controller
             
 
             flash()->success('All Done!!', 'You have assigned this ticket to this user successfully.');
-            Mail::to($ticket->owner->email)->cc('IT@ncdmb.gov.ng')->queue(new TicketAssigned($ticket));
+            Mail::to($user->email)->cc([$ticket->owner->email, 'icthelpdesk@ncdmb.gov.ng'])->queue(new TicketAssigned($ticket));
         } else {
             flash()->error('Oops!!', 'Something seems to be wrong, not your fault tho, we would get right at it.');
         }

@@ -1,12 +1,14 @@
 @component('mail::message')
-# Introduction
+# New Ticket Alert!!
 
-The body of your message.
+A staff {{ $ticket->owner->name }} has an issue of {{ $ticket->priority }} priority in need of resolving and has asked for the assistance of an ICT representative.
 
-@component('mail::button', ['url' => ''])
-Button Text
+Please login to view and address this issue.
+
+@component('mail::button', ['url' => 'http://172.30.35.6/dashboard/helpdesk/unresolved/tickets'])
+View Ticket
 @endcomponent
 
-Thanks,<br>
+Best Regards,<br>
 {{ config('app.name') }}
 @endcomponent

@@ -1,12 +1,14 @@
 @component('mail::message')
-# Introduction
+# Ticket has been assigned to {{ $ticket->assigns->last()->name }}
 
-The body of your message.
+You have been assigned a ticket, please visit {{ $ticket->owner->name }}'s office at {{ $ticket->owner->location->name }} room {{ $ticket->owner->room_no }} to resolve this issue.
 
-@component('mail::button', ['url' => ''])
-Button Text
+The priority of the issue has been marked as {{ ucfirst($ticket->priority) }}
+
+@component('mail::button', ['url' => 'http://172.30.35.6/dashboard/helpdesk/tasks'])
+View Task Details
 @endcomponent
 
-Thanks,<br>
+Best Regards,<br>
 {{ config('app.name') }}
 @endcomponent
