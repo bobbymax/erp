@@ -29,7 +29,8 @@ class TrainingRequest extends FormRequest
             'location' => 'required|string|max:255',
             'start_date' => 'required',
             'end_date' => 'required',
-            'location_during_training' => 'string|max:255',
+            'location_during_training' => 'required|string|max:255',
+            'training_type' => 'required|string|max:255',
         ];
     }
 
@@ -43,6 +44,8 @@ class TrainingRequest extends FormRequest
         return [
             'title.required' => 'A training title is required',
             'provider.required'  => 'The name of the provider is needed.',
+            'location_during_training.required' => 'You must provide the training sponsor.',
+            'training_type.required' => 'Please tell us what type of training this is.',
         ];
     }
 }

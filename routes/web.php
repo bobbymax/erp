@@ -23,6 +23,9 @@ Route::prefix('dashboard')->group(function() {
 		Route::post('update/training/category', 'TrainingController@updateCategory')->name('update.training.category');
 
 		Route::get('manage/trainings', 'TrainingController@manage')->name('manage.trainings');
+		Route::get('print/staff/trainings', 'TrainingController@getStaffTrainings')->name('print.staff.trainings');
+
+		Route::get('print/{user}/pdf', 'PdfController@trainings')->name('trainings.print');
 
 		Route::get('approve/trainings/manager', 'TrainingController@approveTrainingsByManager')->name('manager.approval');
 		Route::get('approve/trainings/hr', 'TrainingController@approveTrainingsByHr')->name('hr.approval');

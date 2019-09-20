@@ -31,6 +31,25 @@
                 @endif
             </div>
         </div>
+
+        <div class="col-3 mt-2">
+            <div class="form-group">
+                <label for="training_type">Training Type</label>
+
+                <select name="training_type" class="form-control form-control-sm{{ $errors->has('training_type') ? ' is-invalid' : '' }}">
+                    <option>Select Type of Training</option>
+                    <option value="local">Local</option>
+                    <option value="international">International</option>
+                </select>
+
+                @if ($errors->has('training_type'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('training_type') }}</strong>
+                    </span>
+                @endif
+            </div>
+        </div>
+
         <div class="col-3 mt-2">
             <div class="form-group">
                 <label for="location">Training Location</label>
@@ -59,8 +78,14 @@
 
         <div class="col-3 mt-2">
             <div class="form-group">
-                <label for="location_during_training">Status during training</label>
-                <input class="form-control form-control-sm{{ $errors->has('location_during_training') ? ' is-invalid' : '' }}" type="text" name="location_during_training" placeholder="Status during this training? NCDMB or ..." value="{{ old('location_during_training') }}">
+                <label for="location_during_training">Training Sponsor</label>
+
+                <select name="location_during_training" class="form-control form-control-sm{{ $errors->has('location_during_training') ? ' is-invalid' : '' }}">
+                    <option>Select Training Sponsor</option>
+                    <option value="NCDMB">NCDMB</option>
+                    <option value="Previous Employer">Previous Employer</option>
+                    <option value="Personal">Personal</option>
+                </select>
 
                 @if ($errors->has('location_during_training'))
                     <span class="invalid-feedback" role="alert">

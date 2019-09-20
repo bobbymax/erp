@@ -60,6 +60,16 @@ class TrainingController extends Controller
         }
     }
 
+    public function getStaffTrainings()
+    {
+        //$users = User::has('trainings')->get();
+
+        $users = User::whereHas('trainings', function ($query) {
+            $query->where('completed', 1);
+        })->get();
+        return view('pages.trainings.staff-trainings', compact('users'));
+    }
+
     public function proposed()
     {
         $trainings = Training::where('completed', 0)->latest()->get();
@@ -123,6 +133,7 @@ class TrainingController extends Controller
         $training->label = slugify($request->title);
         $training->provider = $request->provider;
         $training->provider_slug = slugify($request->provider);
+        $training->training_type = $request->training_type;
         $training->location = $request->location;
         $training->start_date = Carbon::parse($request->start_date);
         $training->end_date = Carbon::parse($request->end_date);
@@ -236,9 +247,35 @@ class TrainingController extends Controller
      * @param  \App\Training  $training
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Training $training)
+    public function update(TrainingRequest $request, Training $training)
     {
-        //
+        $training->title = $request->title;
+        $training->label = slugify($request->title);
+        $training->provider = $request->provider;
+        $training->provider_slug = slugify($request->provider);
+        $training->training_type = $request->training_type;
+        $training->location = $request->location;
+        $training->start_date = Carbon::parse($request->start_date);
+        $training->end_date = Carbon::parse($request->end_date);
+        $training->amount = $request->amount === null ? 0 : $request->amount;
+        $training->location_during_training = $request->location_during_training;
+
+        // Save File or Image Here
+        if ($request->hasFile('certificate')) {
+            $file = $request->file('certificate');
+            $name = time() . $file->getClientOriginalName();
+
+            $location = 'certificates/' . $name;
+
+            Storage::put($location, file_get_contents($file));
+
+            $training->certificate = $name;
+        }
+
+        $training->save();
+
+        flash()->success('All Done!!', 'You have updated this training successfully.');
+        return redirect()->route('trainings.index');
     }
 
     /**

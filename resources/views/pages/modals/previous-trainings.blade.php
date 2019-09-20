@@ -10,7 +10,7 @@
                     <div class="row">
                         @foreach ($training->owner->trainings as $single)
                             @if ($single->completed === 1 && $single->category_id !== 0)
-                                <div class="col-6">
+                                <div class="col-6 mb-3">
                                     <h5>{{ strtoupper($single->title) }}</h5>
                                     <p>Provider: {{ $single->provider }}</p>
                                     <p>Duration: {{ $single->start_date->format('d M, Y') . " - " . $single->end_date->format('d M, Y') }}</p>

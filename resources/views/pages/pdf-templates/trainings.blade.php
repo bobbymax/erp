@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html" charset="utf-8">
-	<title>Document</title>
+	<title>Training for Staff</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -19,10 +19,10 @@
 	<div class="mt-15"><h4 style="text-align: center;" class="page-title strong">training records update</h4></div>
 
 	<div class="mt-50">
-		<p>Name <span class="ml-150">:</span> <span class="ml-30 page-title underline"><strong>Staff name here</strong></span></p>
-		<p>Directorate/Division <span class="ml-40">:</span> <span class="ml-30 page-title underline"><strong>Directorate-Division</strong></span></p>
-		<p>Grade Level <span class="ml-100">:</span> <span class="ml-30 page-title underline"><strong>SS5</strong></span></p>
-		<p>Date Joined NCDMB <span class="ml-30">:</span> <span class="ml-30 underline"><strong>06-08-2018</strong></span></p>
+		<p>Name <span class="ml-150">:</span> <span class="ml-30 page-title underline"><strong>{{ $user->name }}</strong></span></p>
+		<p>Directorate/Division <span class="ml-40">:</span> <span class="ml-30 page-title underline"><strong>{{ $user->groups->where('directorate', 1)->first()->code . "-" . $user->groups->where('division', 1)->first()->code }}</strong></span></p>
+		<p>Grade Level <span class="ml-100">:</span> <span class="ml-30 page-title underline"><strong>{{ $user->profile->grade_level }}</strong></span></p>
+		<p>Date Joined NCDMB <span class="ml-30">:</span> <span class="ml-30 underline"><strong>{{ $user->profile->date_joined->format('d F, Y') }}</strong></span></p>
 	</div>
 
 	<p class="mt-50" style="font-style: italic;">Details of all relevant Workshops, Seminars, Overseas and Local Trainings attended to date.</p>
@@ -33,28 +33,23 @@
 				<th>S/No.</th>
 				<th>Title of Programme</th>
 				<th>Provider/Organizer</th>
+				<th>Sponser</th>
 				<th>Date</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>1.</td>
-				<td>1st Annual Summit on Data Hosting in Nigeria</td>
-				<td>Office for Nigerian Content in ICT. Federal Ministry of Communication. Abuja</td>
-				<td>26th Jan 2016</td>
-			</tr>
-			<tr>
-				<td>2.</td>
-				<td>Occupational Health & Safety</td>
-				<td>Oil and Gas SoftSkills Ltd. Port Harcourt</td>
-				<td>3rd‐4th Dec 2015</td>
-			</tr>
-			<tr>
-				<td>3.</td>
-				<td>The Power of Leaders</td>
-				<td>Reenel Associates. Abuja</td>
-				<td>19th‐30th Oct 2015</td>
-			</tr>
+			@php
+				$count = 1;
+			@endphp
+			@foreach ($user->trainings as $training)
+				<tr>
+					<td>{{ $count++ }}.</td>
+					<td>{{ $training->title }}</td>
+					<td>{{ $training->provider }}</td>
+					<td>{{ $training->location_during_training }}</td>
+					<td>{{ $training->start_date->format('d F, Y') }}</td>
+				</tr>
+			@endforeach
 		</tbody>
 	</table>
 	
