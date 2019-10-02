@@ -67,8 +67,6 @@
                         <strong>{{ $errors->first('division') }}</strong>
                     </span>
                 @endif
-
-                <small>{{ isset(auth()->user()->profile) ? auth()->user()->profile->accountDivision->name : '' }}</small>
 	        </div>
 	    </div>
 
@@ -85,8 +83,6 @@
                         <strong>{{ $errors->first('department') }}</strong>
                     </span>
                 @endif
-
-                <small>{{ isset(auth()->user()->profile) ? auth()->user()->profile->accountDepartment->name : '' }}</small>
 	        </div>
 	    </div>
 
