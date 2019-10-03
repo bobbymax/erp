@@ -18,7 +18,7 @@
 		                    </a>
 
 		                    @foreach ($categories as $category)
-		                    	@if ($category->module->label === 'staff-services')
+		                    	@if ($category->module->label === 'l-d-hr')
 		                    		<a href="{{ route('update.training.category', [$training->id, $category->id]) }}" class="list-group-item list-group-item-action {{ $training->category_id === $category->id ? ' active' : '' }}">{{ $category->name }}</a>
 		                    	@endif
 		                    @endforeach
