@@ -10,7 +10,7 @@
                     <select data-training="{{ $training->id }}" class="form-control category" name="categories">
                         <option value="" {{ $training->category_id === 0 ? ' selected' : '' }}>Uncategorized</option>
                         @foreach ($categories as $category)
-                            @if ($category->module->label === 'staff-services')
+                            @if ($category->module->label === 'l-d-hr')
                                 <option value="{{ $category->id }}" {{ $training->category_id === $category->id ? ' selected' : '' }}>{{ $category->name }}</option>
                             @endif
                         @endforeach

@@ -47,8 +47,6 @@
                         </div>
                         
                         <p class="card-text">{{ $user->staff_no . ", " . $user->location->name }}<br><small>Trainings: {{ $user->trainings->where('category_id', 0)->count() }}</small></p>
-                        
-                        
                     </div>
                 </div>
             @endif

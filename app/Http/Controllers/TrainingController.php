@@ -8,6 +8,7 @@ use App\Training;
 use App\Proposed;
 use App\Category;
 use App\Group;
+use App\Module;
 use Carbon\Carbon;
 use App\User;
 use Illuminate\Http\Request;
@@ -34,6 +35,7 @@ class TrainingController extends Controller
     {
         $users = User::latest()->get();
         $categories = Category::latest()->get();
+
         return view('pages.trainings.trainings', compact('categories', 'users'));
     }
 

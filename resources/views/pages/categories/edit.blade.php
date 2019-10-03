@@ -3,6 +3,8 @@
 @section('content')
 <form class="mt-5" method="POST" action="{{ route('categories.update', $category->id) }}">
 	@csrf
+    @method('PATCH')
+    
 	<div class="row">
 		<!-- Input Sizes start -->
 	    <div class="col-4 mt-2">
@@ -48,7 +50,7 @@
 	    </div>
 
 	    <div class="col-12 mt-2">
-	    	<button class="btn btn-flat btn-xs btn-primary">
+	    	<button type="submit" name="submit" class="btn btn-flat btn-xs btn-primary">
 	    		<i class="ti-save"></i>&nbsp;&nbsp; Update Category
 	    	</button>
 	    	<a href="{{ route('categories.index') }}" class="btn btn-flat btn-xs btn-danger"><i class="ti-close"></i>&nbsp;&nbsp; Cancel</a>
