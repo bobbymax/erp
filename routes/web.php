@@ -65,6 +65,7 @@ Route::prefix('dashboard')->group(function() {
 	
 	// Structure Management
 	Route::resource('menus', 'MenuController');
+	Route::resource('grades', 'GradeLevelController');
 	Route::resource('modules', 'ModuleController');
 	Route::resource('users', 'UserController');
 	Route::get('users/{user}/account', 'HomeController@account')->name('user.account');

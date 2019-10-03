@@ -10,7 +10,12 @@
 	    <div class="col-4 mt-2">
 	        <div class="form-group">
                 <label for="grade_level">Grade Level</label>
-                <input class="form-control form-control-sm{{ $errors->has('grade_level') ? ' is-invalid' : '' }}" type="text" name="grade_level" value="{{ isset(auth()->user()->profile->grade_level) ? auth()->user()->profile->grade_level : old('grade_level') }}">
+                <select name="grade_level" class="form-control form-control-sm{{ $errors->has('grade_level') ? ' is-invalid' : '' }}">
+                	<option>Choose Grade Level</option>
+                	@foreach ($grades as $grade)
+                		<option value="{{ $grade->code }}" {{ is_object(auth()->user()->profile) && auth()->user()->profile->grade_level === $grade->code ? ' selected' : '' }}>{{ $grade->code }}</option>
+                	@endforeach
+                </select>
 
                 @if ($errors->has('grade_level'))
                     <span class="invalid-feedback" role="alert">

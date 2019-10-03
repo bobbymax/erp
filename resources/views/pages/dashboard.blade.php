@@ -9,7 +9,7 @@
                         <h4 class="alert-heading">Update your User Profile!!</h4>
                         <p>Please update your profile details in order to enjoy the features of this application.</p>
                         <br>
-                        <a href="#" class="btn btn-danger btn-xs">Go to Profile</a>
+                        <a href="{{ route('user.account', auth()->user()->staff_no) }}" class="btn btn-danger btn-xs">Go to Profile</a>
                     </div>
                 </div>
             @endif

@@ -7,6 +7,7 @@ use App\User;
 use App\Group;
 use App\Profile;
 use Carbon\Carbon;
+use App\GradeLevel;
 use DB;
 
 class HomeController extends Controller
@@ -65,9 +66,10 @@ class HomeController extends Controller
 
     public function account($user)
     {
+        $grades = GradeLevel::latest()->get();
         $user = User::where('staff_no', $user)->firstOrFail();
         $groups = Group::latest()->get();
-        return view('pages.users.profile', compact('user', 'groups'));
+        return view('pages.users.profile', compact('user', 'groups', 'grades'));
     }
 
     public function assignGroup(Request $request, User $user)
@@ -105,7 +107,6 @@ class HomeController extends Controller
 
     public function updateAccount(Request $request, $user)
     {
-
         $this->validate($request, [
             'grade_level' => 'required|string|max:6',
             'directorate' => 'required|integer',
@@ -120,7 +121,11 @@ class HomeController extends Controller
             return back();
         }
 
-        $profile = new Profile;
+        if (! is_object($user->profile)) {           
+            $profile = new Profile;
+        } else {
+            $profile = $user->profile;
+        }
 
         $profile->user_id = $user->id;
         $profile->grade_level = $request->grade_level;
@@ -131,16 +136,22 @@ class HomeController extends Controller
 
 
         if($profile->save()) {
-            $groups = [$profile->directorate, $profile->division, $profile->department !== 0 ? $profile->department : ''];
+            $directorate = $profile->directorate;
+            $division = $profile->division;
+            $department = $profile->department;
 
-            foreach ($groups as $value) {
-                $group = Group::with('permissions')->findOrFail($value);
-                if ($value !== null) {
+            $groups = [$directorate, $division, $department];
+
+            foreach ($groups as $key => $value) {
+                if ($value != 0) {
+
+                    $group = Group::with('permissions')->findOrFail($value);
                     $exist = DB::select(DB::raw("SELECT * FROM user_group WHERE user_id = '{$user->id}' AND group_id = '{$group->id}'"));
 
                     if (! $exist) {
                         $user->actAs($group);
                     }
+
                 }
             }
 
