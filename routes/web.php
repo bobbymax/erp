@@ -10,6 +10,10 @@ Route::prefix('dashboard')->group(function() {
 
 	Route::prefix('staff-services')->group(function() {
 		Route::resource('trainings', 'TrainingController');
+		Route::resource('grades', 'GradeLevelController');
+		Route::resource('gradeGroups', 'GradeGroupController');
+		Route::resource('locations', 'LocationController');
+		Route::resource('travels', 'TravelCategoryController');
 		Route::get('pdf', function() {
 			return view('pages.pdf-templates.trainings');
 			
@@ -19,6 +23,7 @@ Route::prefix('dashboard')->group(function() {
 
 		Route::get('manage/{user}/trainings', 'TrainingController@userTrainings')->name('manage.user.trainings');
 		Route::post('manage/show/trainings', 'TrainingController@getUserTrainings')->name('get.staff.trainings');
+		Route::get('autocomplete', 'TrainingController@autocomplete')->name('autocomplete');
 
 		Route::post('update/training/category', 'TrainingController@updateCategory')->name('update.training.category');
 
@@ -65,7 +70,6 @@ Route::prefix('dashboard')->group(function() {
 	
 	// Structure Management
 	Route::resource('menus', 'MenuController');
-	Route::resource('grades', 'GradeLevelController');
 	Route::resource('modules', 'ModuleController');
 	Route::resource('users', 'UserController');
 	Route::get('users/{user}/account', 'HomeController@account')->name('user.account');

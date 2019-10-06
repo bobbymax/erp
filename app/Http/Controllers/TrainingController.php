@@ -46,6 +46,14 @@ class TrainingController extends Controller
         return view('pages.trainings.bulk-edit', compact('user', 'categories'));
     }
 
+    public function autocomplete(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = User::select('name')->where("name", "LIKE", "%{$request->input('query')}%")->orWhere("staff_no", "LIKE", "%{$request->input('query')}%")->get();
+            return response()->json($data);
+        }
+    }
+
     public function getUserTrainings(Request $request)
     {
         if ($request->ajax()) {
@@ -197,7 +205,7 @@ class TrainingController extends Controller
         if (is_numeric($staff)) {
             $user = User::where('staff_no', $staff)->firstOrFail();
         } else {
-            $user = User::where('email', $staff)->firstOrFail();
+            $user = User::where('name', $staff)->firstOrFail();
         }
 
         if ($user) {

@@ -14,7 +14,7 @@
                             @csrf
                             <div class="form-group">
                                 <label>Enter Staff ID or Name</label>
-                                <input type="text" name="staff" class="form-control">
+                                <input type="text" autocomplete="off" name="staff" id="normalt" class="typeahead form-control">
                             </div>
 
                             <button class="btn btn-primary">
@@ -69,6 +69,8 @@
         
     var token = "{{ csrf_token() }}";
     var url = "{{ route('get.staff.trainings') }}";
+    var path = "{{ route('autocomplete') }}";
+    var input = $('input.typeahead');
 
     $(document).ready(function() {
         $('.view-trainings').click(function() {
@@ -90,6 +92,15 @@
                     console.log(data);
                 }
             });
+        });
+
+        $('input.typeahead').typeahead({
+            minLength: 2,
+            source: function (query, process) {
+                return $.get(path, {query: query}, function (data) {
+                    return process(data);
+                });
+            }
         });
     });
 

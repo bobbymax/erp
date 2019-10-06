@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Location;
+use App\TravelCategory;
 use Illuminate\Http\Request;
 
 class LocationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,8 @@ class LocationController extends Controller
      */
     public function index()
     {
-        //
+        $locations = Location::where('archived', 0)->latest()->get();
+        return view('pages.locations.index', compact('locations'));
     }
 
     /**
@@ -24,7 +30,8 @@ class LocationController extends Controller
      */
     public function create()
     {
-        //
+        $travels = TravelCategory::all();
+        return view('pages.locations.create', compact('travels'));
     }
 
     /**
@@ -35,7 +42,22 @@ class LocationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'short' => 'required|string|max:3',
+        ]);
+
+        $location = new Location;
+
+        $location->name = $request->name;
+        $location->label = slugify($request->name);
+        $location->short = $request->short;
+        $location->local_flight_ticket = $request->local_flight_ticket;
+        $location->travel_category_id = $request->travel_category_id;
+
+        $location->save();
+        flash()->success('Success!!', 'Location has been created successfully.');
+        return redirect()->route('locations.index');
     }
 
     /**
@@ -57,7 +79,8 @@ class LocationController extends Controller
      */
     public function edit(Location $location)
     {
-        //
+        $travels = TravelCategory::latest()->get();
+        return view('pages.locations.edit', compact('travels', 'location'));
     }
 
     /**
@@ -69,7 +92,20 @@ class LocationController extends Controller
      */
     public function update(Request $request, Location $location)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'short' => 'required|string|max:3',
+        ]);
+
+        $location->name = $request->name;
+        $location->label = slugify($request->name);
+        $location->short = $request->short;
+        $location->local_flight_ticket = $request->local_flight_ticket;
+        $location->travel_category_id = $request->travel_category_id;
+
+        $location->save();
+        flash()->success('Success!!', 'Location has been updated successfully.');
+        return redirect()->route('locations.index');
     }
 
     /**
@@ -80,6 +116,8 @@ class LocationController extends Controller
      */
     public function destroy(Location $location)
     {
-        //
+        $location->delete();
+        flash()->success('Success!!', 'Location has been deleted successfully.');
+        return back();
     }
 }

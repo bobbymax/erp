@@ -51,6 +51,10 @@ class GradeLevelController extends Controller
         $grade->name = $request->name;
         $grade->label = slugify($request->name);
         $grade->code = $request->code;
+        // $grade->per_diem_local = $request->per_diem_local;
+        // $grade->per_diem_international = $request->per_diem_international;
+        // $grade->airport_shuttle = $request->airport_shuttle;
+        
 
         $grade->save();
 

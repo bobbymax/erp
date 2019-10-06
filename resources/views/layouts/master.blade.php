@@ -98,7 +98,7 @@
     <script src="/js/sweetalert.min.js"></script>
     <script src="/js/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
-    <script src="/js/typeahead.bundle.js"></script>
+    <script src="/js/typeahead.js"></script>
 
     @include('flash')
     @yield('scripts')
