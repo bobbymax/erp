@@ -41,7 +41,7 @@
 			@php
 				$count = 1;
 			@endphp
-			@foreach ($user->trainings as $training)
+			@foreach ($user->trainings->where('archived', 1) as $training)
 				<tr>
 					<td>{{ $count++ }}.</td>
 					<td>{{ $training->title }}</td>
