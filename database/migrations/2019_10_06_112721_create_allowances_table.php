@@ -17,7 +17,6 @@ class CreateAllowancesTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('grade_group_id')->unsigned();
             $table->foreign('grade_group_id')->references('id')->on('grade_groups')->onDelete('cascade');
-            $table->bigInteger('per_diem_international')->default(0);
             $table->bigInteger('airport_shuttle')->default(0);
             $table->bigInteger('local_flight_ticket')->default(0);
             $table->bigInteger('intra_city_shuttle')->default(0);

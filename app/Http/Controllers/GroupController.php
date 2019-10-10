@@ -51,18 +51,24 @@ class GroupController extends Controller
             'name' => 'required|string|max:255',
             'code' => 'required|string|max:5|unique:groups',
             'parent' => 'required',
-            'relative' => 'required'
+            'relative' => 'required',
+            'directorate' => 'required',
+            'division' => 'required',
+            'department' => 'required',
+            'designation' => 'required',
         ]);
 
         Group::create([
             'name' => $request->name,
             'label' => slugify($request->name),
             'code' => $request->code,
+            'top_level' => $request->top_level,
             'parent' => $request->parent,
             'relative' => $request->relative,
             'directorate'  => $request->directorate,
             'division'  => $request->division,
             'department'  => $request->department,
+            'designation' => $request->designation,
         ]);
 
         flash()->success('All Done!!', 'You have created a group successfully.');
@@ -106,14 +112,24 @@ class GroupController extends Controller
             'name' => 'required|string|max:255',
             'code' => 'required|string|max:5',
             'parent' => 'required',
-            'relative' => 'required'
+            'relative' => 'required',
+            'directorate' => 'required',
+            'division' => 'required',
+            'department' => 'required',
+            'designation' => 'required',
         ]);
 
         $group->name = $request->name;
         $group->label = slugify($request->name);
         $group->code = $request->code;
+        $group->top_level = $request->top_level;
         $group->parent = $request->parent;
         $group->relative = $request->relative;
+        $group->directorate = $request->directorate;
+        $group->division = $request->division;
+        $group->department = $request->department;
+        $group->designation = $request->designation;
+
 
         $group->save();
 

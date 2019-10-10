@@ -58,7 +58,7 @@
 	        </div>
 	    </div>
 
-	    <div class="col-3 mt-2">
+	    <div class="col-4 mt-2">
 	        <div class="form-group">
                 <label for="intra_city_shuttle">Intra City Shuttle</label>
                 <input class="form-control form-control-sm{{ $errors->has('intra_city_shuttle') ? ' is-invalid' : '' }}" type="number" name="intra_city_shuttle" placeholder="Intra City Amount">
@@ -71,7 +71,7 @@
 	        </div>
 	    </div>
 
-	    <div class="col-3 mt-2">
+	    <div class="col-4 mt-2">
 	        <div class="form-group">
                 <label for="ph_transit">YEN to PH Transit</label>
                 <input class="form-control form-control-sm{{ $errors->has('ph_transit') ? ' is-invalid' : '' }}" type="number" name="ph_transit" placeholder="PH YEN Transit">
@@ -84,7 +84,7 @@
 	        </div>
 	    </div>
 
-	    <div class="col-3 mt-2">
+	    <div class="col-4 mt-2">
 	        <div class="form-group">
                 <label for="out_of_pocket">Out of Pocket</label>
                 <input class="form-control form-control-sm{{ $errors->has('out_of_pocket') ? ' is-invalid' : '' }}" type="number" name="out_of_pocket" placeholder="Out of Pocket Allowance">
@@ -97,18 +97,6 @@
 	        </div>
 	    </div>
 
-	    <div class="col-3 mt-2">
-	        <div class="form-group">
-                <label for="per_diem_international">Per Diem (International)</label>
-                <input class="form-control form-control-sm{{ $errors->has('per_diem_international') ? ' is-invalid' : '' }}" type="number" name="per_diem_international" placeholder="International Per Diem Amount">
-
-                @if ($errors->has('per_diem_international'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('per_diem_international') }}</strong>
-                    </span>
-                @endif
-	        </div>
-	    </div>
 
 
 	    <div class="col-12 mt-2">

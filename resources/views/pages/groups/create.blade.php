@@ -5,7 +5,7 @@
 	@csrf
 	<div class="row">
 		<!-- Input Sizes start -->
-	    <div class="col-3 mt-2">
+	    <div class="col-4 mt-2">
 	        <div class="form-group">
                 <label for="name">Group Name</label>
                 <input class="form-control form-control-sm{{ $errors->has('name') ? ' is-invalid' : '' }}" type="text" name="name" placeholder="Enter group name">
@@ -17,7 +17,7 @@
                 @endif
 	        </div>
 	    </div>
-	    <div class="col-3 mt-2">
+	    <div class="col-4 mt-2">
 	        <div class="form-group">
                 <label for="code">Group Code</label>
                 <input class="form-control form-control-sm{{ $errors->has('code') ? ' is-invalid' : '' }}" type="text" name="code" placeholder="Enter group code">
@@ -29,7 +29,7 @@
                 @endif
 	        </div>
 	    </div>
-	    <div class="col-3 mt-2">
+	    <div class="col-4 mt-2">
 	        <div class="form-group">
                 <label for="parent">Group Parent</label>
                 <select name="parent" class="form-control form-control-sm{{ $errors->has('parent') ? ' is-invalid' : '' }}">
@@ -50,7 +50,7 @@
 	        </div>
 	    </div>
 
-	    <div class="col-3 mt-2">
+	    <div class="col-4 mt-2">
 	        <div class="form-group">
                 <label for="relative">Group Relative</label>
                 <select name="relative" class="form-control form-control-sm{{ $errors->has('relative') ? ' is-invalid' : '' }}">
@@ -74,33 +74,89 @@
         <div class="col-4 mt-2">
             <div class="form-group">
                 <label for="directorate">Directorate</label>
-                <select name="directorate" class="form-control form-control-sm">
+                <select name="directorate" class="form-control form-control-sm @error('directorate') is-invalid @enderror">
                     <option value="">Is this group a directorate?</option>
                     <option value="1">Yes</option>
                     <option value="0">No</option>
                 </select>
+
+                @if ($errors->has('directorate'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('directorate') }}</strong>
+                    </span>
+                @endif
             </div>
         </div>
 
         <div class="col-4 mt-2">
             <div class="form-group">
                 <label for="division">Division</label>
-                <select name="division" class="form-control form-control-sm">
+                <select name="division" class="form-control form-control-sm @error('division') is-invalid @enderror">
                     <option value="">Is this group a division?</option>
                     <option value="1">Yes</option>
                     <option value="0">No</option>
                 </select>
+
+                @if ($errors->has('division'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('division') }}</strong>
+                    </span>
+                @endif
             </div>
         </div>
 
         <div class="col-4 mt-2">
             <div class="form-group">
                 <label for="department">Department</label>
-                <select name="department" class="form-control form-control-sm">
+                <select name="department" class="form-control form-control-sm @error('department') is-invalid @enderror">
                     <option value="">Is this group a department?</option>
                     <option value="1">Yes</option>
                     <option value="0">No</option>
                 </select>
+
+                @if ($errors->has('department'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('department') }}</strong>
+                    </span>
+                @endif
+            </div>
+        </div>
+
+        <div class="col-4 mt-2">
+            <div class="form-group">
+                <label for="designation">Designation</label>
+                <select name="designation" class="form-control form-control-sm @error('designation') is-invalid @enderror">
+                    <option value="">Is this group a designation?</option>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+
+                @if ($errors->has('designation'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('designation') }}</strong>
+                    </span>
+                @endif
+            </div>
+        </div>
+
+        <div class="col-4 mt-2">
+            <div class="form-group">
+                <label for="top_level">Line Manager/Management</label>
+                <select name="top_level" class="form-control form-control-sm @error('top_level') is-invalid @enderror">
+                    <option value="">Select Top Level Signatry</option>
+                    <option value="0">None</option>
+                    @foreach ($groups as $l)
+                        @if ($l->designation == 1)
+                            <option value="{{ $l->id }}">{{ $l->name }}</option>
+                        @endif
+                    @endforeach
+                </select>
+
+                @if ($errors->has('top_level'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('top_level') }}</strong>
+                    </span>
+                @endif
             </div>
         </div>
 

@@ -1,0 +1,795 @@
+-- MySQL dump 10.13  Distrib 8.0.16, for osx10.14 (x86_64)
+--
+-- Host: localhost    Database: erp
+-- ------------------------------------------------------
+-- Server version	8.0.16
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+ SET NAMES utf8mb4 ;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `allowances`
+--
+
+DROP TABLE IF EXISTS `allowances`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `allowances` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `grade_group_id` bigint(20) unsigned NOT NULL,
+  `airport_shuttle` bigint(20) NOT NULL DEFAULT '0',
+  `local_flight_ticket` bigint(20) NOT NULL DEFAULT '0',
+  `intra_city_shuttle` bigint(20) NOT NULL DEFAULT '0',
+  `ph_transit` bigint(20) NOT NULL DEFAULT '0',
+  `out_of_pocket` bigint(20) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `allowances_grade_group_id_foreign` (`grade_group_id`),
+  CONSTRAINT `allowances_grade_group_id_foreign` FOREIGN KEY (`grade_group_id`) REFERENCES `grade_groups` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `allowances`
+--
+
+LOCK TABLES `allowances` WRITE;
+/*!40000 ALTER TABLE `allowances` DISABLE KEYS */;
+INSERT INTO `allowances` VALUES (5,5,7000,40000,5000,12000,7500,'2019-10-07 12:18:11','2019-10-07 12:18:11'),(6,6,7000,40000,5000,12000,7500,'2019-10-07 12:19:21','2019-10-07 12:19:21'),(7,7,7000,40000,5000,12000,9200,'2019-10-07 12:21:01','2019-10-07 12:21:01'),(8,8,7000,40000,5000,12000,17200,'2019-10-07 12:21:36','2019-10-07 12:21:36'),(9,9,7000,45000,5000,0,17200,'2019-10-07 12:22:41','2019-10-07 12:22:41');
+/*!40000 ALTER TABLE `allowances` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `assigned_tickets`
+--
+
+DROP TABLE IF EXISTS `assigned_tickets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `assigned_tickets` (
+  `user_id` bigint(20) unsigned NOT NULL,
+  `ticket_id` bigint(20) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`user_id`,`ticket_id`),
+  KEY `assigned_tickets_ticket_id_foreign` (`ticket_id`),
+  CONSTRAINT `assigned_tickets_ticket_id_foreign` FOREIGN KEY (`ticket_id`) REFERENCES `tickets` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `assigned_tickets_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `assigned_tickets`
+--
+
+LOCK TABLES `assigned_tickets` WRITE;
+/*!40000 ALTER TABLE `assigned_tickets` DISABLE KEYS */;
+INSERT INTO `assigned_tickets` VALUES (1,3,'2019-04-30 14:49:04','2019-04-30 14:49:04'),(3,1,'2019-04-30 10:11:00','2019-04-30 10:11:00'),(3,2,'2019-04-30 10:33:37','2019-04-30 10:33:37'),(3,6,'2019-07-04 20:20:37','2019-07-04 20:20:37'),(6,5,'2019-05-05 22:12:57','2019-05-05 22:12:57'),(6,7,'2019-09-13 03:21:56','2019-09-13 03:21:56'),(8,4,'2019-05-02 12:11:16','2019-05-02 12:11:16'),(8,8,'2019-09-13 03:26:26','2019-09-13 03:26:26'),(8,9,'2019-09-20 18:26:44','2019-09-20 18:26:44');
+/*!40000 ALTER TABLE `assigned_tickets` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `categories`
+--
+
+DROP TABLE IF EXISTS `categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `categories` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `module_id` bigint(20) unsigned NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `label` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `icon` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `archived` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `categories_label_unique` (`label`),
+  KEY `categories_module_id_foreign` (`module_id`),
+  CONSTRAINT `categories_module_id_foreign` FOREIGN KEY (`module_id`) REFERENCES `modules` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `categories`
+--
+
+LOCK TABLES `categories` WRITE;
+/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+INSERT INTO `categories` VALUES (1,1,'Network','network','ti-panel',0,'2019-04-26 09:43:32','2019-04-26 09:43:32'),(2,1,'ICT Work Tools','ict-work-tools','ti-printer',0,'2019-04-26 09:44:11','2019-04-26 09:44:11'),(3,1,'Communication','communication','ti-mobile',0,'2019-04-26 09:44:53','2019-04-26 09:44:53'),(4,1,'Board Applications','board-applications','ti-layers-alt',0,'2019-04-26 09:45:48','2019-04-26 09:45:48'),(5,2,'Management','management','ti-management',0,'2019-05-02 00:09:04','2019-05-02 00:09:04'),(6,2,'Conference','conference','ti-conference',0,'2019-05-02 00:09:21','2019-05-02 00:09:21'),(7,2,'Workshop','workshop','ti-workshop',0,'2019-05-02 00:09:36','2019-05-02 00:09:36'),(8,2,'Leadership','leadership','ti-leadership',0,'2019-05-02 00:09:55','2019-05-02 00:09:55'),(9,2,'Skill Acquisition','skill-acquisition','ti-skill',0,'2019-05-02 00:10:13','2019-10-03 10:28:41');
+/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `grade_groups`
+--
+
+DROP TABLE IF EXISTS `grade_groups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `grade_groups` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `label` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `grades` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `grade_groups_label_unique` (`label`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `grade_groups`
+--
+
+LOCK TABLES `grade_groups` WRITE;
+/*!40000 ALTER TABLE `grade_groups` DISABLE KEYS */;
+INSERT INTO `grade_groups` VALUES (5,'Officers','officers','SS7, SS6, SS5, SS4','2019-10-07 12:18:11','2019-10-07 12:18:11'),(6,'Principal Officers','principal-officers','SS3, SS2','2019-10-07 12:19:21','2019-10-07 12:19:21'),(7,'Chief Principal Officer','chief-principal-officer','SS1','2019-10-07 12:21:01','2019-10-07 12:21:01'),(8,'Managers','managers','M6, M5','2019-10-07 12:21:36','2019-10-07 12:21:36'),(9,'Management','management','M4, M3, M2','2019-10-07 12:22:41','2019-10-07 12:22:41');
+/*!40000 ALTER TABLE `grade_groups` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `grade_levels`
+--
+
+DROP TABLE IF EXISTS `grade_levels`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `grade_levels` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `label` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `archived` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `grade_levels_label_unique` (`label`),
+  UNIQUE KEY `grade_levels_code_unique` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `grade_levels`
+--
+
+LOCK TABLES `grade_levels` WRITE;
+/*!40000 ALTER TABLE `grade_levels` DISABLE KEYS */;
+INSERT INTO `grade_levels` VALUES (2,'Officer III','officer-iii','SS7',0,'2019-10-02 15:36:31','2019-10-02 15:36:31'),(3,'Officer II','officer-ii','SS6',0,'2019-10-02 15:36:47','2019-10-02 15:36:47'),(4,'Officer I','officer-i','SS5',0,'2019-10-02 15:36:57','2019-10-02 15:36:57'),(5,'Assistant Principal Officer','assistant-principal-officer','SS4',0,'2019-10-02 15:37:58','2019-10-02 15:37:58'),(6,'Principal Officer','principal-officer','SS3',0,'2019-10-02 15:38:10','2019-10-02 15:38:10'),(7,'Assistant Chief Officer','assistant-chief-officer','SS2',0,'2019-10-02 15:38:27','2019-10-02 15:38:27'),(8,'Chief Officer','chief-officer','SS1',0,'2019-10-02 15:38:40','2019-10-02 15:38:40'),(9,'Deputy Manager','deputy-manager','M6',0,'2019-10-02 15:38:58','2019-10-02 15:38:58'),(10,'Manager','manager','M5',0,'2019-10-02 15:39:09','2019-10-02 15:39:09'),(11,'General Manager','general-manager','M4',0,'2019-10-02 15:39:22','2019-10-02 15:39:22'),(12,'Director','director','M3',0,'2019-10-02 15:39:31','2019-10-02 15:39:31'),(13,'Executive Secretary','executive-secretary','M2',0,'2019-10-02 15:39:41','2019-10-02 15:39:41');
+/*!40000 ALTER TABLE `grade_levels` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `group_permission`
+--
+
+DROP TABLE IF EXISTS `group_permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `group_permission` (
+  `group_id` bigint(20) unsigned NOT NULL,
+  `permission_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`group_id`,`permission_id`),
+  KEY `group_permission_permission_id_foreign` (`permission_id`),
+  CONSTRAINT `group_permission_group_id_foreign` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `group_permission_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `group_permission`
+--
+
+LOCK TABLES `group_permission` WRITE;
+/*!40000 ALTER TABLE `group_permission` DISABLE KEYS */;
+INSERT INTO `group_permission` VALUES (1,1),(1,2),(1,3),(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10),(2,11),(2,12),(2,13),(2,14),(2,15),(2,16),(2,17),(2,18),(2,19),(2,20),(2,21),(4,21),(5,21),(2,22),(2,23),(2,24),(2,25),(2,26),(2,27),(2,28),(2,29),(2,30),(4,30),(5,30),(11,30),(4,31),(5,31),(11,31),(5,32),(4,33),(5,33),(2,34),(2,35),(11,35),(9,36),(11,36),(4,37),(5,37),(11,37),(5,38),(8,38),(11,38),(1,39),(1,40),(1,41),(2,42),(8,42),(9,42),(11,42),(5,43),(5,44),(5,45),(5,46),(2,47),(5,47),(2,49),(2,50),(5,50),(6,51),(7,51),(8,51),(9,51),(10,51),(11,52),(2,53),(2,54),(2,55),(2,56),(2,57),(14,58),(8,59),(14,60),(14,61),(2,62),(2,63),(2,64),(2,65),(2,66),(2,67),(2,68),(2,69),(2,70),(2,71),(2,72),(2,73);
+/*!40000 ALTER TABLE `group_permission` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `groups`
+--
+
+DROP TABLE IF EXISTS `groups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `groups` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `label` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `top_level` bigint(20) NOT NULL DEFAULT '0',
+  `parent` int(11) NOT NULL DEFAULT '0',
+  `relative` int(11) NOT NULL DEFAULT '0',
+  `archived` tinyint(1) NOT NULL DEFAULT '0',
+  `directorate` tinyint(1) NOT NULL DEFAULT '0',
+  `division` tinyint(1) NOT NULL DEFAULT '0',
+  `department` tinyint(1) NOT NULL DEFAULT '0',
+  `designation` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `groups_code_unique` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `groups`
+--
+
+LOCK TABLES `groups` WRITE;
+/*!40000 ALTER TABLE `groups` DISABLE KEYS */;
+INSERT INTO `groups` VALUES (1,'Administrators','administrators','ADM',0,0,0,0,0,0,0,0,'2019-04-24 12:27:13','2019-04-24 12:27:13'),(2,'Enterprise Administrators','enterprise-administrators','EADM',0,1,0,0,0,0,0,0,'2019-04-24 12:30:36','2019-04-24 12:30:36'),(3,'Global Administrators','global-administrators','GADM',0,1,0,0,0,0,0,0,'2019-04-24 12:33:59','2019-04-24 12:33:59'),(4,'Users','users','USR',0,5,0,0,0,0,0,0,'2019-04-24 12:35:57','2019-07-24 12:03:26'),(5,'Staff','staff','SUSR',0,0,0,0,0,0,0,0,'2019-04-24 12:50:37','2019-07-24 12:03:14'),(6,'Executive Secretary Office','executive-secretary-office','ESO',0,0,0,0,1,0,0,0,'2019-05-02 11:24:13','2019-10-07 11:10:21'),(7,'Information & Communication Technology','information-communication-technology','ICT',8,6,0,0,0,1,0,0,'2019-05-02 11:24:30','2019-10-07 11:09:44'),(8,'Manager','manager','MGR',0,0,0,0,0,0,0,1,'2019-05-02 11:25:50','2019-07-24 12:02:50'),(9,'Supervisor','supervisor','SUP',0,0,0,0,0,0,0,1,'2019-05-02 12:33:47','2019-07-24 12:02:36'),(10,'Members','members','MEMT',0,0,0,0,0,0,0,0,'2019-05-02 12:34:11','2019-07-24 12:02:20'),(11,'Helpdesk Supervisor','helpdesk-supervisor','HLPS',0,0,7,0,0,0,0,0,'2019-07-07 18:37:18','2019-07-07 18:37:18'),(12,'Director','director','DIR',0,0,0,0,0,0,0,1,'2019-07-24 12:21:49','2019-07-24 12:21:49'),(13,'Executive Secretary','executive-secretary','ES',0,0,0,0,0,0,0,1,'2019-07-24 14:52:46','2019-07-24 14:52:46'),(14,'L&D Officer','l-d-officer','LDO',8,0,0,0,0,0,1,0,'2019-07-25 21:50:22','2019-10-07 11:17:39'),(16,'Systems Development','systems-development','SDD',0,0,7,0,0,0,1,0,'2019-09-11 04:22:43','2019-09-11 04:22:43');
+/*!40000 ALTER TABLE `groups` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `issues`
+--
+
+DROP TABLE IF EXISTS `issues`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `issues` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `category_id` bigint(20) unsigned NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `label` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `requests` text COLLATE utf8mb4_unicode_ci,
+  `archived` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `issues_label_unique` (`label`),
+  KEY `issues_category_id_foreign` (`category_id`),
+  CONSTRAINT `issues_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `issues`
+--
+
+LOCK TABLES `issues` WRITE;
+/*!40000 ALTER TABLE `issues` DISABLE KEYS */;
+INSERT INTO `issues` VALUES (1,1,'Connection Problems','connection-problems','\"No Internet Connection, No Cable to connect to port, Connection port is damaged, WiFi hotspot not visible on my computer, I cannot access some websites, Computer not connected to printer\"',0,'2019-04-26 12:55:23','2019-04-26 12:55:23'),(2,1,'User Management','user-management','\"Request for password reset, Update user information\"',0,'2019-04-26 12:59:37','2019-04-26 12:59:37'),(3,2,'Workstation','workstation','\"Laptop\\/Desktop not powering on, Laptop charging port or charger is no longer working, System taking to long to sign in, Keypad not working, System infected by virus, System has crashed, Upgrade system memory, System is too slow\"',0,'2019-04-26 13:03:20','2019-04-26 13:03:20'),(4,2,'Printer Problems','printer-problems','\"Printer not working, Request for replacement of toner\\/ink\"',0,'2019-04-26 13:04:30','2019-04-26 13:04:30'),(5,3,'Email Problems','email-problems','\"Request for password reset, Update user information, Create account for staff, Request to suspend or remove a user, Configure email on my device, My mails are not dropping, Resolve my email signature\"',0,'2019-04-26 13:06:39','2019-04-26 13:06:39'),(6,3,'IP Phone','ip-phone','\"I cannot hear the person on the other side, The phone is not connected, I cannot make\\/receive calls\"',0,'2019-04-26 13:08:20','2019-04-26 13:08:20'),(7,4,'Budget Portal','budget-portal','\"The server is unreachable\\/unavailable, Request for password reset, Request to create\\/remove user, Request for batch reversal, Product activation error message, An error page is displayed\"',0,'2019-04-26 13:10:40','2019-04-26 13:10:40'),(8,4,'Sun Systems (FAD)','sun-systems-fad','\"Request for password reset, Request to create\\/remove user, Request to add privileges for user, The server is unreachable\\/unavailable, I cannot remote into the server, Slow response time to login, Other\"',0,'2019-04-26 13:12:30','2019-04-26 13:12:30'),(9,4,'Staff Services','staff-services','\"Request for password reset\"',0,'2019-04-26 13:12:55','2019-04-26 13:12:55');
+/*!40000 ALTER TABLE `issues` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `locations`
+--
+
+DROP TABLE IF EXISTS `locations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `locations` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `label` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `short` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `local_flight_ticket` tinyint(1) NOT NULL DEFAULT '0',
+  `travel_category_id` bigint(20) NOT NULL DEFAULT '0',
+  `archived` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `locations_label_unique` (`label`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `locations`
+--
+
+LOCK TABLES `locations` WRITE;
+/*!40000 ALTER TABLE `locations` DISABLE KEYS */;
+INSERT INTO `locations` VALUES (1,'Opolo','opolo','OPO',0,0,0,'2019-04-25 13:32:58','2019-10-06 09:49:26'),(2,'Onopa','onopa','ONP',0,0,0,'2019-04-25 13:33:28','2019-10-06 09:48:56'),(3,'Abuja','abuja','ABJ',1,1,0,'2019-04-25 13:34:03','2019-10-06 09:48:43'),(4,'Lagos','lagos','LAG',1,1,0,'2019-04-25 13:34:32','2019-10-06 09:48:10'),(5,'Port Harcourt','port-harcourt','PH',0,1,0,'2019-04-25 13:34:32','2019-10-06 09:48:30'),(6,'Warri','warri','WR',0,2,0,'2019-10-06 09:44:26','2019-10-06 09:44:26');
+/*!40000 ALTER TABLE `locations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `menus`
+--
+
+DROP TABLE IF EXISTS `menus`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `menus` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `module_id` bigint(20) unsigned NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `label` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `icon` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `permission` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `route` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `archived` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `menus_label_unique` (`label`),
+  KEY `menus_module_id_foreign` (`module_id`),
+  CONSTRAINT `menus_module_id_foreign` FOREIGN KEY (`module_id`) REFERENCES `modules` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `menus`
+--
+
+LOCK TABLES `menus` WRITE;
+/*!40000 ALTER TABLE `menus` DISABLE KEYS */;
+INSERT INTO `menus` VALUES (1,1,'Support Categories','support-categories','ti-category','manage-categories','categories.index',0,'2019-04-26 09:48:40','2019-04-26 09:48:40'),(2,1,'Frequent Issues','frequent-issues','ti-issues','manage-issues','issues.index',0,'2019-04-26 13:16:47','2019-04-26 13:16:47'),(3,1,'Support Tickets','support-tickets','ti-ticket','browse-tickets','tickets.index',0,'2019-04-27 15:36:27','2019-04-27 15:36:53'),(4,1,'Assign Tickets','assign-tickets','ti-many','assign-tickets','unresolved.tickets',0,'2019-04-28 15:19:34','2019-04-28 15:19:34'),(5,1,'Tasks','tasks','ti-tasks','manage-tasks','tasks.index',0,'2019-04-28 21:25:45','2019-04-28 21:25:45'),(6,1,'Approve Tickets','approve-tickets','ti-modle','approve-tickets','approve.tickets',0,'2019-04-30 14:35:25','2019-04-30 14:35:25'),(7,2,'Trainings','trainings','ti-trainings','browse-trainings','trainings.index',0,'2019-05-01 22:35:23','2019-05-01 22:35:23'),(8,2,'Manage Trainings','manage-trainings','ti-staff','manage-trainings','manage.trainings',0,'2019-05-01 23:39:52','2019-05-01 23:39:52'),(10,2,'Propose Training','propose-training','ti-proposed','browse-proposed-trainings','propose.trainings',0,'2019-05-02 07:13:11','2019-05-02 07:13:11'),(11,1,'Adhoc Support Ticket','adhoc-support-ticket','ti-support','create-support-ticket-for-staff','adhoc.support',0,'2019-07-07 18:35:32','2019-07-07 18:35:32'),(12,3,'Menus','menus','ti-menu','manage-menus','menus.index',0,'2019-07-08 06:59:36','2019-07-08 06:59:36'),(13,3,'Permissions','permissions','ti-permissions','manage-permissions','permissions.index',0,'2019-07-08 07:01:54','2019-07-08 07:01:54'),(14,3,'Groups','groups','ti-groups','manage-groups','groups.index',0,'2019-07-08 07:02:26','2019-07-08 07:02:26'),(15,3,'User Management','user-management','ti-users','manage-users','users.index',0,'2019-07-08 07:02:57','2019-07-08 07:02:57'),(17,2,'Approve Trainings','approve-trainings','ti-manager','manager-approved-trainings','manager.approval',0,'2019-07-29 03:36:37','2019-07-29 03:36:37'),(18,2,'HR Approval','hr-approval','ti-approval','hr-approved-trainings','hr.approval',0,'2019-08-12 03:50:57','2019-08-12 03:50:57'),(19,2,'Print Staff Trainings','print-staff-trainings','ti-staff','print-staff-trainings','print.staff.trainings',0,'2019-09-20 02:59:32','2019-09-20 02:59:32'),(20,3,'Grade Levels','grade-levels','ti-layout','browse-grades','grades.index',0,'2019-10-02 15:35:18','2019-10-02 15:35:18'),(21,2,'Travel Categories','travel-categories','ti-travels','browse-travels-categories','travels.index',0,'2019-10-06 08:44:58','2019-10-06 08:44:58'),(22,3,'Locations','locations','ti-locations','manage-locations','locations.index',0,'2019-10-06 09:35:15','2019-10-06 09:35:15'),(23,3,'Modules','modules','ti-module','manage-modules','modules.index',0,'2019-10-06 09:55:43','2019-10-06 09:55:43'),(24,2,'Grade Groups','grade-groups','ti-menu-groups','browse-grade-groups','gradeGroups.index',0,'2019-10-06 10:52:34','2019-10-06 10:52:34');
+/*!40000 ALTER TABLE `menus` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `migrations`
+--
+
+DROP TABLE IF EXISTS `migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `migrations` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `migrations`
+--
+
+LOCK TABLES `migrations` WRITE;
+/*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
+INSERT INTO `migrations` VALUES (1,'2014_10_12_000000_create_users_table',1),(2,'2014_10_12_100000_create_password_resets_table',1),(3,'2019_04_24_031840_create_groups_table',2),(4,'2019_04_24_032441_create_permissions_table',3),(10,'2019_04_25_004500_create_group_permission_table',4),(11,'2019_04_25_024924_create_user_group_table',4),(12,'2019_04_25_132416_add_room_number_and_location_to_users_table',5),(13,'2019_04_25_132944_create_locations_table',6),(14,'2019_04_25_214157_create_modules_table',7),(15,'2019_04_26_081828_create_menus_table',8),(16,'2019_04_26_082034_add_icon_column_to_modules_table',8),(17,'2019_04_26_093943_create_categories_table',9),(18,'2019_04_26_111704_create_issues_table',10),(20,'2019_04_26_221342_create_tickets_table',11),(43,'2019_04_28_203045_create_assigned_tickets_table',12),(44,'2019_04_29_084450_create_ticket_reports_table',12),(47,'2019_05_01_190829_create_trainings_table',13),(48,'2019_05_02_082914_add_approved_column_to_trainings_table',14),(49,'2019_05_05_152753_add_assigned_by_to_tickets_table',15),(51,'2019_07_24_205728_add_sectional_columns_to_groups_table',16),(54,'2019_07_25_105124_create_trainings_table',17),(55,'2019_07_25_113847_create_proposeds_table',17),(58,'2019_07_29_074730_add_status_column_to_trainings_table',18),(59,'2019_09_10_042653_create_profiles_table',19),(60,'2019_09_20_022527_add_training_type_column_to_trainings_table',20),(61,'2019_10_02_155825_create_grade_levels_table',21),(66,'2019_10_06_011600_create_travel_categories_table',22),(67,'2019_10_06_011921_add_check_for_local_flight_ticket',22),(68,'2019_10_06_111918_create_grade_groups_table',23),(69,'2019_10_06_112721_create_allowances_table',23),(70,'2019_10_06_113050_create_travel_category_per_diem_local_allowances',23),(71,'2019_10_06_150620_add_price_column_to_per_diem_allowances_table',24),(72,'2019_10_07_081442_add_columns_to_groups_table',25),(73,'2019_10_07_122444_create_training_objectives_table',26),(74,'2019_10_09_091622_add_travel_categories_to_training',27),(75,'2019_10_09_095211_add_grade_group_to_user',28);
+/*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `modules`
+--
+
+DROP TABLE IF EXISTS `modules`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `modules` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `label` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `icon` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `permission` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `route` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `archived` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `modules_label_unique` (`label`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `modules`
+--
+
+LOCK TABLES `modules` WRITE;
+/*!40000 ALTER TABLE `modules` DISABLE KEYS */;
+INSERT INTO `modules` VALUES (1,'Helpdesk (ICT)','helpdesk','ti-desktop','manage-helpdesk','helpdesk.index',0,'2019-04-26 06:49:00','2019-10-06 10:12:52'),(2,'L&D (HR)','l-d-hr','ti-folder','manage-staff-services','staff.services',0,'2019-05-01 16:53:11','2019-10-03 10:12:11'),(3,'Administrator','administrator','ti-settings','manage-erp-structure','users.dashboard',0,'2019-07-08 06:58:01','2019-10-06 09:55:56');
+/*!40000 ALTER TABLE `modules` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `password_resets`
+--
+
+DROP TABLE IF EXISTS `password_resets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `password_resets` (
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  KEY `password_resets_email_index` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `password_resets`
+--
+
+LOCK TABLES `password_resets` WRITE;
+/*!40000 ALTER TABLE `password_resets` DISABLE KEYS */;
+/*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `per_diem_allowances`
+--
+
+DROP TABLE IF EXISTS `per_diem_allowances`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `per_diem_allowances` (
+  `travel_category_id` bigint(20) unsigned NOT NULL,
+  `grade_group_id` bigint(20) unsigned NOT NULL,
+  `per_diem` bigint(20) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`travel_category_id`,`grade_group_id`),
+  KEY `per_diem_allowances_grade_group_id_foreign` (`grade_group_id`),
+  CONSTRAINT `per_diem_allowances_grade_group_id_foreign` FOREIGN KEY (`grade_group_id`) REFERENCES `grade_groups` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `per_diem_allowances_travel_category_id_foreign` FOREIGN KEY (`travel_category_id`) REFERENCES `travel_categories` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `per_diem_allowances`
+--
+
+LOCK TABLES `per_diem_allowances` WRITE;
+/*!40000 ALTER TABLE `per_diem_allowances` DISABLE KEYS */;
+INSERT INTO `per_diem_allowances` VALUES (1,5,30000),(1,6,32000),(1,7,36500),(1,8,41000),(1,9,41000),(2,5,25000),(2,6,27000),(2,7,32600),(2,8,36000),(2,9,36000),(3,5,23000),(3,6,25000),(3,7,27300),(3,8,29600),(3,9,29600);
+/*!40000 ALTER TABLE `per_diem_allowances` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `permissions`
+--
+
+DROP TABLE IF EXISTS `permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `permissions` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `label` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `archived` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `permissions_label_unique` (`label`),
+  UNIQUE KEY `permissions_code_unique` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `permissions`
+--
+
+LOCK TABLES `permissions` WRITE;
+/*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
+INSERT INTO `permissions` VALUES (1,'Manage Users','manage-users','MUSR',0,'2019-04-24 23:34:22','2019-04-24 23:34:22'),(2,'Create Users','create-users','CUSR',0,'2019-04-24 23:34:38','2019-04-24 23:35:45'),(3,'Edit Users','edit-users','EUSR',0,'2019-04-24 23:34:57','2019-04-24 23:35:51'),(4,'Delete Users','delete-users','DUSR',0,'2019-04-24 23:35:11','2019-04-24 23:35:11'),(5,'Manage Modules','manage-modules','MMDU',0,'2019-04-24 23:36:36','2019-04-24 23:36:36'),(6,'Create Modules','create-modules','CMDU',0,'2019-04-24 23:36:55','2019-04-24 23:37:15'),(7,'Edit Modules','edit-modules','EMDU',0,'2019-04-24 23:37:08','2019-04-24 23:37:08'),(8,'Delete Modules','delete-modules','DMDU',0,'2019-04-24 23:37:36','2019-04-24 23:37:36'),(9,'Manage Groups','manage-groups','MGRP',0,'2019-04-24 23:38:22','2019-04-24 23:38:22'),(10,'Create Groups','create-groups','CGRP',0,'2019-04-24 23:38:41','2019-04-24 23:38:41'),(11,'Edit Groups','edit-groups','EGRP',0,'2019-04-24 23:39:07','2019-04-24 23:39:07'),(12,'Delete Groups','delete-groups','DGRP',0,'2019-04-24 23:39:20','2019-04-24 23:39:20'),(13,'Manage Permissions','manage-permissions','MPRM',0,'2019-04-24 23:39:44','2019-04-24 23:39:44'),(14,'Create Permissions','create-permissions','CPRM',0,'2019-04-24 23:39:57','2019-04-24 23:39:57'),(15,'Edit Permissions','edit-permissions','EPRM',0,'2019-04-24 23:40:11','2019-04-24 23:40:11'),(16,'Delete Permissions','delete-permissions','DPRM',0,'2019-04-24 23:40:24','2019-04-24 23:40:24'),(17,'Manage Locations','manage-locations','MLOC',0,'2019-04-25 18:34:47','2019-04-25 18:34:47'),(18,'Create Locations','create-locations','CLOC',0,'2019-04-25 18:35:05','2019-04-25 18:35:05'),(19,'Edit Locations','edit-locations','ELOC',0,'2019-04-25 18:35:31','2019-04-25 18:35:31'),(20,'Delete Locations','delete-locations','DLOC',0,'2019-04-25 18:36:07','2019-04-25 18:36:07'),(21,'Manage Helpdesk','manage-helpdesk','MHD',0,'2019-04-26 06:51:48','2019-04-26 06:51:48'),(22,'Manage Categories','manage-categories','MCAT',0,'2019-04-26 09:32:46','2019-04-26 09:32:46'),(23,'Create Categories','create-categories','CCAT',0,'2019-04-26 09:33:00','2019-04-26 09:33:00'),(24,'Edit Categories','edit-categories','ECAT',0,'2019-04-26 09:33:18','2019-04-26 09:33:18'),(25,'Delete Categories','delete-categories','DCAT',0,'2019-04-26 09:33:30','2019-04-26 09:33:30'),(26,'Manage Issues','manage-issues','MISS',0,'2019-04-26 12:44:17','2019-04-26 12:44:17'),(27,'Create Issues','create-issues','CISS',0,'2019-04-26 12:44:29','2019-04-26 12:44:29'),(28,'Edit Issues','edit-issues','EISS',0,'2019-04-26 12:44:41','2019-04-26 12:44:41'),(29,'Delete Issues','delete-issues','DISS',0,'2019-04-26 12:44:53','2019-04-26 12:44:53'),(30,'Browse Tickets','browse-tickets','BTIC',0,'2019-04-27 15:26:06','2019-04-27 15:26:06'),(31,'Read Tickets','read-tickets','RTIC',0,'2019-04-27 15:26:23','2019-04-27 15:26:23'),(32,'Edit Tickets','edit-tickets','ETIC',0,'2019-04-27 15:26:41','2019-04-27 15:26:41'),(33,'Create Tickets','create-tickets','CTIC',0,'2019-04-27 15:26:57','2019-04-27 15:26:57'),(34,'Delete Tickets','delete-tickets','DTIC',0,'2019-04-27 15:27:26','2019-04-27 15:27:26'),(35,'Manage Tickets','manage-tickets','MTIC',0,'2019-04-27 15:27:42','2019-04-27 15:27:42'),(36,'Assign Tickets','assign-tickets','ATIC',0,'2019-04-27 15:30:11','2019-04-27 15:30:11'),(37,'Open Tickets','open-tickets','OTIC',0,'2019-04-27 15:30:38','2019-04-27 15:30:38'),(38,'Close Tickets','close-tickets','CTIK',0,'2019-04-27 15:31:02','2019-04-27 15:31:02'),(39,'Manage Tasks','manage-tasks','MTAK',0,'2019-04-28 21:24:58','2019-04-28 21:24:58'),(40,'Transfer Tickets','transfer-tickets','TTIC',0,'2019-04-28 21:39:39','2019-04-28 21:39:39'),(41,'Generate Ticket Report','generate-ticket-report','GTIR',0,'2019-04-28 21:44:39','2019-04-28 21:44:39'),(42,'Approve Tickets','approve-tickets','ATIK',0,'2019-04-30 11:54:10','2019-04-30 11:54:10'),(43,'Manage Staff Services','manage-staff-services','MSS',0,'2019-05-01 16:53:37','2019-05-01 16:53:37'),(44,'Browse Trainings','browse-trainings','BTR',0,'2019-05-01 22:35:47','2019-05-01 22:35:47'),(45,'Create Trainings','create-trainings','CTR',0,'2019-05-01 22:36:01','2019-05-01 22:36:01'),(46,'Read Trainings','read-trainings','RTR',0,'2019-05-01 22:36:19','2019-05-01 22:36:19'),(47,'Edit Trainings','edit-trainings','ETR',0,'2019-05-01 22:36:33','2019-05-01 22:36:33'),(48,'Delete Trainings','delete-trainings','DTR',0,'2019-05-01 22:36:44','2019-05-01 22:36:44'),(49,'Manage Trainings','manage-trainings','MTR',0,'2019-05-01 22:36:55','2019-05-01 22:36:55'),(50,'Browse Proposed Trainings','browse-proposed-trainings','BPTR',0,'2019-05-02 07:13:33','2019-05-02 07:13:33'),(51,'Manage ICT','manage-ict','MAIT',0,'2019-05-02 11:26:40','2019-05-02 11:26:40'),(52,'Create Support Ticket For Staff','create-support-ticket-for-staff','CSTS',0,'2019-07-07 18:36:16','2019-07-07 18:36:16'),(53,'Manage ERP Structure','manage-erp-structure','MERP',0,'2019-07-08 06:53:19','2019-07-08 06:53:19'),(54,'Manage Menus','manage-menus','MME',0,'2019-07-08 07:00:26','2019-07-08 07:00:26'),(55,'Create Menus','create-menus','CME',0,'2019-07-08 07:00:37','2019-07-08 07:00:37'),(56,'Edit Menus','edit-menus','EMEN',0,'2019-07-08 07:00:48','2019-07-08 07:00:48'),(57,'Delete Menus','delete-menus','DMEN',0,'2019-07-08 07:00:58','2019-07-08 07:00:58'),(58,'HR Proposed Trainings','hr-proposed-trainings','HRPT',0,'2019-07-25 21:49:31','2019-07-25 21:49:31'),(59,'Manager Approved Trainings','manager-approved-trainings','MATR',0,'2019-07-29 03:32:42','2019-07-29 03:32:42'),(60,'HR Approved Trainings','hr-approved-trainings','HRAP',0,'2019-08-09 07:40:48','2019-08-09 07:40:48'),(61,'Print Staff Trainings','print-staff-trainings','PST',0,'2019-09-20 03:00:20','2019-09-20 03:00:20'),(62,'Browse Grades','browse-grades','BRGR',0,'2019-10-02 15:33:30','2019-10-02 15:33:30'),(63,'Create Grades','create-grades','CRGR',0,'2019-10-02 15:33:41','2019-10-02 15:33:41'),(64,'Edit Grades','edit-grades','EDGR',0,'2019-10-02 15:33:54','2019-10-02 15:33:54'),(65,'Delete Grades','delete-grades','DLGR',0,'2019-10-02 15:34:07','2019-10-02 15:34:07'),(66,'Browse Travels Categories','browse-travels-categories','BTRC',0,'2019-10-06 08:42:36','2019-10-06 08:42:36'),(67,'Create Travels Categories','create-travels-categories','CTRC',0,'2019-10-06 08:42:56','2019-10-06 08:42:56'),(68,'Edit Travels Categories','edit-travels-categories','ETRC',0,'2019-10-06 08:43:11','2019-10-06 08:43:11'),(69,'Delete Travels Categories','delete-travels-categories','DTRC',0,'2019-10-06 08:43:39','2019-10-06 08:43:39'),(70,'Browse Grade Groups','browse-grade-groups','BGRG',0,'2019-10-06 10:52:55','2019-10-06 10:52:55'),(71,'Create Grade Groups','create-grade-groups','CGRG',0,'2019-10-06 10:53:12','2019-10-06 10:53:12'),(72,'Edit Grade Groups','edit-grade-groups','EGRG',0,'2019-10-06 10:53:25','2019-10-06 10:53:25'),(73,'Delete Grade Groups','delete-grade-groups','DGRG',0,'2019-10-06 10:53:39','2019-10-06 10:53:39');
+/*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `profiles`
+--
+
+DROP TABLE IF EXISTS `profiles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `profiles` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `grade_group_id` int(11) NOT NULL DEFAULT '0',
+  `grade_level` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `directorate` int(11) NOT NULL DEFAULT '0',
+  `division` int(11) NOT NULL DEFAULT '0',
+  `department` int(11) NOT NULL DEFAULT '0',
+  `date_joined` datetime DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `profiles_user_id_foreign` (`user_id`),
+  CONSTRAINT `profiles_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `profiles`
+--
+
+LOCK TABLES `profiles` WRITE;
+/*!40000 ALTER TABLE `profiles` DISABLE KEYS */;
+INSERT INTO `profiles` VALUES (9,1,5,'SS5',6,7,16,'2019-08-06 20:19:00','2019-10-03 08:54:11','2019-10-03 09:00:18'),(10,9,8,'M5',6,7,0,'2019-02-01 20:19:00','2019-10-03 09:01:17','2019-10-03 09:12:55'),(11,8,0,'SS3',6,7,16,'2018-09-03 00:00:00','2019-10-10 07:07:26','2019-10-10 07:07:26'),(12,11,0,'SS4',6,7,0,'2012-09-13 00:00:00','2019-10-10 07:38:30','2019-10-10 07:38:30');
+/*!40000 ALTER TABLE `profiles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `proposeds`
+--
+
+DROP TABLE IF EXISTS `proposeds`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `proposeds` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `author` bigint(20) NOT NULL DEFAULT '0',
+  `training_id` bigint(20) unsigned NOT NULL,
+  `approved` tinyint(1) NOT NULL DEFAULT '0',
+  `hr_approved` tinyint(1) NOT NULL DEFAULT '0',
+  `comment` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `proposeds_training_id_foreign` (`training_id`),
+  CONSTRAINT `proposeds_training_id_foreign` FOREIGN KEY (`training_id`) REFERENCES `trainings` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `proposeds`
+--
+
+LOCK TABLES `proposeds` WRITE;
+/*!40000 ALTER TABLE `proposeds` DISABLE KEYS */;
+INSERT INTO `proposeds` VALUES (2,0,2,0,0,'','2019-07-29 03:02:17','2019-07-30 15:38:30'),(4,1,7,1,1,'This is a good training','2019-09-20 02:16:57','2019-09-20 02:18:38'),(5,0,9,0,0,'I thought you have done this before?','2019-10-08 09:02:02','2019-10-08 09:08:46'),(6,11,10,1,1,'This is a very important training for the ICT','2019-10-10 07:33:14','2019-10-10 07:41:16');
+/*!40000 ALTER TABLE `proposeds` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ticket_reports`
+--
+
+DROP TABLE IF EXISTS `ticket_reports`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `ticket_reports` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `ticket_id` bigint(20) unsigned NOT NULL,
+  `details` json NOT NULL,
+  `archived` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ticket_reports_ticket_id_foreign` (`ticket_id`),
+  CONSTRAINT `ticket_reports_ticket_id_foreign` FOREIGN KEY (`ticket_id`) REFERENCES `tickets` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ticket_reports`
+--
+
+LOCK TABLES `ticket_reports` WRITE;
+/*!40000 ALTER TABLE `ticket_reports` DISABLE KEYS */;
+INSERT INTO `ticket_reports` VALUES (1,1,'[[1, \"3\", \"escalated\", \"Please just handle this\", \"2019-04-30T11:11:00.566065Z\"], [3, \"3\", \"resolved\", \"Time to finish this\", \"2019-04-30T11:11:27.170860Z\"]]',0,'2019-04-30 10:11:00','2019-04-30 10:11:27'),(2,3,'[[4, \"1\", \"escalated\", \"Bobby please treat this i am not on sit\", \"2019-04-30T15:49:04.002389Z\"], [1, \"1\", \"resolved\", \"It has been resolved\", \"2019-04-30T15:49:41.778780Z\"]]',0,'2019-04-30 14:49:04','2019-04-30 14:49:41'),(3,4,'[[10, \"6\", \"escalated\", \"After changing the power cable the printer still did not start up, I suspect that the power from the mains may not be working, please assisit\", \"2019-05-02T13:06:35.161956Z\"], [6, \"8\", \"escalated\", \"Andy please treat this, I think it is an electrical issue\", \"2019-05-02T13:11:16.440297Z\"], [8, \"8\", \"resolved\", \"I called a representative from FLD, who identified the problem from the socket and fixed it\", \"2019-05-02T13:20:32.081102Z\"]]',0,'2019-05-02 12:06:35','2019-05-02 12:20:32'),(4,5,'[[1, 8, \"assigned\", \"This ticket was assigned by to 8 by Bobby Ekaro\", \"2019-05-05T23:08:31.088859Z\"], [8, \"3\", \"escalated\", \"I underestimated this issue, please can you come over and handle it, I have tried everything I can, take this as a lesson\", \"2019-05-05T23:11:16.947994Z\"], [3, \"6\", \"escalated\", \"I understand that this cannot be handled but please help a brother here na, abbeg just go check this thing\", \"2019-05-05T23:12:57.194220Z\"], [6, \"6\", \"resolved\", \"I finally solved the issue, all thanks to me you get it right?\", \"2019-05-05T23:13:48.692351Z\"]]',0,'2019-05-05 22:08:31','2019-05-05 22:13:48'),(5,6,'[[1, 8, \"assigned\", \"This ticket has been assigned\", \"2019-07-04T21:17:45.050076Z\"], [8, \"7\", \"escalated\", \"Because I cannot fix this issue\", \"2019-07-04T21:19:06.648891Z\"], [7, \"6\", \"escalated\", \"Please Femi attend to this while you can\", \"2019-07-04T21:19:56.295525Z\"], [6, \"3\", \"escalated\", \"Person no fit do this thing . na just do am\", \"2019-07-04T21:20:37.766878Z\"], [3, \"3\", \"resolved\", \"Something has been done to this ticket\", \"2019-07-04T21:23:07.572024Z\"]]',0,'2019-07-04 20:17:45','2019-07-04 20:23:07'),(6,2,'[[3, \"3\", \"unresolved\", \"I could not solve the issue.\", \"2019-07-04T21:40:30.700117Z\"]]',0,'2019-07-04 20:40:30','2019-07-04 20:40:30'),(7,7,'[[8, 1, \"assigned\", \"This ticket has been assigned\", \"2019-09-13T07:04:27.584874Z\"], [1, \"4\", \"escalated\", \"Please can you handle this thank you\", \"2019-09-13T07:12:39.555601Z\"], [4, \"8\", \"escalated\", \"Please cn you handle this, thank you\", \"2019-09-13T07:21:02.407329Z\"], [8, \"6\", \"escalated\", \"Femi abeg this thing off me, please handle it, thanks\", \"2019-09-13T07:21:56.616259Z\"], [6, \"6\", \"resolved\", \"I finally found the solution to the issue and this was it. Thank you for believing in me\", \"2019-09-13T07:24:13.294128Z\"]]',0,'2019-09-13 03:04:27','2019-09-13 03:24:13'),(8,8,'[[1, 8, \"assigned\", \"This ticket has been assigned\", \"2019-09-13T07:26:26.457480Z\"]]',0,'2019-09-13 03:26:26','2019-09-13 03:26:26'),(9,8,'[[1, 8, \"assigned\", \"This ticket has been assigned\", \"2019-09-13T07:26:43.073590Z\"]]',0,'2019-09-13 03:26:43','2019-09-13 03:26:43'),(10,9,'[[1, 8, \"assigned\", \"This ticket has been assigned\", \"2019-09-20T19:26:44.829587Z\"], [8, \"8\", \"resolved\", \"How he resolved this ticket and also the steps taken to resolve this ticket as it would be part of the report to be submitted for monthly review of the helpdesk portal\", \"2019-09-20T19:31:58.218962Z\"]]',0,'2019-09-20 18:26:44','2019-09-20 18:31:58');
+/*!40000 ALTER TABLE `ticket_reports` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tickets`
+--
+
+DROP TABLE IF EXISTS `tickets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tickets` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `category_id` bigint(20) unsigned NOT NULL,
+  `issue_id` bigint(20) unsigned NOT NULL,
+  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `details` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `additional_info` text COLLATE utf8mb4_unicode_ci,
+  `assigned` tinyint(1) NOT NULL DEFAULT '0',
+  `transferred` int(11) NOT NULL DEFAULT '0',
+  `report_generated` int(11) NOT NULL DEFAULT '0',
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'unresolved',
+  `attachment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `priority` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'normal',
+  `closed` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `assigned_by` bigint(20) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `tickets_code_unique` (`code`),
+  KEY `tickets_user_id_foreign` (`user_id`),
+  KEY `tickets_category_id_foreign` (`category_id`),
+  KEY `tickets_issue_id_foreign` (`issue_id`),
+  CONSTRAINT `tickets_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `tickets_issue_id_foreign` FOREIGN KEY (`issue_id`) REFERENCES `issues` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `tickets_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tickets`
+--
+
+LOCK TABLES `tickets` WRITE;
+/*!40000 ALTER TABLE `tickets` DISABLE KEYS */;
+INSERT INTO `tickets` VALUES (1,1,3,5,'03704238','Update user information','Please come now',1,1,1,'resolved',NULL,'high',1,'2019-04-28 11:23:58','2019-04-30 12:04:22',0),(2,1,4,7,'32707328','Request to create/remove user','The username is Bobby and designation is Systems Admin',1,0,1,'resolved',NULL,'high',0,'2019-04-28 12:15:28','2019-07-04 20:40:30',0),(3,3,4,9,'04188892','Request for password reset','Please come now',1,1,1,'resolved',NULL,'high',1,'2019-04-30 14:41:32','2019-04-30 14:51:20',0),(4,5,2,4,'97959396','Request for replacement of toner/ink',NULL,1,2,1,'resolved',NULL,'high',1,'2019-05-02 11:16:36','2019-05-02 12:30:53',0),(5,5,2,4,'59580992','Printer not working','The printer is not coming up and the power seems to be off, we have tried everything and it is still not working. please come',1,2,1,'resolved',NULL,'high',0,'2019-05-02 11:43:12','2019-05-05 22:13:48',1),(6,1,4,7,'22415001','The server is unreachable/unavailable','Please come and fix this issue',1,3,1,'resolved',NULL,'high',1,'2019-07-04 20:16:41','2019-07-05 01:29:09',1),(7,7,1,1,'42207176','No Internet Connection','Something has to be here',1,3,1,'resolved',NULL,'high',0,'2019-07-07 18:19:36','2019-09-13 03:24:13',8),(8,6,3,5,'69269524','Update user information','Please I need to change my password',1,0,0,'inprogress',NULL,'high',0,'2019-09-13 03:25:24','2019-09-13 03:26:43',1),(9,6,4,7,'99507527','The server is unreachable/unavailable','please come now',1,0,1,'resolved',NULL,'high',1,'2019-09-20 18:25:27','2019-09-20 18:33:45',1);
+/*!40000 ALTER TABLE `tickets` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `training_objectives`
+--
+
+DROP TABLE IF EXISTS `training_objectives`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `training_objectives` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `training_id` bigint(20) unsigned NOT NULL,
+  `description` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `training_objectives_training_id_foreign` (`training_id`),
+  CONSTRAINT `training_objectives_training_id_foreign` FOREIGN KEY (`training_id`) REFERENCES `trainings` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `training_objectives`
+--
+
+LOCK TABLES `training_objectives` WRITE;
+/*!40000 ALTER TABLE `training_objectives` DISABLE KEYS */;
+INSERT INTO `training_objectives` VALUES (7,7,'Prepare a clear and high impact presentation','2019-10-08 14:20:40','2019-10-08 14:20:40'),(8,7,'Plan and design quality visual aids','2019-10-08 14:21:08','2019-10-08 14:21:08'),(9,7,'Effectively handle Q&A sessions','2019-10-08 14:21:27','2019-10-08 14:21:27'),(10,7,'Clarify and amplify your message by deploying diagrams, charts, and visual elements with ease','2019-10-08 14:22:23','2019-10-08 14:22:23');
+/*!40000 ALTER TABLE `training_objectives` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `trainings`
+--
+
+DROP TABLE IF EXISTS `trainings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `trainings` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `category_id` bigint(20) NOT NULL DEFAULT '0',
+  `travel_category_id` int(11) NOT NULL DEFAULT '0',
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `label` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `provider` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `provider_slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `training_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'local',
+  `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `start_date` datetime NOT NULL,
+  `end_date` datetime DEFAULT NULL,
+  `certificate` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location_during_training` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `amount` bigint(20) NOT NULL DEFAULT '0',
+  `completed` tinyint(1) NOT NULL DEFAULT '0',
+  `archived` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `trainings_user_id_foreign` (`user_id`),
+  CONSTRAINT `trainings_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `trainings`
+--
+
+LOCK TABLES `trainings` WRITE;
+/*!40000 ALTER TABLE `trainings` DISABLE KEYS */;
+INSERT INTO `trainings` VALUES (2,8,9,1,'Oracle Database Programming','oracle-database-programming','Abtech','abtech','local','Lagos','approved','2019-09-09 20:19:00','2019-09-13 20:19:00',NULL,'NCDMB',250000,1,1,'2019-07-29 03:02:17','2019-10-10 07:30:35'),(3,1,8,0,'Corporate Values and Staff Management','corporate-values-and-staff-management','Fedi International','fedi-international','local','Port Harcourt','approved','2019-03-19 00:00:00','2019-03-22 00:00:00',NULL,'NCDMB',250000,1,1,'2019-08-06 07:09:14','2019-08-07 08:40:23'),(5,1,7,0,'Microsoft Excel','microsoft-excel','Abtech','abtech','local','Lagos','approved','2019-07-10 00:00:00','2019-07-12 00:00:00',NULL,'NCDMB',250000,1,1,'2019-08-07 10:03:39','2019-08-07 10:05:24'),(6,1,9,0,'Oracle Apex','oracle-apex','ProTech','protech','international','Houston Texas','approved','2019-05-20 20:19:00','2019-05-24 20:19:00',NULL,'NCDMB',2995,1,1,'2019-09-20 01:19:16','2019-09-20 02:01:37'),(7,1,0,1,'Java Programming','java-programming','JetLink','jetlink','local','Lagos','approved','2019-10-14 00:00:00','2019-10-18 00:00:00',NULL,'NCDMB',250000,0,0,'2019-09-20 02:16:57','2019-09-20 02:18:38'),(8,1,9,0,'Another Important Training','another-important-training','Fedi International','fedi-international','local','Port Harcourt','approved','2019-08-12 00:00:00','2019-08-16 00:00:00',NULL,'NCDMB',0,1,1,'2019-10-03 10:06:48','2019-10-06 08:42:04'),(9,9,0,0,'Java Programming','java-programming','JetLink','jetlink','local','Lagos','manager denied','2019-11-11 00:00:00','2019-11-15 00:00:00',NULL,'NCDMB',0,0,0,'2019-10-08 09:02:02','2019-10-08 09:08:46'),(10,8,0,1,'Cisco Certified Network Professional (CCNP)','cisco-certified-network-professional-ccnp','Abtech International','abtech-international','local','Ikoyi, Lagos','approved','2019-12-09 00:00:00','2019-12-13 00:00:00',NULL,'NCDMB',450000,0,0,'2019-10-10 07:33:14','2019-10-10 07:41:16');
+/*!40000 ALTER TABLE `trainings` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `travel_categories`
+--
+
+DROP TABLE IF EXISTS `travel_categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `travel_categories` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `label` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `locations` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `archived` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `travel_categories_label_unique` (`label`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `travel_categories`
+--
+
+LOCK TABLES `travel_categories` WRITE;
+/*!40000 ALTER TABLE `travel_categories` DISABLE KEYS */;
+INSERT INTO `travel_categories` VALUES (1,'Category A','category-a','LAG/ABJ/PH/CAL',0,'2019-10-06 09:00:20','2019-10-06 09:00:20'),(2,'Category B','category-b','WR & All States Capital',0,'2019-10-06 09:00:28','2019-10-06 09:00:28'),(3,'Category C','category-c','Others',0,'2019-10-06 09:00:39','2019-10-06 09:00:39');
+/*!40000 ALTER TABLE `travel_categories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_group`
+--
+
+DROP TABLE IF EXISTS `user_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `user_group` (
+  `user_id` bigint(20) unsigned NOT NULL,
+  `group_id` bigint(20) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`user_id`,`group_id`),
+  KEY `user_group_group_id_foreign` (`group_id`),
+  CONSTRAINT `user_group_group_id_foreign` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `user_group_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_group`
+--
+
+LOCK TABLES `user_group` WRITE;
+/*!40000 ALTER TABLE `user_group` DISABLE KEYS */;
+INSERT INTO `user_group` VALUES (1,1,'2019-04-25 17:39:25','2019-04-25 17:39:25'),(1,2,'2019-04-25 17:39:24','2019-04-25 17:39:24'),(1,5,'2019-04-27 15:32:39','2019-04-27 15:32:39'),(1,6,'2019-05-02 11:33:13','2019-05-02 11:33:13'),(1,7,'2019-07-30 10:44:32','2019-07-30 10:44:32'),(1,8,'2019-09-20 02:17:36','2019-09-20 02:17:36'),(1,10,'2019-05-02 12:36:08','2019-05-02 12:36:08'),(1,11,'2019-09-13 03:26:11','2019-09-13 03:26:11'),(1,14,'2019-09-20 03:00:50','2019-09-20 03:00:50'),(1,16,'2019-09-11 04:24:18','2019-09-11 04:24:18'),(3,1,'2019-04-28 16:38:58','2019-04-28 16:38:58'),(3,4,'2019-04-25 18:07:32','2019-04-25 18:07:32'),(3,5,'2019-04-25 18:08:06','2019-04-25 18:08:06'),(3,6,'2019-05-02 11:33:01','2019-05-02 11:33:01'),(3,7,'2019-05-02 11:33:01','2019-05-02 11:33:01'),(3,10,'2019-05-02 12:36:04','2019-05-02 12:36:04'),(4,1,'2019-04-30 14:40:35','2019-04-30 14:40:35'),(4,4,'2019-04-30 14:40:15','2019-04-30 14:40:15'),(4,5,'2019-04-30 14:40:35','2019-04-30 14:40:35'),(4,6,'2019-05-02 11:33:21','2019-05-02 11:33:21'),(4,7,'2019-05-02 11:33:21','2019-05-02 11:33:21'),(4,9,'2019-05-02 12:35:46','2019-05-02 12:35:46'),(5,4,'2019-05-02 11:03:40','2019-05-02 11:03:40'),(6,1,'2019-07-08 07:45:45','2019-07-08 07:45:45'),(6,4,'2019-05-02 11:20:30','2019-05-02 11:20:30'),(6,5,'2019-05-02 11:21:03','2019-05-02 11:21:03'),(6,6,'2019-05-02 11:33:29','2019-05-02 11:33:29'),(6,7,'2019-05-02 11:33:29','2019-05-02 11:33:29'),(6,10,'2019-05-02 12:35:58','2019-05-02 12:35:58'),(6,16,'2019-09-20 18:24:13','2019-09-20 18:24:13'),(7,1,'2019-05-02 11:21:53','2019-05-02 11:21:53'),(7,4,'2019-05-02 11:21:44','2019-05-02 11:21:44'),(7,5,'2019-05-02 11:21:53','2019-05-02 11:21:53'),(7,6,'2019-05-02 11:33:37','2019-05-02 11:33:37'),(7,7,'2019-05-02 11:33:37','2019-05-02 11:33:37'),(7,10,'2019-05-02 12:35:52','2019-05-02 12:35:52'),(8,1,'2019-05-02 11:33:48','2019-05-02 11:33:48'),(8,4,'2019-05-02 11:22:20','2019-05-02 11:22:20'),(8,5,'2019-05-02 11:33:48','2019-05-02 11:33:48'),(8,6,'2019-05-02 11:33:48','2019-05-02 11:33:48'),(8,7,'2019-05-02 11:33:48','2019-05-02 11:33:48'),(8,9,'2019-05-02 12:35:37','2019-05-02 12:35:37'),(8,16,'2019-09-20 03:37:46','2019-09-20 03:37:46'),(9,1,'2019-05-02 11:23:39','2019-05-02 11:23:39'),(9,4,'2019-05-02 11:23:20','2019-05-02 11:23:20'),(9,5,'2019-05-02 11:23:39','2019-05-02 11:23:39'),(9,6,'2019-05-02 11:27:33','2019-05-02 11:27:33'),(9,7,'2019-05-02 11:27:33','2019-05-02 11:27:33'),(9,8,'2019-05-02 11:27:33','2019-05-02 11:27:33'),(9,16,'2019-10-03 09:01:30','2019-10-03 09:01:30'),(10,1,'2019-05-02 11:32:53','2019-05-02 11:32:53'),(10,4,'2019-05-02 11:32:42','2019-05-02 11:32:42'),(10,5,'2019-05-02 11:32:53','2019-05-02 11:32:53'),(10,6,'2019-05-02 11:32:53','2019-05-02 11:32:53'),(10,7,'2019-05-02 11:32:53','2019-05-02 11:32:53'),(10,10,'2019-05-02 12:35:27','2019-05-02 12:35:27'),(11,5,'2019-10-10 07:36:00','2019-10-10 07:36:00'),(11,6,'2019-10-10 07:37:13','2019-10-10 07:37:13'),(11,7,'2019-10-10 07:37:13','2019-10-10 07:37:13'),(11,14,'2019-10-10 07:37:13','2019-10-10 07:37:13');
+/*!40000 ALTER TABLE `user_group` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `users` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `staff_no` int(11) NOT NULL DEFAULT '0',
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `avatar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `room_no` int(11) NOT NULL DEFAULT '0',
+  `location_id` int(11) NOT NULL DEFAULT '0',
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'Bobby Ekaro','bobby.ekaro@ncdmb.gov.ng',18290,NULL,'$2y$10$VeAznGI0.Is74uI/X9u/EuJAfhmqS8yOzSdPJHZD4tWbi9MOAJ8T.',NULL,305,2,NULL,'2019-04-24 03:12:55','2019-04-24 03:12:55'),(3,'Porbeni Oyinke','oyinke.porbeni@ncdmb.gov.ng',11054,NULL,'$2y$10$bMOA9IH6Tiwy3LnOD.p5b.SOLVDNgrAhJE69vRqrPD2Q3D921.OnO',NULL,305,2,NULL,'2019-04-25 18:07:32','2019-04-25 18:07:32'),(4,'Jerry Atabong','jerry.atabong@ncdmb.gov.ng',10041,NULL,'$2y$10$gKAbwter1cIghNZWjiNqTuaa1YjaS5rKrKNEyKBwQhjNY3oIa983S',NULL,104,1,NULL,'2019-04-30 14:40:15','2019-04-30 14:40:15'),(5,'Peter Amida','peter.amida@ncdmb.gov.ng',11111,NULL,'$2y$10$/axE1Zos/JKmR.pO8Kzld.SxLC4F3vuiwwQ1H0I6inhMFXZQ196fK',NULL,104,1,NULL,'2019-05-02 11:03:40','2019-05-02 11:03:40'),(6,'Oluwafemi Ajayi','oluwafemi.ajayi@ncdmb.gov.ng',11073,NULL,'$2y$10$BtXOUsRtR.NdL9NTL6M1YuQOQ05h/GEqMVcqn3ya7OXS2cSn0j5HO',NULL,104,1,NULL,'2019-05-02 11:20:30','2019-05-02 11:20:30'),(7,'Bright Amatoru','bright.amatoru@ncdmb.gov.ng',12090,NULL,'$2y$10$FeKo4HvIhJ4Yr3sdCQzNwubGq9wO3dlAuO1iqfHcxbFWAoxCN0czm',NULL,104,1,NULL,'2019-05-02 11:21:44','2019-05-02 11:21:44'),(8,'Andy Jisu','andy.jisu@ncdmb.gov.ng',18294,NULL,'$2y$10$RQFbO58LJKYfQe6Db/dl2O6GMUpZS6/4vcQaiMG3JJDDp7Su.PVEu',NULL,104,1,NULL,'2019-05-02 11:22:20','2019-05-02 11:22:20'),(9,'Chris Obinna Osuji','chris.osuji@ncdmb.gov.ng',11050,NULL,'$2y$10$b1x2aUhR9AlbbRH232ache0/goOQLLSjcscVIPcLalMP76Ehh24PG',NULL,103,1,NULL,'2019-05-02 11:23:20','2019-05-02 11:23:20'),(10,'Uche Levi Onyekaonwu','levi.onyekaonwu@ncdmb.gov.ng',11222,NULL,'$2y$10$bhbdttiO/3VosW2HO5v/6uiP76laJlXehAhDqQ/jyaUCC8gJIo0he',NULL,305,2,NULL,'2019-05-02 11:32:42','2019-09-12 02:02:39'),(11,'Jephthah Vincent','jephthah.vincent@ncdmb.gov.ng',12930,NULL,'$2y$10$lak1QKrv8TAxDj6nMQpoOeM1VuEXyHlfktQkhUwtS4Qx3UrFOCFVm',NULL,315,1,NULL,'2019-10-10 07:36:00','2019-10-10 07:36:00');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2019-10-10  9:50:25

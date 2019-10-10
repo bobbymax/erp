@@ -54,6 +54,26 @@
 
         <div class="col-3 mt-2">
             <div class="form-group">
+                <label for="travel_category_id">Travel Category</label>
+
+                <select name="travel_category_id" class="form-control form-control-sm{{ $errors->has('travel_category_id') ? ' is-invalid' : '' }}">
+                    <option>Select Travel Category</option>
+                    @foreach ($travelCategories as $cat)
+                        <option value="{{ $cat->id }}" {{ $training->travel_category_id == $cat->id ? ' selected' : '' }}>{{ $cat->type . " (" . $cat->locations . ")" }}</option>
+                    @endforeach
+                    <option value="0">None</option>
+                </select>
+
+                @if ($errors->has('travel_category_id'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('travel_category_id') }}</strong>
+                    </span>
+                @endif
+            </div>
+        </div>
+
+        <div class="col-4 mt-2">
+            <div class="form-group">
                 <label for="location">Training Location</label>
                 <input class="form-control form-control-sm{{ $errors->has('location') ? ' is-invalid' : '' }}" type="text" name="location" placeholder="Enter Training Location" value="{{ $training->location }}">
 
@@ -65,7 +85,7 @@
             </div>
         </div>
 
-        <div class="col-3 mt-2">
+        <div class="col-4 mt-2">
             <div class="form-group">
                 <label for="amount">Training Cost (optional)</label>
                 <input class="form-control form-control-sm{{ $errors->has('amount') ? ' is-invalid' : '' }}" type="number" name="amount" placeholder="Amount of Course" value="{{ $training->amount }}">
@@ -78,7 +98,7 @@
             </div>
         </div>
 
-        <div class="col-3 mt-2">
+        <div class="col-4 mt-2">
             <div class="form-group">
                 <label for="location_during_training">Training Sponsor</label>
 
@@ -97,7 +117,7 @@
             </div>
         </div>
 
-        <div class="col-3 mt-2">
+        <div class="col-4 mt-2">
             <div class="form-group">
                 <label for="start_date">Start Date</label>
                 <input class="fandate form-control form-control-sm{{ $errors->has('start_date') ? ' is-invalid' : '' }}" type="text" name="start_date" placeholder="When did you start this training?" value="{{ $training->start_date->format('d F, Y') }}">
@@ -110,7 +130,7 @@
             </div>
         </div>
 
-        <div class="col-3 mt-2">
+        <div class="col-4 mt-2">
             <div class="form-group">
                 <label for="end_date">End Date</label>
                 <input class="fandate form-control form-control-sm{{ $errors->has('end_date') ? ' is-invalid' : '' }}" type="text" name="end_date" placeholder="When did it end?" value="{{ $training->end_date->format('d F, Y') }}">
@@ -123,7 +143,7 @@
             </div>
         </div>
 
-        <div class="col-3 mt-2">
+        <div class="col-4 mt-2">
             <div class="form-group">
                 <label for="certificate">Upload Certificate</label>
                 <input class="form-control form-control-sm{{ $errors->has('certificate') ? ' is-invalid' : '' }}" type="file" name="certificate" placeholder="Upload certificate (if any)" value="{{ old('certificate') }}">

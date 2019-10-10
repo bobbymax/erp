@@ -28,4 +28,9 @@ class Profile extends Model
     {
     	return $this->belongsTo(Group::class, 'department');
     }
+
+    public function gradeGroup()
+    {
+        return $this->belongsTo(GradeGroup::class, 'grade_group_id');
+    }
 }

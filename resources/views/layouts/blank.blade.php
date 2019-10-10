@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Login - ERP PORTAL</title>
+    <title>@yield('title', 'Login | NCDMB ERP Portal')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="/favicon.ico">
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/assets/css/slicknav.min.css">
     <!-- amchart css -->
     <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:400,500,700&display=swap" rel="stylesheet">
     <!-- others css -->
     <link rel="stylesheet" href="/assets/css/typography.css">
     <link rel="stylesheet" href="/assets/css/default-css.css">
@@ -52,8 +53,12 @@
     <script src="/assets/js/jquery.slicknav.min.js"></script>
     
     <!-- others plugins -->
+    <script src="/js/sweetalert.min.js"></script>
     <script src="/assets/js/plugins.js"></script>
     <script src="/assets/js/scripts.js"></script>
+
+    @include('flash')
+    @yield('scripts')
 </body>
 
 </html>

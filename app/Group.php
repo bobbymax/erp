@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model
 {
-    protected $fillable = ['name', 'label', 'code', 'parent', 'relative', 'directorate', 'division', 'department', 'archived'];
+    protected $fillable = ['name', 'label', 'code', 'top_level', 'parent', 'relative', 'directorate', 'division', 'department', 'designation', 'archived'];
 
     public function getDirectorate()
     {
@@ -31,6 +31,11 @@ class Group extends Model
     public function users()
     {
     	return $this->belongsToMany(User::class, 'user_group');
+    }
+
+    public function signatory()
+    {
+        return $this->belongsTo(Group::class, 'top_level');
     }
 
     // public function assignGroupTo(User $user)

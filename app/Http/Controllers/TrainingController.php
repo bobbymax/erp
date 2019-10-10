@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TrainingRequest;
 
 use App\Training;
+use App\TravelCategory;
 use App\Proposed;
 use App\Category;
 use App\Group;
@@ -120,12 +121,14 @@ class TrainingController extends Controller
      */
     public function create()
     {
-        return view('pages.trainings.create');
+        $travelCategories = TravelCategory::all();
+        return view('pages.trainings.create', compact('travelCategories'));
     }
 
     public function createProposed()
     {
-        return view('pages.trainings.create-proposed');
+        $travelCategories = TravelCategory::all();
+        return view('pages.trainings.create-proposed', compact('travelCategories'));
     }
 
     /**
@@ -145,6 +148,7 @@ class TrainingController extends Controller
         $training->provider_slug = slugify($request->provider);
         $training->training_type = $request->training_type;
         $training->location = $request->location;
+        $training->travel_category_id = $request->travel_category_id;
         $training->start_date = Carbon::parse($request->start_date);
         $training->end_date = Carbon::parse($request->end_date);
         $training->amount = $request->amount === null ? 0 : $request->amount;
@@ -152,6 +156,7 @@ class TrainingController extends Controller
         $training->completed = $request->formType === "archived" ? 1 : 0;
         $training->archived = $request->formType === "archived" ? 1 : 0;
         $training->status = $request->formType === "archived" ? "approved" : "pending";
+        
         // Save File or Image Here
         if ($request->hasFile('certificate')) {
             $file = $request->file('certificate');
@@ -241,7 +246,8 @@ class TrainingController extends Controller
     public function edit(Training $training)
     {
         $categories = Category::latest()->get();
-        return view('pages.trainings.edit', compact('training', 'categories'));
+        $travelCategories = TravelCategory::all();
+        return view('pages.trainings.edit', compact('training', 'categories', 'travelCategories'));
     }
 
     public function archived()
@@ -264,6 +270,7 @@ class TrainingController extends Controller
         $training->provider = $request->provider;
         $training->provider_slug = slugify($request->provider);
         $training->training_type = $request->training_type;
+        $training->travel_category_id = $request->travel_category_id;
         $training->location = $request->location;
         $training->start_date = Carbon::parse($request->start_date);
         $training->end_date = Carbon::parse($request->end_date);

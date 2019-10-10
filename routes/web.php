@@ -6,21 +6,58 @@ Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');
 
+
+
 Route::prefix('dashboard')->group(function() {
+
+	// Route::get('instructions', function() {
+	// 	$training = App\Training::find(7);
+		
+	// 	$userGradeGroup = auth()->user()->profile->grade_level;
+
+	// 	$gradeGroup = App\GradeGroup::with('allowance')->where('grades', 'like', '%' . $userGradeGroup . '%')->first();
+
+	// 	$db = DB::table('per_diem_allowances')->where('travel_category_id', $training->travelCategory->id)->where('grade_group_id', $gradeGroup->id)->pluck('per_diem');
+
+	// 	// $values = array ($training, $gradeGroup, $gradeGroup->allowance, $db);
+	// 	$values = ['training' => $training, 'grade_group' => $gradeGroup, 'estacode' => $db[0]];
+
+	// 	$editable = json_encode($values);
+
+	// 	// dd(auth()->user()->profile->gradeGroup->contains('grades', $staff_grade_level));
+	// 	// dd($db[0]);
+		
+	// 	// return view('pages.trainings.instructions', compact('training', 'gradeGroup', 'db'));
+	// 	return view('pages.trainings.instructions', compact('training', 'editable'));
+	// });
 
 	Route::prefix('staff-services')->group(function() {
 		Route::resource('trainings', 'TrainingController');
 		Route::resource('grades', 'GradeLevelController');
 		Route::resource('gradeGroups', 'GradeGroupController');
+
 		Route::resource('locations', 'LocationController');
 		Route::resource('travels', 'TravelCategoryController');
-		Route::get('pdf', function() {
-			return view('pages.pdf-templates.trainings');
-			
-			// $pdf = PDF::loadView('pages.pdf-templates.trainings');
-			// return $pdf->download('trainings.pdf');
-		});
 
+		// Per Diems Management
+		Route::get('gradeGroups/{gradeGroup}/perdiems', 'PerDiemController@index')->name('per.diems.index');
+		Route::get('gradeGroups/{gradeGroup}/perdiems/create', 'PerDiemController@create')->name('create.diems');
+		Route::post('{gradeGroup}/perdiems/store', 'PerDiemController@store')->name('per.diem.submit');
+		Route::get('{gradeGroup}/{travel}/edit', 'PerDiemController@edit')->name('edit.per.diem');
+		Route::patch('{gradeGroup}/{travel}/update', 'PerDiemController@update')->name('update.per.diem');
+		Route::post('{gradeGroup}/{travel}/destroy', 'PerDiemController@destroy')->name('destroy.per.diem');
+		Route::get('journey/instructions', 'PdfController@instructions')->name('journey.instructions');
+		Route::post('add/training/objectives', 'PdfController@store')->name('add.objectives');
+		Route::get('objectives/{objective}/destroy', 'TrainingObjectiveController@destroy')->name('destroy.objective');
+		
+		// Route::get('pdf', function() {
+		// 	return view('pages.pdf-templates.trainings');
+			
+		// 	// $pdf = PDF::loadView('pages.pdf-templates.trainings');
+		// 	// return $pdf->download('trainings.pdf');
+		// });
+
+		Route::get('trainings/{training}/instructions', 'PdfController@joiningInstructions')->name('get.joining.instructions');
 		Route::get('manage/{user}/trainings', 'TrainingController@userTrainings')->name('manage.user.trainings');
 		Route::post('manage/show/trainings', 'TrainingController@getUserTrainings')->name('get.staff.trainings');
 		Route::get('autocomplete', 'TrainingController@autocomplete')->name('autocomplete');

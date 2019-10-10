@@ -9,6 +9,11 @@
 </style>
 @stop
 @section('content')
+<div class="row mt-5">
+    @can('create-trainings')
+    <div class="col-md-12 float-right"><a href="{{ route('journey.instructions') }}" class="btn btn-flat btn-primary float-right"><i class="fa fa-print"></i>&nbsp;&nbsp;&nbsp;Print Journey Instructions</a></div>
+    @endcan
+</div>
 <div class="row">
 	<!-- table success start -->
     <div class="col-md-12 mt-5">
@@ -44,7 +49,7 @@
                                         </td>
                                         <td>
                                             {{ $training->proposed->comment }} <br><br>
-                                            <span class="badge badge-pill {{ $training->status !== 'denied' ? 'badge-success' : 'badge-danger' }}">{{ $training->status }}</span>
+                                            <span class="badge badge-pill {{ $training->status !== 'manager denied' ? 'badge-success' : 'badge-danger' }}">{{ $training->status }}</span>
                                         </td>
 	                                    <td>
 	                                    	<button type="button" title="Review Training" class="btn btn-info btn-flat btn-xs" data-toggle="modal" data-target="#reviewTraining{{ $training->id }}"><i class="ti-medall"></i>&nbsp;&nbsp; View Previous Trainings</button><br><br>

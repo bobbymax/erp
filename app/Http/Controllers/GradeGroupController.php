@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\GradeGroup;
 use App\Allowance;
+use App\TravelCategory;
 use Illuminate\Http\Request;
 
 class GradeGroupController extends Controller
@@ -23,6 +24,7 @@ class GradeGroupController extends Controller
         return view('pages.gradegroups.index', compact('gradeGroups'));
     }
 
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -44,7 +46,6 @@ class GradeGroupController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'grades' => 'required|string|max:255',
-            'per_diem_international' => 'required|integer',
             'out_of_pocket' => 'required|integer',
             'airport_shuttle' => 'required|integer',
             'local_flight_ticket' => 'required|integer',
@@ -62,7 +63,6 @@ class GradeGroupController extends Controller
             $allowance = new Allowance;
 
             $allowance->grade_group_id = $gradeGroup->id;
-            $allowance->per_diem_international = $request->per_diem_international;
             $allowance->airport_shuttle = $request->airport_shuttle;
             $allowance->local_flight_ticket = $request->local_flight_ticket;
             $allowance->intra_city_shuttle = $request->intra_city_shuttle;
@@ -110,7 +110,6 @@ class GradeGroupController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'grades' => 'required|string|max:255',
-            'per_diem_international' => 'required|integer',
             'out_of_pocket' => 'required|integer',
             'airport_shuttle' => 'required|integer',
             'local_flight_ticket' => 'required|integer',
@@ -126,7 +125,6 @@ class GradeGroupController extends Controller
             $allowance = $gradeGroup->allowance;
 
             $allowance->grade_group_id = $gradeGroup->id;
-            $allowance->per_diem_international = $request->per_diem_international;
             $allowance->airport_shuttle = $request->airport_shuttle;
             $allowance->local_flight_ticket = $request->local_flight_ticket;
             $allowance->intra_city_shuttle = $request->intra_city_shuttle;

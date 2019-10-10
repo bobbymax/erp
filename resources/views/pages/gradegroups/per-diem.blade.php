@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'ERP Portal | Grade Groups')
+@section('title', 'ERP Portal | Per Diems')
 @section('content')
 <div class="row">
 	<!-- table success start -->
@@ -7,22 +7,23 @@
         <div class="card">
             <div class="card-body">
             	<div class="row">
-            		<div class="col-md-8"><h4 class="header-title">Grade Groups</h4></div>
+            		<div class="col-md-8"><h4 class="header-title">Local Per Diem</h4><a href="{{ route('gradeGroups.index') }}" class="btn btn-flat btn-xs btn-danger"><i class="ti-close"></i>&nbsp;&nbsp; Back to Grade Groups</a></div>
                     @can('create-grade-groups')
-            		<div class="col-md-4"><a href="{{ route('gradeGroups.create') }}" class="btn btn-flat btn-xs btn-primary mb-3 float-right">Create Grade Group</a></div>
+            		<div class="col-md-4">
+                        <a href="{{ route('create.diems', $gradeGroup->label) }}" class="btn btn-flat btn-xs btn-primary mb-3 float-right">Add Local Per Diem</a></div>
                     @endcan
             	</div>
                 
                 
                 <div class="single-table">
                     <div class="table-responsive">
-                    	@if($gradeGroups->count() > 0)
+                    	@if($gradeGroup->travelCategories->count() > 0)
                         <table class="table text-center">
                             <thead class="text-uppercase bg-success">
                                 <tr class="text-white">
                                     <th scope="col">ID</th>
-                                    <th scope="col">Name</th>
                                     <th scope="col">Grades</th>
+                                    <th scope="col">Price</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -30,18 +31,17 @@
                             	@php
                             		$count = 1;
                             	@endphp
-                            	@foreach ($gradeGroups as $gradeGroup)
+                            	@foreach ($gradeGroup->travelCategories as $perdiem)
                             		<tr>
 	                                    <th scope="row">{{ $count++ }}</th>
-	                                    <td>{{ $gradeGroup->name }}</td>
-	                                    <td>{{ $gradeGroup->grades }}</td>
+                                        <td>{{ $perdiem->type }}</td>
+	                                    <td>{{ FormatLongNumber($perdiem->pivot->per_diem) }}</td>
 	                                    <td>
-	                                    	<form action="{{ route('gradeGroups.destroy', $gradeGroup->id) }}" method="POST">
+	                                    	<form action="{{ route('destroy.per.diem', [$gradeGroup->id, $perdiem->id]) }}" method="POST">
 	                                    		@csrf
 	                                    		@method('DELETE')
                                                 @can('edit-grade-groups')
-                                                <a href="{{ route('per.diems.index', $gradeGroup->label) }}" class="btn btn-xs btn-primary"><i class="ti-plus"></i> &nbsp;Add Local Per Diem</a>
-	                                    		<a href="{{ route('gradeGroups.edit', $gradeGroup->id) }}" class="btn btn-xs btn-flat btn-warning"><i class="ti-pencil"></i></a>
+	                                    		<a href="{{ route('edit.per.diem', [$gradeGroup->id, $perdiem->id]) }}" class="btn btn-xs btn-flat btn-warning"><i class="ti-pencil"></i></a>
                                                 @endcan
                                                 @can('delete-grade-groups')
 	                                    		<button type="submit" class="btn btn-xs btn-flat btn-danger">
@@ -55,7 +55,7 @@
                             </tbody>
                         </table>
                         @else
-                        	<div class="alert alert-warning">There are no grade groups created at the moment.</div>
+                        	<div class="alert alert-warning">There are no per diem rates created at the moment.</div>
                         @endif
                     </div>
                 </div>
