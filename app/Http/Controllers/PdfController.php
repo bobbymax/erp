@@ -42,22 +42,14 @@ class PdfController extends Controller
 
     public function joiningInstructions(Training $training)
     {
-        $userGradeGroup = $training->owner->profile->grade_level;
-        $gradeGroup = GradeGroup::with('allowance')->where('grades', 'like', '%' . $userGradeGroup . '%')->first();
-
-
-        $db = DB::table('per_diem_allowances')->where('travel_category_id', $training->travelCategory->id)->where('grade_group_id', $gradeGroup->id)->pluck('per_diem');
-
-        $values = ['training' => $training, 'grade_group' => $gradeGroup, 'estacode' => $db[0]];
-
-        $editable = json_encode($values);
-
+        $editable = $training->getData($training);
         return view('pages.trainings.instructions', compact('training', 'editable'));
     }
 
     public function store(Request $request)
     {
         if ($request->ajax()) {
+            
             $trainingId = $request->training;
             $objectiveText = $request->objective;
 

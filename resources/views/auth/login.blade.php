@@ -11,13 +11,13 @@
         </div>
         <div class="login-form-body">
             <div class="form-gp">
-                <label for="email">{{ __('E-Mail Address') }}</label>
-                <input type="email" id="email" name="email" class="{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                <i class="ti-email"></i>
+                <label for="staff_no">{{ __('Staff Number') }}</label>
+                <input type="text" id="staff_no" name="staff_no" class="{{ $errors->has('staff_no') ? ' is-invalid' : '' }}" name="staff_no" value="{{ old('staff_no') }}" required autocomplete="staff_no" autofocus>
+                <i class="ti-staff_no"></i>
 
-                @if ($errors->has('email'))
+                @if ($errors->has('staff_no'))
                     <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('email') }}</strong>
+                        <strong>{{ $errors->first('staff_no') }}</strong>
                     </span>
                 @endif
             </div>

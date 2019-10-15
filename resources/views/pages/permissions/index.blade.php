@@ -37,9 +37,9 @@
 	                                    	<form action="{{ route('permissions.destroy', $permission->id) }}" method="POST">
 	                                    		@csrf
 	                                    		@method('DELETE')
-	                                    		<a href="{{ route('permissions.edit', $permission->id) }}" class="btn btn-xs btn-flat btn-warning"><i class="ti-pencil"></i></a>
+	                                    		<a href="{{ route('permissions.edit', $permission->id) }}" class="btn btn-xs btn-flat btn-warning"><i data-feather="edit"></i></a>
 	                                    		<button type="submit" class="btn btn-xs btn-flat btn-danger">
-	                                    			<i class="ti-trash"></i>
+	                                    			<i data-feather="trash-2"></i>
 	                                    		</button>
 	                                    	</form>
 	                                    </td>

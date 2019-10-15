@@ -40,9 +40,9 @@
 	                                    		@csrf
 	                                    		@method('DELETE')
                                                 <a href="{{ route('groups.show', $group->id) }}" class="btn btn-flat btn-xs btn-info">Give Permissions</a>
-	                                    		<a href="{{ route('groups.edit', $group->id) }}" class="btn btn-xs btn-flat btn-warning"><i class="ti-pencil"></i></a>
+	                                    		<a href="{{ route('groups.edit', $group->id) }}" class="btn btn-xs btn-flat btn-warning"><i data-feather="edit"></i></a>
 	                                    		<button type="submit" class="btn btn-xs btn-flat btn-danger">
-	                                    			<i class="ti-trash"></i>
+	                                    			<i data-feather="trash-2"></i>
 	                                    		</button>
 	                                    	</form>
 	                                    </td>

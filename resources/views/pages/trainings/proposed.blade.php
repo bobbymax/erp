@@ -51,11 +51,11 @@
     	                                    		@csrf
     	                                    		@method('DELETE')
                                                     @can('edit-trainings')
-    	                                    		<button type="button" class="btn btn-xs btn-flat btn-primary" data-toggle="modal" data-target="#viewTraining{{ $training->id }}"><i class="ti-eye"></i></button>
+    	                                    		<button type="button" class="btn btn-xs btn-flat btn-primary" data-toggle="modal" data-target="#viewTraining{{ $training->id }}"><i data-feather="eye"></i></button>
                                                     @endcan
                                                     @can('delete-trainings')
     	                                    		<button type="submit" class="btn btn-xs btn-flat btn-danger">
-    	                                    			<i class="ti-trash"></i>
+    	                                    			<i data-feather="trash-2"></i>
     	                                    		</button>
                                                     @endcan
     	                                    	</form>

@@ -41,11 +41,11 @@
 	                                    		@method('DELETE')
                                                 @can('edit-grade-groups')
                                                 <a href="{{ route('per.diems.index', $gradeGroup->label) }}" class="btn btn-xs btn-primary"><i class="ti-plus"></i> &nbsp;Add Local Per Diem</a>
-	                                    		<a href="{{ route('gradeGroups.edit', $gradeGroup->id) }}" class="btn btn-xs btn-flat btn-warning"><i class="ti-pencil"></i></a>
+	                                    		<a href="{{ route('gradeGroups.edit', $gradeGroup->id) }}" class="btn btn-xs btn-flat btn-warning"><i data-feather="edit"></i></a>
                                                 @endcan
                                                 @can('delete-grade-groups')
 	                                    		<button type="submit" class="btn btn-xs btn-flat btn-danger">
-	                                    			<i class="ti-trash"></i>
+	                                    			<i data-feather="trash-2"></i>
 	                                    		</button>
                                                 @endcan
 	                                    	</form>

@@ -42,7 +42,7 @@
                                             <span class="badge badge-pill badge-success">{{ $ticket->status }}</span>
                                         </td>
                                         <td>
-                                            <a href="{{ route('ticket.report', $ticket->code) }}" class="btn btn-flat btn-xs btn-info"><i class="ti-eye"></i>&nbsp;&nbsp; View Report</a>
+                                            <a href="{{ route('ticket.report', $ticket->code) }}" class="btn btn-flat btn-xs btn-info"><i data-feather="eye"></i>&nbsp;&nbsp; View Report</a>
                                         </td>
                                     </tr>
                                 @endforeach

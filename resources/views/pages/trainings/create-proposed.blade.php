@@ -116,7 +116,7 @@
         <div class="col-4 mt-2">
             <div class="form-group">
                 <label for="start_date">Proposed Start Date</label>
-                <input class="fandate form-control form-control-sm{{ $errors->has('start_date') ? ' is-invalid' : '' }}" type="text" name="start_date" placeholder="When did you start this training?" value="{{ old('start_date') }}">
+                <input class="fandate form-control form-control-sm{{ $errors->has('start_date') ? ' is-invalid' : '' }}" type="text" name="start_date" placeholder="When would the training begin?" value="{{ old('start_date') }}">
 
                 @if ($errors->has('start_date'))
                     <span class="invalid-feedback" role="alert">
@@ -129,7 +129,7 @@
         <div class="col-4 mt-2">
             <div class="form-group">
                 <label for="end_date">Proposed End Date</label>
-                <input class="fandate form-control form-control-sm{{ $errors->has('end_date') ? ' is-invalid' : '' }}" type="text" name="end_date" placeholder="When did it end?" value="{{ old('end_date') }}">
+                <input class="fandate form-control form-control-sm{{ $errors->has('end_date') ? ' is-invalid' : '' }}" type="text" name="end_date" placeholder="When will it end?" value="{{ old('end_date') }}">
 
                 @if ($errors->has('end_date'))
                     <span class="invalid-feedback" role="alert">
@@ -146,9 +146,9 @@
 
 	    <div class="col-12 mt-2">
 	    	<button class="btn btn-flat btn-xs btn-primary">
-	    		<i class="ti-check"></i>&nbsp;&nbsp; Propose Training
+	    		<i data-feather="send"></i>&nbsp;&nbsp; Propose Training
 	    	</button>
-	    	<a href="{{ route('propose.trainings') }}" class="btn btn-flat btn-xs btn-danger"><i class="ti-close"></i>&nbsp;&nbsp; Cancel</a>
+	    	<a href="{{ route('propose.trainings') }}" class="btn btn-flat btn-xs btn-danger"><i data-feather="x"></i>&nbsp;&nbsp; Cancel</a>
 	    </div>
 	    <!-- Input Sizes end -->
 	</div>

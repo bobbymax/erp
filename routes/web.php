@@ -6,30 +6,27 @@ Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');
 
-
+// Route::get('/join', function() {
+// 	$groups = DB::table('user_group')
+//         ->join('group_permission', 'user_group.group_id', '=', 'group_permission.group_id')
+//         ->join('groups', 'groups.id', '=', 'user_group.group_id')
+//         ->join('permissions', 'permissions.id', '=', 'group_permission.permission_id')
+//         ->select('user_group.*', 'group_permission.*', 'permissions.label', 'groups.name')
+//         ->get();
+// });
+// 
+// 
+Route::get('/layout', function() {
+	return view('layouts.updated');
+});
 
 Route::prefix('dashboard')->group(function() {
 
-	// Route::get('instructions', function() {
-	// 	$training = App\Training::find(7);
-		
-	// 	$userGradeGroup = auth()->user()->profile->grade_level;
+	Route::get('/contacts', function() {
+		return view('layouts.contact');
+	});
 
-	// 	$gradeGroup = App\GradeGroup::with('allowance')->where('grades', 'like', '%' . $userGradeGroup . '%')->first();
-
-	// 	$db = DB::table('per_diem_allowances')->where('travel_category_id', $training->travelCategory->id)->where('grade_group_id', $gradeGroup->id)->pluck('per_diem');
-
-	// 	// $values = array ($training, $gradeGroup, $gradeGroup->allowance, $db);
-	// 	$values = ['training' => $training, 'grade_group' => $gradeGroup, 'estacode' => $db[0]];
-
-	// 	$editable = json_encode($values);
-
-	// 	// dd(auth()->user()->profile->gradeGroup->contains('grades', $staff_grade_level));
-	// 	// dd($db[0]);
-		
-	// 	// return view('pages.trainings.instructions', compact('training', 'gradeGroup', 'db'));
-	// 	return view('pages.trainings.instructions', compact('training', 'editable'));
-	// });
+	Route::post('/find/user', 'UserController@details')->name('find.user.details');
 
 	Route::prefix('staff-services')->group(function() {
 		Route::resource('trainings', 'TrainingController');

@@ -55,7 +55,7 @@
 	                                    		@csrf
 	                                    		@method('DELETE')
                                                 @can('read-tickets')
-                                                <a href="{{ route('tickets.show', $ticket->code) }}" title="View Ticket" class="btn btn-xs btn-flat btn-info"><i class="ti-eye"></i></a>
+                                                <a href="{{ route('tickets.show', $ticket->code) }}" title="View Ticket" class="btn btn-xs btn-flat btn-info"><i data-feather="eye"></i></a>
                                                 @endcan
 	                                    	</form>
 	                                    </td>

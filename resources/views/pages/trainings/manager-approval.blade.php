@@ -41,7 +41,7 @@
                                             </td>
                                             <td>pending</td>
     	                                    <td>
-    	                                    	<button type="button" title="Review Training" class="btn btn-info btn-flat btn-xs" data-toggle="modal" data-target="#reviewTraining{{ $training->id }}"><i class="ti-menu-alt"></i>&nbsp;&nbsp; REVIEW</button>
+    	                                    	<button type="button" title="Review Training" class="btn btn-info btn-flat btn-xs" data-toggle="modal" data-target="#reviewTraining{{ $training->id }}"><i data-feather="cpu"></i>&nbsp;&nbsp; REVIEW</button>
     	                                    </td>
     	                                </tr>
 

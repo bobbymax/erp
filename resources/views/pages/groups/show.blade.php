@@ -45,10 +45,10 @@
 				
 
 				<button type="submit" class="btn btn-flat btn-primary btn-sm mt-5">
-					<i class="ti-save"></i>&nbsp;&nbsp; Add Permissions
+					<i data-feather="send"></i>&nbsp;&nbsp; Add Permissions
 				</button>
 				<a href="{{ route('groups.index') }}" class="btn btn-flat btn-sm btn-danger mt-5">
-					<i class="ti-close"></i>&nbsp;&nbsp; Cancel
+					<i data-feather="x"></i>&nbsp;&nbsp; Cancel
 				</a>
 				
 			</form>

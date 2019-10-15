@@ -9,7 +9,7 @@
             	<div class="row">
             		<div class="col-md-8"><h4 class="header-title">Users</h4></div>
                     @can('create-users')
-                        <div class="col-md-4"><a href="{{ route('users.create') }}" class="btn btn-flat btn-xs btn-primary mb-3 float-right">Create User</a></div>
+                        <div class="col-md-4"><a href="{{ route('users.create') }}" class="btn btn-flat btn-xs btn-primary mb-3 float-right"><i data-feather="user-plus"></i>&nbsp; Create User</a></div>
                     @endcan
             		
             	</div>
@@ -48,12 +48,12 @@
 
                                                 @can('edit-users')
                                                 <a href="{{ route('users.show', $user->id) }}" class="btn btn-flat btn-info btn-xs">
-                                                    <i class="ti-check-box"></i>&nbsp; Add to Group
+                                                    <i data-feather="user-check"></i>&nbsp; Add to Group
                                                 </a>
-	                                    		<a href="{{ route('users.edit', $user->id) }}" class="btn btn-xs btn-flat btn-warning"><i class="ti-pencil"></i></a>
+	                                    		<a href="{{ route('users.edit', $user->id) }}" class="btn btn-xs btn-flat btn-warning"><i data-feather="edit"></i></a>
                                                 @endcan
 	                                    		<button type="submit" class="btn btn-xs btn-flat btn-danger">
-	                                    			<i class="ti-trash"></i>
+	                                    			<i data-feather="trash-2"></i>
 	                                    		</button>
 	                                    	</form>
                                             @endcan

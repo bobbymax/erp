@@ -40,11 +40,11 @@
 	                                    		@csrf
 	                                    		@method('DELETE')
                                                 @can('edit-issues')
-	                                    		<a href="{{ route('issues.edit', $issue->id) }}" class="btn btn-xs btn-flat btn-warning"><i class="ti-pencil"></i></a>
+	                                    		<a href="{{ route('issues.edit', $issue->id) }}" class="btn btn-xs btn-flat btn-warning"><i data-feather="edit"></i></a>
                                                 @endcan
                                                 @can('delete-issues')
 	                                    		<button type="submit" class="btn btn-xs btn-flat btn-danger">
-	                                    			<i class="ti-trash"></i>
+	                                    			<i data-feather="trash-2"></i>
 	                                    		</button>
                                                 @endcan
 	                                    	</form>

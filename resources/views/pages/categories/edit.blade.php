@@ -51,9 +51,9 @@
 
 	    <div class="col-12 mt-2">
 	    	<button type="submit" name="submit" class="btn btn-flat btn-xs btn-primary">
-	    		<i class="ti-save"></i>&nbsp;&nbsp; Update Category
+	    		<i data-feather="send"></i>&nbsp;&nbsp; Update Category
 	    	</button>
-	    	<a href="{{ route('categories.index') }}" class="btn btn-flat btn-xs btn-danger"><i class="ti-close"></i>&nbsp;&nbsp; Cancel</a>
+	    	<a href="{{ route('categories.index') }}" class="btn btn-flat btn-xs btn-danger"><i data-feather="x"></i>&nbsp;&nbsp; Cancel</a>
 	    </div>
 	    <!-- Input Sizes end -->
 	</div>

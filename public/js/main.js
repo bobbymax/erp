@@ -20,7 +20,7 @@ var app = new Vue({
 			$.ajax({
 				url : url,
                 data : { 
-                    training : 7,
+                    training : training_id,
                     objective : this.aim,
                     _token : token 
                 },

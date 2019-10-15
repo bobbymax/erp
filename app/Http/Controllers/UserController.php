@@ -42,6 +42,20 @@ class UserController extends Controller
         return view('pages.users.create', compact('locations'));
     }
 
+
+    public function details(Request $request)
+    {
+        if ($request->ajax()) {
+            $userId = $request->user;
+
+            $user = User::find($userId);
+
+            if ($user) {
+                return response()->json($user);
+            }
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      *

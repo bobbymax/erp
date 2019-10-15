@@ -52,9 +52,9 @@
 
 	    <div class="col-12 mt-2">
 	    	<button class="btn btn-flat btn-xs btn-primary">
-	    		<i class="ti-save"></i>&nbsp;&nbsp; Update Issue
+	    		<i data-feather="send"></i>&nbsp;&nbsp; Update Issue
 	    	</button>
-	    	<a href="{{ route('issues.index') }}" class="btn btn-flat btn-xs btn-danger"><i class="ti-close"></i>&nbsp;&nbsp; Cancel</a>
+	    	<a href="{{ route('issues.index') }}" class="btn btn-flat btn-xs btn-danger"><i data-feather="x"></i>&nbsp;&nbsp; Cancel</a>
 	    </div>
 	    <!-- Input Sizes end -->
 	</div>

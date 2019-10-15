@@ -39,9 +39,9 @@
 	                                    	<form action="{{ route('menus.destroy', $menu->id) }}" method="POST">
 	                                    		@csrf
 	                                    		@method('DELETE')
-	                                    		<a href="{{ route('menus.edit', $menu->id) }}" class="btn btn-xs btn-flat btn-warning"><i class="ti-pencil"></i></a>
+	                                    		<a href="{{ route('menus.edit', $menu->id) }}" class="btn btn-xs btn-flat btn-warning"><i data-feather="edit"></i></a>
 	                                    		<button type="submit" class="btn btn-xs btn-flat btn-danger">
-	                                    			<i class="ti-trash"></i>
+	                                    			<i data-feather="trash-2"></i>
 	                                    		</button>
 	                                    	</form>
 	                                    </td>

@@ -42,7 +42,7 @@
                                             {{ $training->category_id === 0 ? ' Not Categorized' : $training->category->name }}
                                         </td>
 	                                    <td>
-	                                    	<a href="{{ route('get.joining.instructions', $training->id) }}" class="btn btn-xs btn-success"><i class="fa fa-print"></i>&nbsp; Add Objectives</a>
+	                                    	<a href="{{ route('get.joining.instructions', $training->id) }}" class="btn btn-xs btn-success"><i data-feather="printer"></i>&nbsp; Add Objectives</a>
 	                                    </td>
 	                                </tr>
                             	@endforeach

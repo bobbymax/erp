@@ -60,8 +60,8 @@
                                             @elseif($training->status === "approved")
                                                 <p>approved by <strong>{{ $training->proposed->signatory->name }}</strong></p>
                                             @else
-                                                <a href="#" class="btn btn-xs btn-flat btn-success"><i class="ti-help"></i>&nbsp;&nbsp;Query</a>
-                                                <a href="#" class="btn btn-xs btn-flat btn-danger"><i class="ti-bag"></i>&nbsp;&nbsp;Archive</a>
+                                                <a href="#" class="btn btn-xs btn-flat btn-success"><i data-feather="briefcase"></i>&nbsp;&nbsp;Query</a>
+                                                <a href="#" class="btn btn-xs btn-flat btn-danger"><i data-feather="archive"></i>&nbsp;&nbsp;Archive</a>
                                             @endif
                                             
 	                                    </td>

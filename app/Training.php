@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Allowance;
 
 class Training extends Model
 {
@@ -41,6 +42,11 @@ class Training extends Model
     public function travelCategory()
     {
         return $this->belongsTo(TravelCategory::class, 'travel_category_id');
+    }
+
+    public function getData(Training $training)
+    {
+        return (new Allowance())->getData($training);
     }
 
 }

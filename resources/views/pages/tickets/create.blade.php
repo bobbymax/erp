@@ -62,7 +62,7 @@
 
 				<div class="col-12">
 					<button type="submit" class="btn btn-flat btn-primary btn-sm">
-						Generate Ticket
+						<i data-feather="send"></i>&nbsp; Generate Ticket
 					</button>
 					<a href="{{ route('tickets.index') }}" class="btn btn-flat btn-danger btn-sm">Cancel</a>
 				</div>

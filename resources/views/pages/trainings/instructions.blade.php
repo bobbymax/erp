@@ -165,6 +165,7 @@
 		var url = "{{ route('add.objectives') }}";
 		var token = "{{ csrf_token() }}";
 		var editable = "{{ $editable }}";
+		var training_id = "{{ $training->id }}";
 
 	</script>
 	<script src="/js/main.js"></script>

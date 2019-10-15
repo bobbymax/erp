@@ -62,10 +62,10 @@
                                                         @endcan
                                                     @endif
                                                     @can('generate-ticket-report')
-                                                        <button type="button" class="btn btn-primary btn-flat btn-xs" data-toggle="modal" data-target="#generateReport{{ $ticket->id }}"><i class="ti-notepad"></i>&nbsp;&nbsp; Generate Report</button>
+                                                        <button type="button" class="btn btn-primary btn-flat btn-xs" data-toggle="modal" data-target="#generateReport{{ $ticket->id }}"><i data-feather="file-text"></i>&nbsp;&nbsp; Generate Report</button>
                                                     @endcan
                                                 @else
-                                                    <a href="{{ route('ticket.report', $ticket->code) }}" class="btn btn-flat btn-xs btn-info"><i class="ti-eye"></i>&nbsp;&nbsp; View Report</a>
+                                                    <a href="{{ route('ticket.report', $ticket->code) }}" class="btn btn-flat btn-xs btn-info"><i data-feather="eye"></i>&nbsp;&nbsp; View Report</a>
                                                 @endif
                                             </td>
                                         </tr>
