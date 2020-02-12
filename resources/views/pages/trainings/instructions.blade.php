@@ -148,6 +148,7 @@
 
 				<a href="" @click.prevent="finishWork" class="btn btn-primary" :class="{ 'isVisible' : isBlock }">Done</a>
 				<a href="" @click.prevent="printInstruction" :disabled="{ isDisabled }" class="btn btn-success">Print Me</a>
+				<a href="{{ route('journey.instructions') }}" class="btn btn-danger" :class="{ 'isVisible' : isBlock }">Cancel</a>
 
 			</div>
 		</div>

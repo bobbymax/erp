@@ -2,7 +2,7 @@
 @section('title', 'ERP Protal | Create Training')
 @section('page-title', 'Add Training')
 @section('content')
-<form class="mt-5" method="POST" action="{{ route('trainings.store') }}">
+<form class="mt-5" method="POST" action="{{ route('trainings.store') }}" enctype="multipart/form-data">
 	@csrf
 	<div class="row">
 		<!-- Input Sizes start -->

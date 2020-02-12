@@ -33,7 +33,7 @@ class PdfController extends Controller
     {
     	$trainings = Training::whereHas('proposed', function ($query) {
     		$query->where('approved', 1)->where('hr_approved', 1);
-    	})->get();
+    	})->latest()->get();
 
         // dd(json_encode($trainings));
 

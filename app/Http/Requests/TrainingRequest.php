@@ -31,6 +31,7 @@ class TrainingRequest extends FormRequest
             'end_date' => 'required',
             'location_during_training' => 'required|string|max:255',
             'training_type' => 'required|string|max:255',
+            'certificate' => 'image|mimetypes:image/jpeg,image/jpg,image/png|max:1024',
         ];
     }
 
@@ -46,6 +47,7 @@ class TrainingRequest extends FormRequest
             'provider.required'  => 'The name of the provider is needed.',
             'location_during_training.required' => 'You must provide the training sponsor.',
             'training_type.required' => 'Please tell us what type of training this is.',
+            'certificate.max' => 'Please make sure your image is not more than 1MB',
         ];
     }
 }

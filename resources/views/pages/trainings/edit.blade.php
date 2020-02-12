@@ -61,7 +61,7 @@
                     @foreach ($travelCategories as $cat)
                         <option value="{{ $cat->id }}" {{ $training->travel_category_id == $cat->id ? ' selected' : '' }}>{{ $cat->type . " (" . $cat->locations . ")" }}</option>
                     @endforeach
-                    <option value="0">None</option>
+                    <option value="0" {{ $training->travel_category_id == 0 ? ' selected' : '' }}>None</option>
                 </select>
 
                 @if ($errors->has('travel_category_id'))

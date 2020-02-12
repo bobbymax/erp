@@ -43,6 +43,7 @@
     <!-- DashForge CSS -->
     <link rel="stylesheet" href="/assets-new/css/dashforge.css">
     <link rel="stylesheet" href="/assets-new/css/dashforge.dashboard.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
 
     <style>
       .footer-new {
@@ -77,6 +78,7 @@
     <script src="/assets-new/js/flot.curvedlines/curvedLines.js"></script>
     <script src="/assets-new/js/peity/jquery.peity.min.js"></script>
     <script src="/assets-new/js/chart.js/Chart.bundle.min.js"></script>
+    <script src="/js/jquery-ui.min.js"></script>
 
 
     <script src="/assets-new/js/dashforge.js"></script>
@@ -85,7 +87,6 @@
 
     <!-- append theme customizer -->
     <script src="/assets-new/js/js-cookie/js.cookie.js"></script>
-    <script src="/assets-new/js/dashforge.settings.js"></script>
     <script src="/js/typeahead.js"></script>
 
     @include('flash')

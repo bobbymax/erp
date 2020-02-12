@@ -15,8 +15,6 @@ var app = new Vue({
 		},
 
 		updateDatabase() {
-
-			// alert("i'm here");
 			$.ajax({
 				url : url,
                 data : { 

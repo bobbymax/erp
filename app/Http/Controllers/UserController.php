@@ -48,7 +48,7 @@ class UserController extends Controller
         if ($request->ajax()) {
             $userId = $request->user;
 
-            $user = User::find($userId);
+            $user = User::with('profile', 'groups', 'location')->find($userId);
 
             if ($user) {
                 return response()->json($user);

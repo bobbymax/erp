@@ -8,6 +8,7 @@ use App\Group;
 use App\Profile;
 use Carbon\Carbon;
 use App\GradeLevel;
+use Image;
 use DB;
 
 class HomeController extends Controller
@@ -72,6 +73,14 @@ class HomeController extends Controller
         return view('pages.users.profile', compact('user', 'groups', 'grades'));
     }
 
+    public function viewProfile($user)
+    {
+        $grades = GradeLevel::latest()->get();
+        $user = User::where('staff_no', $user)->firstOrFail();
+        $groups = Group::latest()->get();
+        return view('pages.users.account', compact('user', 'groups', 'grades'));
+    }
+
     public function assignGroup(Request $request, User $user)
     {
         if ($request->has('groups')) {
@@ -125,6 +134,16 @@ class HomeController extends Controller
             $profile = new Profile;
         } else {
             $profile = $user->profile;
+        }
+
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $name = time() . $file->getClientOriginalName();
+            $location = public_path('images/avatars/' . $name);
+            Image::make($file)->fit(500, 500)->save($location);
+            $user->avatar = $name;
+
+            $user->save();
         }
 
         $profile->user_id = $user->id;

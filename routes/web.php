@@ -4,29 +4,11 @@ Route::get('/', 'HomeController@index');
 
 Auth::routes();
 
-// Route::get('/home', 'HomeController@index')->name('home');
-
-// Route::get('/join', function() {
-// 	$groups = DB::table('user_group')
-//         ->join('group_permission', 'user_group.group_id', '=', 'group_permission.group_id')
-//         ->join('groups', 'groups.id', '=', 'user_group.group_id')
-//         ->join('permissions', 'permissions.id', '=', 'group_permission.permission_id')
-//         ->select('user_group.*', 'group_permission.*', 'permissions.label', 'groups.name')
-//         ->get();
-// });
-// 
-// 
-Route::get('/layout', function() {
-	return view('layouts.updated');
-});
-
 Route::prefix('dashboard')->group(function() {
 
-	Route::get('/contacts', function() {
-		return view('layouts.contact');
-	});
-
+	Route::get('/contacts', 'AllowanceController@profiles')->name('user.profiles');
 	Route::post('/find/user', 'UserController@details')->name('find.user.details');
+
 
 	Route::prefix('staff-services')->group(function() {
 		Route::resource('trainings', 'TrainingController');
@@ -47,13 +29,11 @@ Route::prefix('dashboard')->group(function() {
 		Route::post('add/training/objectives', 'PdfController@store')->name('add.objectives');
 		Route::get('objectives/{objective}/destroy', 'TrainingObjectiveController@destroy')->name('destroy.objective');
 		
-		// Route::get('pdf', function() {
-		// 	return view('pages.pdf-templates.trainings');
-			
-		// 	// $pdf = PDF::loadView('pages.pdf-templates.trainings');
-		// 	// return $pdf->download('trainings.pdf');
-		// });
 
+		// Training Management
+		Route::get('messages', 'ConversationController@index')->name('inbox');
+		Route::get('query/trainings/{training}/{manager}', 'ConversationController@queryTraining')->name('conversations.query');
+		Route::post('get/convo/threads', 'ConversationController@getThreads')->name('get.convo.threads');
 		Route::get('trainings/{training}/instructions', 'PdfController@joiningInstructions')->name('get.joining.instructions');
 		Route::get('manage/{user}/trainings', 'TrainingController@userTrainings')->name('manage.user.trainings');
 		Route::post('manage/show/trainings', 'TrainingController@getUserTrainings')->name('get.staff.trainings');
@@ -107,6 +87,7 @@ Route::prefix('dashboard')->group(function() {
 	Route::resource('modules', 'ModuleController');
 	Route::resource('users', 'UserController');
 	Route::get('users/{user}/account', 'HomeController@account')->name('user.account');
+	Route::get('users/{user}/profile', 'HomeController@viewProfile')->name('view.user.profile');
 	Route::post('fetch/placement', 'HomeController@placements')->name('fetch.placement');
 	Route::post('update/{user}/account', 'HomeController@updateAccount')->name('update.user.account');
 	Route::post('users/{user}/groups', 'HomeController@assignGroup')->name('users.add.group');

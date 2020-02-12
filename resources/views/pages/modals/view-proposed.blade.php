@@ -6,10 +6,12 @@
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    @if ($training->proposed->approved === 1)
+                    @if ($training->status === 'manager-approved')
                         <span class="badge badge-pill badge-info">manager approved</span>
-                    @elseif($training->proposed->approved === 1 && $training->proposed->hr_proposed === 1)
+                    @elseif($training->status === 'approved')
                         <span class="badge badge-pill badge-success">approved</span>
+                    @elseif($training->status === 'pending')
+                        <span class="badge badge-pill badge-primary">pending</span>
                     @else
                         <span class="badge badge-pill badge-danger">denied</span>
                     @endif

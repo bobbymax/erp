@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // 
     }
 
     /**
@@ -27,16 +27,13 @@ class AppServiceProvider extends ServiceProvider
             $view->with('modules', \App\Module::latest()->get());
         });
 
-        view()->composer('layouts.contact', function($view) {
-            $view->with('users', json_encode(\App\User::orderBy('name', 'ASC')->get()));
-        });
-
-        view()->composer('layouts.contact', function($view) {
-            $view->with('groups', \App\Group::latest()->get());
-        });
-
         view()->composer('partials.updated.header', function($view) {
             $view->with('modules', \App\Module::latest()->get());
+        });
+
+        view()->composer('pages.dashboard', function($view) {
+            $dt = \Carbon\Carbon::now();
+            $view->with('tickets', \App\Ticket::where('created_at', $dt->isToday())->get());
         });
     }
 }

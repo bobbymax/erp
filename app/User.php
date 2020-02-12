@@ -6,6 +6,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use App\Http\MailBox;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -87,6 +89,21 @@ class User extends Authenticatable
         return false;
     }
 
+    public function conversations()
+    {
+        return $this->hasMany(Conversation::class);
+    }
+
+    public function mSent()
+    {
+        return $this->hasMany(MSender::class);
+    }
+
+    public function mReceived()
+    {
+        return $this->hasMany(MRecipient::class);
+    }
+
     public function proposed()
     {
         return $this->hasOne(Proposed::class);
@@ -95,5 +112,10 @@ class User extends Authenticatable
     public function profile()
     {
         return $this->hasOne(Profile::class);
+    }
+
+    public function getConversations(User $user)
+    {
+        return (new MailBox())->getConversations($user);
     }
 }

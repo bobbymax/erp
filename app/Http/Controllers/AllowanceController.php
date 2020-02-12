@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Allowance;
+use App\User;
+use App\Group;
 use Illuminate\Http\Request;
 
 class AllowanceController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,6 +21,14 @@ class AllowanceController extends Controller
     public function index()
     {
         //
+    }
+
+    public function profiles()
+    {
+        $results = User::with('profile')->orderBy('name', 'ASC')->get();
+        $users = $results->toJson();
+        $groups = Group::latest()->get();
+        return view('layouts.contact', compact('users', 'groups'));
     }
 
     /**

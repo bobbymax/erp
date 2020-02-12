@@ -1,6 +1,6 @@
 @if (! empty($results))
 	@if ($select == 'directorate')
-		<option value="">Select Directorate</option>
+		<option value="">Select Division</option>
 		@foreach ($results as $div)
 			<option value="{{ $div->id }}">{{ $div->name }}</option>
 		@endforeach

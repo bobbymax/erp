@@ -42,12 +42,26 @@
 				$count = 1;
 			@endphp
 			@foreach ($user->trainings->where('archived', 1) as $training)
+				@php
+					$sMonth = $training->start_date->format('F');
+					$eMonth = $training->end_date->format('F');
+				@endphp
+
+				@if ($sMonth == $eMonth)
+					@php
+						$duration = $training->start_date->format('jS') . " - " . $training->end_date->format('jS F Y');
+					@endphp
+				@else
+					@php
+						$duration = $training->start_date->format('jS F') . " - " . $training->end_date->format('jS F Y');
+					@endphp
+				@endif
 				<tr>
 					<td>{{ $count++ }}.</td>
 					<td>{{ $training->title }}</td>
 					<td>{{ $training->provider }}</td>
 					<td>{{ $training->location_during_training }}</td>
-					<td>{{ $training->start_date->format('d F, Y') }}</td>
+					<td>{{ $duration }}</td>
 				</tr>
 			@endforeach
 		</tbody>

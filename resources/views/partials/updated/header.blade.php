@@ -7,7 +7,7 @@
 
     <div id="navbarMenu" class="navbar-menu-wrapper">
       <div class="navbar-menu-header">
-        <a href="../../index.html" class="df-logo"><img src="{{ asset('images/logo.png') }}" width="50%" alt="logo"></a>
+        <a href="{{ route('user.dashboard') }}" class="df-logo"><img src="{{ asset('images/logo.png') }}" width="50%" alt="logo"></a>
         <a id="mainMenuClose" href=""><i data-feather="x"></i></a>
       </div><!-- navbar-menu-header -->
 
@@ -19,17 +19,21 @@
 
         @if ($modules->count() > 0)
             @foreach ($modules as $module)
-                <li class="nav-item with-sub">
-                    <a href="" class="nav-link"><i data-feather="pie-chart"></i>{{ $module->name }}</a>
+                @can($module->permission)
+                  <li class="nav-item with-sub">
+                      <a href="" class="nav-link"><i data-feather="pie-chart"></i>{{ $module->name }}</a>
 
-                    @if (is_object($module->menus) && $module->menus->count() > 0)
-                        <ul class="navbar-menu-sub">
-                            @foreach ($module->menus as $menu)
-                                <li class="nav-sub-item"><a href="@can($menu->permission){{ route($menu->route) }}@else javascript:void(0) @endcan" class="nav-sub-link"><i data-feather="box"></i>{{ strtolower($menu->name) }}</a></li>
-                            @endforeach
-                        </ul>
-                    @endif
-                </li>
+                      @if (is_object($module->menus) && $module->menus->count() > 0)
+                          <ul class="navbar-menu-sub">
+                              @foreach ($module->menus as $menu)
+                                  @can($menu->permission)
+                                    <li class="nav-sub-item"><a href="@can($menu->permission){{ route($menu->route) }}@else javascript:void(0) @endcan" class="nav-sub-link"><i data-feather="box"></i>{{ $menu->name }}</a></li>
+                                  @endcan
+                              @endforeach
+                          </ul>
+                      @endif
+                  </li>
+                @endcan
             @endforeach
         @endif
 
@@ -41,8 +45,10 @@
 
 
 
-
+    
     <div class="navbar-right">
+
+      {{--  
       <a id="navbarSearch" href="" class="search-link"><i data-feather="search"></i></a>
       <div class="dropdown dropdown-message">
         <a href="" class="dropdown-link new-indicator" data-toggle="dropdown">
@@ -140,20 +146,29 @@
           <div class="dropdown-footer"><a href="">View all Notifications</a></div>
         </div><!-- dropdown-menu -->
       </div><!-- dropdown -->
+      --}}
       <div class="dropdown dropdown-profile">
         <a href="" class="dropdown-link" data-toggle="dropdown" data-display="static">
-          <div class="avatar avatar-sm"><img src="https://via.placeholder.com/500" class="rounded-circle" alt=""></div>
+          <div class="avatar avatar-sm"><img src="{{ auth()->user()->avatar !== null ? asset('images/avatars/'.auth()->user()->avatar) : 'https://via.placeholder.com/500' }}" class="rounded-circle" alt=""></div>
         </a><!-- dropdown-link -->
         <div class="dropdown-menu dropdown-menu-right tx-13">
-          <div class="avatar avatar-lg mg-b-15"><img src="https://via.placeholder.com/500" class="rounded-circle" alt=""></div>
+          <div class="avatar avatar-lg mg-b-15"><img src="{{ auth()->user()->avatar !== null ? asset('images/avatars/'.auth()->user()->avatar) : 'https://via.placeholder.com/500' }}" class="rounded-circle" alt=""></div>
           <h6 class="tx-semibold mg-b-5">{{ auth()->user()->name }}</h6>
           <p class="mg-b-25 tx-12 tx-color-03">{{ 'Staff' }}</p>
 
-          <a href="" class="dropdown-item"><i data-feather="edit-3"></i> Edit Profile</a>
-          <a href="page-profile-view.html" class="dropdown-item"><i data-feather="user"></i> View Profile</a>
+
+          @if(! auth()->user()->groups->where('department', 1))
+              <a href="{{ route('user.account', auth()->user()->staff_no) }}" class="dropdown-item"><i data-feather="edit-3"></i> Edit Profile</a>
+          @endif
+
+
+          <a href="{{ route('view.user.profile', auth()->user()->staff_no) }}" class="dropdown-item"><i data-feather="user"></i> View Profile</a>
           <div class="dropdown-divider"></div>
+          {{-- 
           <a href="page-help-center.html" class="dropdown-item"><i data-feather="monitor"></i> ICT Helpdesk</a>
+           
           <a href="" class="dropdown-item"><i data-feather="settings"></i> Staff Service Portal</a>
+          --}}
           <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();"><i data-feather="log-out"></i>Sign Out
               <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -162,6 +177,8 @@
           </a>
         </div><!-- dropdown-menu -->
       </div><!-- dropdown -->
+      
+
     </div><!-- navbar-right -->
 
 
@@ -192,4 +209,6 @@
         </ul>
       </div><!-- navbar-search-body -->
     </div><!-- navbar-search -->
+
+
   </header><!-- navbar -->

@@ -294,7 +294,7 @@
         <div class="contact-content-header">
           <nav class="nav">
             <a href="#contactInformation" class="nav-link active" data-toggle="tab">Contact Info<span>rmation</span></a>
-            <a href="#contactLogs" class="nav-link" data-toggle="tab"><span>Call &amp; Message </span>Logs</a>
+            <a href="#contactLogs" class="nav-link" data-toggle="tab"><span>Activities </span>Logs</a>
           </nav>
           <a href="" id="contactOptions" class="text-secondary mg-l-auto d-xl-none"><i data-feather="more-horizontal"></i></a>
         </div><!-- contact-content-header -->
@@ -311,18 +311,21 @@
                 </div>
               </div>
 
+
+              {{-- The Personal Details Section --}}
+
               <div class="row">
                 <div class="col-6 col-sm">
-                  <label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans mg-b-10">Firstname</label>
-                  <p class="mg-b-0">@{{ user.name }}</p>
+                  <label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans mg-b-10">Fullname</label>
+                  <p class="mg-b-0" v-text="user.name"></p>
                 </div><!-- col -->
                 <div class="col-6 col-sm">
-                  <label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans mg-b-10">Middlename</label>
-                  <p class="mg-b-0">Christensen</p>
+                  <label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans mg-b-10">Staff Number</label>
+                  <p class="mg-b-0" v-text="user.staff_no"></p>
                 </div><!-- col -->
                 <div class="col-sm mg-t-20 mg-sm-t-0">
-                  <label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans mg-b-10">Lastname</label>
-                  <p class="mg-b-0">Johnson</p>
+                  <label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans mg-b-10">Grade Level</label>
+                  <p class="mg-b-0" v-if="user.profile" v-text="user.profile.grade_level"></p>
                 </div><!-- col -->
               </div><!-- row -->
 
@@ -330,60 +333,23 @@
 
               <div class="row row-sm">
                 <div class="col-6 col-sm-4">
-                  <label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans mg-b-10">Mobile Phone</label>
-                  <p class="tx-primary tx-rubik mg-b-0">+1 290 912 3868</p>
+                  <label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans mg-b-10">Email Address</label>
+                  <p class="tx-primary tx-rubik mg-b-0" v-text="user.email"></p>
                 </div>
                 <div class="col-6 col-sm-4">
-                  <label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans mg-b-10">Home Phone</label>
-                  <p class="tx-primary tx-rubik mg-b-0">+1 011 342 3129</p>
+                  <label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans mg-b-10">Location</label>
+                  <p class="tx-primary tx-rubik mg-b-0" v-if="user.location" v-text="user.location.name"></p>
                 </div>
                 <div class="col-6 col-sm-4 mg-t-20 mg-sm-t-0">
-                  <label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans mg-b-10">Work Phone</label>
-                  <p class="tx-primary tx-rubik mg-b-0">+1 100 003 3344</p>
-                </div>
-                <div class="col-sm-4 mg-t-20 mg-sm-t-30">
-                  <label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans mg-b-10">Email Address</label>
-                  <p class="tx-primary mg-b-0">me@themepixels.me</p>
-                </div>
-                <div class="col-sm-4 mg-t-20 mg-sm-t-30">
-                  <label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans mg-b-10">Company</label>
-                  <p class="mg-b-0">ThemePixels, Inc.</p>
-                </div>
-                <div class="col-sm-4 mg-t-20 mg-sm-t-30">
-                  <label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans mg-b-10">Job Position</label>
-                  <p class="mg-b-0">President &amp; CEO</p>
-                </div>
-                <div class="col-sm-6 mg-t-20 mg-sm-t-30">
-                  <label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans mg-b-10">Home Address</label>
-                  <p class="mg-b-0">4658 Kenwood Place<br>Pompano Beach, FL 33060, United States</p>
-                </div>
-                <div class="col-sm-6 mg-t-20 mg-sm-t-30">
-                  <label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans mg-b-10">Work Address</label>
-                  <p class="mg-b-0">819 Waldeck Street<br>Farmers Branch, TX 75244, United States</p>
-                </div>
-                <div class="col-sm-6 mg-t-20 mg-sm-t-30">
-                  <label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans mg-b-10">Personal Website</label>
-                  <p class="tx-primary mg-b-0">http://themepixels.me/</p>
-                </div>
-                <div class="col-sm-6 mg-t-20 mg-sm-t-30">
-                  <label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans mg-b-10">Social Profiles</label>
-                  <nav class="nav nav-social">
-                    <a href="" class="nav-link"><i data-feather="facebook"></i></a>
-                    <a href="" class="nav-link"><i data-feather="twitter"></i></a>
-                    <a href="" class="nav-link"><i data-feather="instagram"></i></a>
-                    <a href="" class="nav-link"><i data-feather="github"></i></a>
-                  </nav>
-                </div><!-- col -->
-                <div class="col-sm mg-t-20 mg-sm-t-30">
-                  <label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans mg-b-10">Notes</label>
-                  <p class="tx-13 mg-b-0">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
+                  <label class="tx-10 tx-medium tx-spacing-1 tx-color-03 tx-uppercase tx-sans mg-b-10">Room No.</label>
+                  <p class="tx-primary tx-rubik mg-b-0" v-text="user.room_no"></p>
                 </div>
               </div><!-- row -->
             </div>
             <div id="contactLogs" class="tab-pane pd-20 pd-xl-25">
               <div class="d-flex align-items-center justify-content-between mg-b-30">
-                <h6 class="tx-15 mg-b-0">Call &amp; Message Logs</h6>
-                <a href="#" class="btn btn-sm btn-white d-flex align-items-center"><i class="icon ion-md-time mg-r-5 tx-16 lh--9"></i> Clear History</a>
+                <h6 class="tx-15 mg-b-0">User Activities</h6>
+                <a href="#" class="btn btn-sm btn-white d-flex align-items-center"><i class="icon ion-md-time mg-r-5 tx-16 lh--9"></i> Coming Soon</a>
               </div>
             </div><!-- tab-pane -->
           </div><!-- tab-content -->
@@ -396,8 +362,11 @@
               <a href="" class="contact-edit-photo" data-toggle="tooltip" title="Upload Photo"><i data-feather="edit-2"></i></a>
             </div>
           </div>
-          <h5 id="contactName" class="tx-18 tx-xl-20 mg-b-5">Abigail Johnson</h5>
-          <p class="tx-13 tx-lg-12 tx-xl-13 tx-color-03 mg-b-20">President &amp; CEO - ThemePixels, Inc.</p>
+          <h5 id="contactName" class="tx-18 tx-xl-20 mg-b-5" v-if="user.groups" v-text="user.name"></h5>
+          <hr>
+          <div v-for="group in user.groups">
+            <p class="tx-13 tx-lg-12 tx-xl-13 tx-color-03 mg-b-20" v-text="group.name">,</p>
+          </div>
           
 
         </div><!-- contact-content-sidebar -->
@@ -574,16 +543,15 @@
         var lap = new Vue({
 
           el: '#users',
-          data() {
-            return {
-              profiles: {},
-              user: {},
-            }
+          data: {
+            profiles: {},
+            user: {},
           },
           methods: {
             getUser(value) {
               $.ajax({
                 url : url,
+                context: this,
                 data : { 
                     user : value,
                     _token : token 
@@ -591,19 +559,12 @@
                 method : 'POST',
                 success : function(data) {
                   this.user = data;
-                  // return this.$set(this.user, data);
                 },
                 error : function(data) {
                     console.log(data);
                 }
               });
             }
-          },
-          computed: {
-            // getUser(value) {
-            //   var prof = this.findUser(value);
-            //   // return this.user = prof;
-            // }
           },
           created() {
             this.profiles = JSON.parse(users.replace(/&quot;/g,'"'))

@@ -110,8 +110,9 @@ class TrainingController extends Controller
 
     public function approveTrainingsByHr()
     {
-        $trainings = Training::where('status', '!=', 'pending')->where('completed', 0)->get();
-        return view('pages.trainings.hr-approval', compact('trainings'));
+        $users = User::with('groups')->latest()->get();
+        $trainings = Training::where('status', '!=', 'pending')->where('completed', 0)->latest()->get();
+        return view('pages.trainings.hr-approval', compact('trainings', 'users'));
     }
 
     /**
@@ -311,6 +312,7 @@ class TrainingController extends Controller
 
         $training->proposed->approved = $request->status;
         $training->proposed->comment = $request->comment;
+        $training->proposed->manager = auth()->user()->id;
 
         if ($training->proposed->save()) {
             $training->status = $training->proposed->approved == 1 ? 'manager approved' : 'manager denied';

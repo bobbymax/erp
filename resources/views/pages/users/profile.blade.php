@@ -59,7 +59,7 @@
 	        </div>
 	    </div>
 
-	    <div class="col-6 mt-2">
+	    <div class="col-4 mt-2">
 	        <div class="form-group">
                 <label for="division">Division</label>
                 <select name="division" id="division" class="form-control structure form-control-sm{{ $errors->has('division') ? ' is-invalid' : '' }}" data-dependent="department">
@@ -75,7 +75,7 @@
 	        </div>
 	    </div>
 
-	    <div class="col-6 mt-2">
+	    <div class="col-4 mt-2">
 	        <div class="form-group">
                 <label for="department">Department</label>
                 <select name="department" id="department" class="form-control form-control-sm{{ $errors->has('department') ? ' is-invalid' : '' }}">
@@ -90,6 +90,19 @@
                 @endif
 	        </div>
 	    </div>
+
+	    <div class="col-4 mt-2">
+            <div class="form-group">
+                <label for="avatar">Upload Profile Picture</label>
+                <input type="file" name="avatar" class="form-control form-control-sm{{ $errors->has('avatar') ? ' is-invalid' : '' }}">
+
+                @if ($errors->has('avatar'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('avatar') }}</strong>
+                    </span>
+                @endif
+            </div>
+        </div>
 
 
 

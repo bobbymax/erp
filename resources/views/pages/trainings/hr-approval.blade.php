@@ -37,7 +37,6 @@
                             		$count = 1;
                             	@endphp
                             	@foreach ($trainings as $training)
-                                    {{-- expr --}}
                             		<tr>
 	                                    <th scope="row">{{ $count++ }}</th>
 	                                    <td>{{ $training->owner->name }}</td>
@@ -60,7 +59,9 @@
                                             @elseif($training->status === "approved")
                                                 <p>approved by <strong>{{ $training->proposed->signatory->name }}</strong></p>
                                             @else
-                                                <a href="#" class="btn btn-xs btn-flat btn-success"><i data-feather="briefcase"></i>&nbsp;&nbsp;Query</a>
+                                                @if ($training->query !== 1)
+                                                    <a href="{{ route('conversations.query', [$training->id, $training->proposed->manager]) }}" class="btn btn-xs btn-flat btn-success"><i data-feather="briefcase"></i>&nbsp;&nbsp;Query</a>
+                                                @endif
                                                 <a href="#" class="btn btn-xs btn-flat btn-danger"><i data-feather="archive"></i>&nbsp;&nbsp;Archive</a>
                                             @endif
                                             
