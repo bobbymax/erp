@@ -83,6 +83,7 @@ Route::prefix('dashboard')->group(function() {
 	});
 	
 	// Structure Management
+	Route::get('/load/import', 'UserController@import')->name('load.users.records');
 	Route::resource('menus', 'MenuController');
 	Route::resource('modules', 'ModuleController');
 	Route::resource('users', 'UserController');

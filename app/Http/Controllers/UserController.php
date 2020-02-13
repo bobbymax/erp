@@ -7,6 +7,8 @@ use App\Location;
 use App\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Imports\UserImport;
+use Maatwebsite\Excel\Facades\Excel;
 use Image;
 use Storage;
 use Mail;
@@ -54,6 +56,13 @@ class UserController extends Controller
                 return response()->json($user);
             }
         }
+    }
+
+    public function import()
+    {
+        Excel::import(new UserImport, public_path("staffs.xlsx"));
+        flash()->success('All Done!!!', 'User records created successfully.');
+        return back();
     }
 
     /**

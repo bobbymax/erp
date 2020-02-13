@@ -9,7 +9,16 @@
             	<div class="row">
             		<div class="col-md-8"><h4 class="header-title">Users</h4></div>
                     @can('create-users')
-                        <div class="col-md-4"><a href="{{ route('users.create') }}" class="btn btn-flat btn-xs btn-primary mb-3 float-right"><i data-feather="user-plus"></i>&nbsp; Create User</a></div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a href="{{ route('users.create') }}" class="btn btn-flat btn-xs btn-block btn-primary mb-3 float-right"><i data-feather="user-plus"></i>&nbsp; Create User</a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="{{ route('load.users.records') }}" class="btn btn-flat btn-xs btn-block btn-info mb-3 float-right"><i data-feather="user-plus"></i>&nbsp; Load From File</a>
+                                </div>
+                            </div>
+                        </div>
                     @endcan
             		
             	</div>
@@ -18,7 +27,7 @@
                 <div class="single-table">
                     <div class="table-responsive">
                     	@if($users->count() > 0)
-                        <table class="table text-center">
+                        <table class="table text-center table-collapsed">
                             <thead class="text-uppercase bg-success">
                                 <tr class="text-white">
                                     <th scope="col">ID</th>
@@ -39,7 +48,7 @@
 	                                    <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
 	                                    <td>{{ $user->staff_no }}</td>
-                                        <td>{{ $user->location->name }}</td>
+                                        <td>{{ $user->location->name ?? 'Not Set' }}</td>
 	                                    <td>
                                             @can('delete-users')
 	                                    	<form action="{{ route('users.destroy', $user->id) }}" method="POST">
