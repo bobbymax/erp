@@ -157,7 +157,7 @@
           <p class="mg-b-25 tx-12 tx-color-03">{{ 'Staff' }}</p>
 
 
-          @if(! auth()->user()->groups->where('department', 1))
+          @if(! auth()->user()->groups->where('department', 1) || auth()->user()->avatar === null)
               <a href="{{ route('user.account', auth()->user()->staff_no) }}" class="dropdown-item"><i data-feather="edit-3"></i> Edit Profile</a>
           @endif
 
