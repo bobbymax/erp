@@ -15,6 +15,8 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Mail;
 use App\Mail\NewUser;
 
+use Artisan;
+
 class UserImport implements ToCollection, WithHeadingRow
 {
 
@@ -38,18 +40,48 @@ class UserImport implements ToCollection, WithHeadingRow
                         'grade_level_id' => $grade_level->id,
                     ]);
 
-                    // if ($newUser) {
-                    //     $group = Group::where('label', 'staff')->first();
+                    if ($newUser) {
+                        $group = Group::where('label', 'staff')->first();
 
-                    //     if ($group) {
-                    //         $newUser->actAs($group);
-                    //     }
-                    // }
+                        if ($group) {
+                            $newUser->actAs($group);
+                        }
+                    }
+
+                    // Artisan::call();
 
                     // Mail::to($newUser->email)->queue(new NewUser($newUser));
                 }
             }
+
+            // if ($email !== null) {
+            //     $user = User::where('email', $email)->first();
+            //     $grade_level = GradeLevel::where('code', $grade)->first();
+
+            //     if ($user && $row['staff_email_address'] !== null) {
+            //         $newUser = User::update([
+            //             'name' => $row['staff_name'],
+            //             'staff_no' => $staff_id,
+            //             'email' => $row['staff_email_address'],
+            //             'grade_level_id' => $grade_level->id,
+            //         ]);
+
+            //         if ($newUser) {
+            //             $group = Group::where('label', 'staff')->first();
+
+            //             if ($group) {
+            //                 $newUser->actAs($group);
+            //             }
+            //         }
+
+            //         // Artisan::call();
+
+            //         // Mail::to($newUser->email)->queue(new NewUser($newUser));
+            //     }
+            // }
         }
+
+        return true;
         // 
         // dd($rows);
     }

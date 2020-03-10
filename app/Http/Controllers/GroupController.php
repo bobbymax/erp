@@ -6,6 +6,8 @@ use App\Group;
 use App\Permission;
 use DB;
 use Illuminate\Http\Request;
+use App\Imports\GroupImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class GroupController extends Controller
 {
@@ -26,6 +28,13 @@ class GroupController extends Controller
     {
         $groups = $this->getGroups();
         return view('pages.groups.index', compact('groups'));
+    }
+
+    public function import()
+    {
+        Excel::import(new GroupImport, public_path("groups.xlsx"));
+        flash()->success('All Done!!!', 'Group records created successfully.');
+        return back();
     }
 
     /**

@@ -8,7 +8,10 @@
             <div class="card-body">
             	<div class="row">
             		<div class="col-md-8"><h4 class="header-title">Groups</h4></div>
-            		<div class="col-md-4"><a href="{{ route('groups.create') }}" class="btn btn-flat btn-xs btn-primary mb-3 float-right">Create Group</a></div>
+            		<div class="col-md-4">
+                        <a href="{{ route('groups.create') }}" class="btn btn-flat btn-xs btn-primary mb-3 float-right">Create Group</a>
+                        <a href="{{ route('load.groups') }}" class="btn btn-flat btn-xs btn-info mb-3 mr-3 float-right">Load From Source</a>
+                    </div>
             	</div>
                 
                 
@@ -20,8 +23,6 @@
                                 <tr class="text-white">
                                     <th scope="col">ID</th>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Relative</th>
-                                    <th scope="col">Parent Group</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -33,8 +34,6 @@
                             		<tr>
 	                                    <th scope="row">{{ $count++ }}</th>
 	                                    <td>{{ $group->name }}</td>
-	                                    <td>{{ $group->relative === 0 ? 'None' : $group->getDivision->name }}</td>
-	                                    <td>{{ $group->parent === 0 ? 'None' : $group->getDirectorate->name }}</td>
 	                                    <td>
 	                                    	<form action="{{ route('groups.destroy', $group->id) }}" method="POST">
 	                                    		@csrf

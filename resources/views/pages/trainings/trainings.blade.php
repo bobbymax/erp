@@ -46,7 +46,7 @@
                             <div class="col-md-3"><a href="#" class="btn btn-xs btn-primary btn-block view-trainings" data-user="{{ $user->staff_no }}">View</a></div>
                         </div>
                         
-                        <p class="card-text">{{ $user->staff_no . ", " . $user->location->name }}<br><small>Trainings: {{ $user->trainings->where('category_id', 0)->count() }}</small></p>
+                        <p class="card-text">{{ $user->staff_no }}<br><small>Trainings: {{ $user->trainings->where('category_id', 0)->count() }}</small></p>
                     </div>
                 </div>
             @endif
